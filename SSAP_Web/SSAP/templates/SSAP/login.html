@@ -1,0 +1,15 @@
+{%extends 'SSAP/base.html'%}
+{%block titulo%}SSAP | Login{%endblock%}
+{%block contenido%}
+<div style="text-align: center;">
+    <h2>Ingresar a SSAP</h2>
+    <form id="formLogin" action="" method="post">
+        {%csrf_token%}
+        <label for="rut">Rut: </label>
+        <input type="text" name="rut" placeholder="12.345.678-9"></input><br>
+
+        <label for="password">Contraseña:</label>
+        <input type="password" name="password" placeholder="********"></form>
+    </form>
+</div>
+{%endblock%}

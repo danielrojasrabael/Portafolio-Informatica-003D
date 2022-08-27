@@ -20,7 +20,7 @@ class Administradores(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     rut = models.CharField(max_length=12, primary_key= True)
     nombre = models.CharField(max_length=200, null= False)
-
+    
 class Profesionales(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     rut = models.CharField(max_length=12, primary_key= True)

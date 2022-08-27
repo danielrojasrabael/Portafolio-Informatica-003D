@@ -4,24 +4,32 @@ from django.contrib.auth.models import User
 # Modelos
 
 class Usuario(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    id = models.IntegerField(primary_key = True)
+    django_user = models.OneToOneField(User, on_delete=models.CASCADE)
+    rut = models.CharField(max_length=12, primary_key= True)
     tipo = models.CharField(max_length=20)
     direccion = models.CharField(max_length=200)
 
-class Cliente(models.Model):
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    rut = models.CharField(max_length=12, primary_key= True)
+    class Meta:
+        db_table = "usuario"
+    def __str__(self):
+        return u'{0}'.format(self.rut)
+
+class Cliente(Usuario):
     nombre_empresa = models.CharField(max_length=200, null= False)
     rubro_empresa = models.CharField(max_length=200, null= False)
     cant_trabajadores = models.IntegerField(null= False)
 
-class Administradores(models.Model):
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    rut = models.CharField(max_length=12, primary_key= True)
+    class Meta:
+        db_table = "cliente"
+
+class Administrador(Usuario):
     nombre = models.CharField(max_length=200, null= False)
+
+    class Meta:
+        db_table = "administrador"
     
-class Profesionales(models.Model):
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    rut = models.CharField(max_length=12, primary_key= True)
+class Profesional(Usuario):
     nombre = models.CharField(max_length=200, null= False)
+
+    class Meta:
+        db_table = "profesional"

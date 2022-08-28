@@ -11,7 +11,8 @@
         <h3>Tipo Usuario: Profesional</h3>
     {%elif tipoUsuario.tipo == 'ADMINISTRADOR' %}
         <h1>{{usuario.nombre}} Bienvenido a SSAP</h1><br>
-        <h3>Tipo Usuario: Administrador</h3>
+        <h3>Tipo Usuario: Administrador</h3><br>
+        <br><a href="/crearusuario"><button type="button">Crear Usuario</button></a>
     {%endif%}
     <br><a href="/logout"><button type="button">Cerrar Sesión</button></a>
 </div>

@@ -1,5 +1,7 @@
 {%extends 'SSAP/base.html'%}
+{%load static%}
 {%block titulo%}SSAP | Login{%endblock%}
+{%block head%}<script src="{%static 'js/login.js'%}"></script>{%endblock%} 
 {%block contenido%}
 <div style="text-align: center;">
     <h2>Ingresar a SSAP</h2>
@@ -9,7 +11,11 @@
         <input type="text" name="rut" placeholder="12.345.678-9"></input><br>
 
         <label for="password">Contraseña:</label>
-        <input type="password" name="password" placeholder="********"></form>
+        <input type="password" name="password" placeholder="********"></br>
+        <input type="submit" value="Ingresar al Sistema">
     </form>
+    {% for mensaje in messages %}
+        {{mensaje}}<br>
+    {% endfor %}
 </div>
 {%endblock%}

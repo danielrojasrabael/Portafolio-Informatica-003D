@@ -1,0 +1,18 @@
+{%extends 'SSAP/base.html'%}
+{%load static%}
+{%block titulo%}SSAP | Menú Principal{%endblock%}
+{%block contenido%}
+<div style="text-align: center;">
+    {%if tipoUsuario.tipo == 'CLIENTE'%}
+        <h1>{{usuario.nombre_empresa}} Bienvenido a SSAP</h1><br>
+        <h3>Tipo Usuario: Cliente</h3>
+    {%elif tipoUsuario.tipo == 'PROFESIONAL'%}
+        <h1>{{usuario.nombre}} Bienvenido a SSAP</h1><br>
+        <h3>Tipo Usuario: Profesional</h3>
+    {%elif tipoUsuario.tipo == 'ADMINISTRADOR' %}
+        <h1>{{usuario.nombre}} Bienvenido a SSAP</h1><br>
+        <h3>Tipo Usuario: Administrador</h3>
+    {%endif%}
+    <br><a href="/logout"><button type="button">Cerrar Sesión</button></a>
+</div>
+{%endblock%}

@@ -22,11 +22,7 @@ $(document).ready(function(){
     $("#profesional").hide()
     $("#administrador").hide()
 
-    jQuery.validator.addMethod("rut", function(value, element) {
-        return this.optional(element) || /^(\d{1,3}(?:\.\d{1,3}){2}-[\dkK])$/i.test(value);
-    }, "Rut Inválido");
-
-    $("#formLogin").validate({
+    $("#formCrear").validate({
         errorclass: "invalido",
         rules:{
             username:{

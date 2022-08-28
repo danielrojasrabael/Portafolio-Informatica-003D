@@ -1,9 +1,15 @@
 #Imports
+import imp
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
 #Modelos
 from SSAP.models import *
+
+#Login/Logout
+from django.contrib.auth import authenticate, logout
+from django.contrib.auth import login as auth_login
+from django.contrib.auth.decorators import login_required
 
 #Usuarios
 from django.contrib.auth.models import User
@@ -25,6 +31,15 @@ class crearForm(UserCreationForm):
 
 #Vistas
 def login(request):
+    if request.user.is_authenticated:
+        return redirect('index')
+    elif request.method=='POST':
+        usuario = authenticate(request, username=request.POST['rut'], password=request.POST['password'])
+        if usuario is not None:
+            auth_login(request, usuario)
+            return redirect('index')
+        else:
+            messages.warning(request, 'Rut o Contraseña erroneos')
     return render(request, "SSAP\login.html")
 
 def crearusuario(request):
@@ -65,7 +80,7 @@ def crearusuario(request):
                         rut = request.POST['username'],
                         tipo = request.POST['tipo'],
                         direccion = request.POST['direccion'],
-                        nombre = request.POST['nombre_profesional']
+                        nombre = request.POST['nombre_administrador']
                     )
                     nuevoAdm.save()
                     messages.success(request,'Administrador Creado')
@@ -79,3 +94,19 @@ def crearusuario(request):
             messages.success(request,'Registro Incorrecto: Rut duplicado')
             return redirect('/crearusuario')
     return render(request, "SSAP\crearusuario.html", {'crearUsuario':crearUsuario})
+
+@login_required(login_url='login')
+def index(request):
+    tipoUsuario = Usuario.objects.get(rut = request.user.username)
+    if(tipoUsuario.tipo == "CLIENTE"):
+        usuario = Cliente.objects.get(rut=tipoUsuario.rut)
+    elif(tipoUsuario.tipo == "PROFESIONAL"):
+        usuario = Profesional.objects.get(rut=tipoUsuario.rut)
+    elif(tipoUsuario.tipo == "ADMINISTRADOR"):
+        usuario = Administrador.objects.get(rut=tipoUsuario.rut)
+    return render(request, "SSAP\index.html",{'tipoUsuario':tipoUsuario, 'usuario':usuario})
+
+@login_required(login_url='login')
+def pagLogout(request):
+    logout(request)
+    return redirect('login')

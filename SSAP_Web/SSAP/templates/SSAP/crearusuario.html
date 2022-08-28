@@ -1,0 +1,51 @@
+{%extends 'SSAP/base.html'%}
+{%block titulo%}SSAP | Crear Usuario{%endblock%}
+{%block contenido%}
+<div style="text-align: center;">
+    <h2>Crear Usuario</h2>
+    <form id="formLogin" action="" method="post">
+        {%csrf_token%}
+        <label for="username">Rut:</label>
+        {{crearUsuario.username}}</input><br>
+
+        <label for="password1">Contraseña: </label>
+        {{crearUsuario.password1}}<br>
+
+        <label for="password2">Repetir Contraseña: </label>
+        {{crearUsuario.password2}}<br>
+
+        <label for="direccion">Direccion:</label>
+        <input type="text" name="direccion" placeholder="Calle Falsa 1"></input><br>
+
+        <label for="tipo">Tipo Usuario:</label>
+        <select name="tipo" id="tipo" onchange="cambioTipo()">
+            <option value="CLIENTE">CLIENTE</option>
+            <option value="PROFESIONAL">PROFESIONAL</option>
+            <option value="ADMINISTRADOR">ADMINISTRADOR</option>
+        </select>
+
+        <div id="cliente">
+            <label for="nombre_empresa" id="nombre_empresa_l">Nombre Empresa:</label>
+            <input type="text" name="nombre_empresa" id="nombre_empresa_f" placeholder="Empresa Falsa"></input><br>
+            <label for="rubro" id="rubro_l">Rubro:</label>
+            <input type="text" name="rubro" id="rubro" id="rubro_f" placeholder="Mineria"></input><br>
+            <label for="cant_trabajadores" id="cant_trabajadores_l">Cantidad Trabajadores:</label>
+            <input type="text" name="cant_trabajadores" id="cant_trabajadores_f" placeholder="2"></input><br>
+        </div>
+
+        <div id="profesional">
+            <label for="nombre_profesional" id="nombre_profesional_l">Nombre:</label>
+            <input type="text" name="nombre_profesional" id="nombre_profesional_f" placeholder="Persona Falsa"></input><br>
+        </div>
+
+        <div id="administrador">
+            <label for="nombre_administrador" id="nombre_administrador_l">Nombre:</label>
+            <input type="text" name="nombre_administrador" id="nombre_administrador_f" placeholder="Persona Falsa"></input><br>
+        </div>
+        <input type="submit" value="Crear Usuario"></input>
+    </form>
+    {% for mensaje in messages %}
+        {{mensaje}}<br>
+    {% endfor %}
+</div>
+{%endblock%}

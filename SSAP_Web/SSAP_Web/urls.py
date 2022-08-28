@@ -19,5 +19,6 @@ from SSAP import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login/', views.login, name="login")
+    path('login/', views.login, name="login"),
+    path('crearusuario/',views.crearusuario, name="crearusuario")
 ]

@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-#Formularios
+#Formularios y funciones
 class crearForm(UserCreationForm):
     class Meta:
         model = User
@@ -30,44 +30,52 @@ def login(request):
 def crearusuario(request):
     crearUsuario = crearForm()
     if request.method=='POST':
-        crearUsuario = crearForm(request.POST)
-        if crearUsuario.is_valid:
-            if(request.POST['tipo']=='CLIENTE'):
-                crearUsuario.save()
-                nuevoCli = Cliente(
-                    django_user=User.objects.latest('id'),
-                    rut = request.POST['username'],
-                    tipo = request.POST['tipo'],
-                    direccion = request.POST['direccion'],
-                    nombre_empresa = request.POST['nombre_empresa'],
-                    rubro_empresa = request.POST['rubro'],
-                    cant_trabajadores = request.POST['cant_trabajadores']
-                )
-                nuevoCli.save()
-                messages.success(request,'Cliente Creado')
-            elif(request.POST['tipo']=='PROFESIONAL'):
-                crearUsuario.save()
-                nuevoPro = Profesional(
-                    django_user=User.objects.latest('id'),
-                    rut = request.POST['username'],
-                    tipo = request.POST['tipo'],
-                    direccion = request.POST['direccion'],
-                    nombre = request.POST['nombre_profesional']
-                )
-                nuevoPro.save()
-                messages.success(request,'Profesional Creado')
-            elif(request.POST['tipo']=='ADMINISTRADOR'):
-                crearUsuario.save()
-                nuevoAdm = Administrador(
-                    django_user=User.objects.latest('id'),
-                    rut = request.POST['username'],
-                    tipo = request.POST['tipo'],
-                    direccion = request.POST['direccion'],
-                    nombre = request.POST['nombre_profesional']
-                )
-                nuevoAdm.save()
-                messages.success(request,'Administrador Creado')
+        filtroRut = Usuario.objects.filter(rut=request.POST['username']).first()
+        if filtroRut is None:
+            crearUsuario = crearForm(request.POST)
+            if crearUsuario.is_valid:
+                if(request.POST['tipo']=='CLIENTE'):
+                    crearUsuario.save()
+                    nuevoCli = Cliente(
+                        django_user=User.objects.latest('id'),
+                        rut = request.POST['username'],
+                        tipo = request.POST['tipo'],
+                        direccion = request.POST['direccion'],
+                        nombre_empresa = request.POST['nombre_empresa'],
+                        rubro_empresa = request.POST['rubro'],
+                        cant_trabajadores = request.POST['cant_trabajadores']
+                    )
+                    nuevoCli.save()
+                    messages.success(request,'Cliente Creado')
+                elif(request.POST['tipo']=='PROFESIONAL'):
+                    crearUsuario.save()
+                    nuevoPro = Profesional(
+                        django_user=User.objects.latest('id'),
+                        rut = request.POST['username'],
+                        tipo = request.POST['tipo'],
+                        direccion = request.POST['direccion'],
+                        nombre = request.POST['nombre_profesional']
+                    )
+                    nuevoPro.save()
+                    messages.success(request,'Profesional Creado')
+                elif(request.POST['tipo']=='ADMINISTRADOR'):
+                    crearUsuario.save()
+                    nuevoAdm = Administrador(
+                        django_user=User.objects.latest('id'),
+                        rut = request.POST['username'],
+                        tipo = request.POST['tipo'],
+                        direccion = request.POST['direccion'],
+                        nombre = request.POST['nombre_profesional']
+                    )
+                    nuevoAdm.save()
+                    messages.success(request,'Administrador Creado')
+                else:
+                    messages.success(request,'Error: Tipo de usuario no admitido')
+                return redirect('/crearusuario')
+            else:
+                messages.success(request,'Registro Incorrecto: Error de Formulario')
+                return redirect('/crearusuario')
         else:
-            messages.success(request,'Registro Incorrecto: Error de formulario')
+            messages.success(request,'Registro Incorrecto: Rut duplicado')
             return redirect('/crearusuario')
     return render(request, "SSAP\crearusuario.html", {'crearUsuario':crearUsuario})

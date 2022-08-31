@@ -6,8 +6,8 @@ from django.contrib.auth.models import User
 class Usuario(models.Model):
     django_user = models.OneToOneField(User, on_delete=models.CASCADE)
     rut = models.CharField(max_length=12, primary_key= True)
-    tipo = models.CharField(max_length=20)
-    direccion = models.CharField(max_length=200)
+    tipo = models.CharField(max_length=20, null= False)
+    direccion = models.CharField(max_length=200, null= False)
     class Meta:
         db_table = "usuario"
     def __str__(self):

@@ -14,9 +14,9 @@ urlpatterns = [
 
         # 1.2 Elementos Singulares
 
-    path('admin-detalle/', views_api.administradorDetalle, name="admin-detalle"),
-    path('cliente-detalle/', views_api.clienteDetalle, name="cliente-detalle"),
-    path('profesional-detalle/', views_api.profesionalDetalle, name="profesional-detalle"),
+    path('admin-detalle/<pk>', views_api.administradorDetalle, name="admin-detalle"),
+    path('cliente-detalle/<pk>', views_api.clienteDetalle, name="cliente-detalle"),
+    path('profesional-detalle/<pk>', views_api.profesionalDetalle, name="profesional-detalle"),
 
     # 2 POSTs
 

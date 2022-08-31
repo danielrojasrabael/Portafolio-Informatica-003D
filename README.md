@@ -2,8 +2,11 @@
 Caso 4 "No Más Accidentes"
 
 Installs:
+
   -pip install django
+  
   -pip install cx_Oracle
+  
   -pip install djangorestframework
 
 Notas: 

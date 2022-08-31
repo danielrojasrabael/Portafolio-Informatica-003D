@@ -15,12 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import include
 from SSAP import views
+from API import views_api
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.index,name="index"),
     path('login/', views.login, name="login"),
     path('logout/', views.pagLogout, name="logout"),
-    path('crearusuario/',views.crearusuario, name="crearusuario")
+    path('crearusuario/',views.crearusuario, name="crearusuario"),
+    path('api/', include('API.urls_api'))
 ]

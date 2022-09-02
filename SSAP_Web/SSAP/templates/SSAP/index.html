@@ -1,7 +1,7 @@
-{%extends 'SSAP/base.html'%}
+{%extends 'SSAP/botones.html'%}
 {%load static%}
 {%block titulo%}SSAP | Menú Principal{%endblock%}
-{%block contenido%}
+{%block content%}
 <div style="text-align: center;">
     {%if tipoUsuario.tipo == 'CLIENTE'%}
         <h1>{{usuario.nombre_empresa}} Bienvenido a SSAP</h1><br>
@@ -12,8 +12,6 @@
     {%elif tipoUsuario.tipo == 'ADMINISTRADOR' %}
         <h1>{{usuario.nombre}} Bienvenido a SSAP</h1><br>
         <h3>Tipo Usuario: Administrador</h3><br>
-        <br><a href="{%url 'gestionusuario'%}"><button type="button">Gestionar Usuarios</button></a>
     {%endif%}
-    <br><a href="/logout"><button type="button">Cerrar Sesión</button></a>
 </div>
 {%endblock%}

@@ -1,0 +1,16 @@
+{%extends 'SSAP/base.html'%}
+{%block contenido%}
+    <div>
+        {%if tipoUsuario.tipo == 'CLIENTE'%}
+            <br><a href="{%url 'index'%}"><button type="button">Menú Principal</button></a>
+        {%elif tipoUsuario.tipo == 'PROFESIONAL'%}
+            <br><a href="{%url 'index'%}"><button type="button">Menú Principal</button></a>
+        {%elif tipoUsuario.tipo == 'ADMINISTRADOR' %}
+            <br><a href="{%url 'index'%}"><button type="button">Menú Principal</button></a>
+            <br><a href="{%url 'gestionusuario'%}"><button type="button">Gestionar Usuarios</button></a>
+        {%endif%}
+        <br><a href="{%url 'logout'%}"><button type="button">Cerrar Sesión</button></a>
+    </div>
+    {%block content%}
+    {%endblock%}
+{%endblock%}

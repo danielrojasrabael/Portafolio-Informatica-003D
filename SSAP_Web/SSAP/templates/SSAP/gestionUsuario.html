@@ -1,4 +1,4 @@
-{%extends 'SSAP/base.html'%}
+{%extends 'SSAP/botones.html'%}
 {% load static %}
 {%block titulo%}SSAP | Gestión de Usuarios{%endblock%}
 {%block head%}
@@ -8,7 +8,7 @@
     caption {border: 1px solid black;}
 </style>
 {%endblock%}
-{%block contenido%}
+{%block content%}
 <center>
 <div>
     <table>
@@ -38,7 +38,6 @@
             {%endfor%}
         </tbody>
     </table>
-    <a href="{%url 'index'%}">Volver</a>
 </div>
 </center>
 {%endblock%}

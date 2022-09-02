@@ -71,10 +71,11 @@ def pagLogout(request):
 @login_required(login_url='login')
 @user_passes_test(esAdmin, login_url='index')
 def gestionUsuarios(request):
+    tipoUsuario = Usuario.objects.get(rut = request.user.username)
     clientes = Cliente.objects.all
     profesionales = Profesional.objects.all
     administradores = Administrador.objects.all
-    return render(request,"SSAP\gestionUsuario.html", {'clientes': clientes, 'profesionales': profesionales, 'administradores': administradores})
+    return render(request,"SSAP\gestionUsuario.html", {'clientes': clientes, 'profesionales': profesionales, 'administradores': administradores, 'tipoUsuario':tipoUsuario})
 
 @login_required(login_url='login')
 @user_passes_test(esAdmin, login_url='index')

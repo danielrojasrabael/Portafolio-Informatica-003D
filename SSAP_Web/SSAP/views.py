@@ -17,7 +17,7 @@ from django.contrib.auth.models import User
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-#Formularios y funciones
+# Formularios y funciones
 class crearForm(UserCreationForm):
     class Meta:
         model = User
@@ -37,7 +37,7 @@ def esAdmin(User):
     return False
 
 # Vistas
-# Todos los Usuarios
+#   ------------------------ Todos los Usuarios ------------------------
 def login(request):
     if request.user.is_authenticated:
         return redirect('index')
@@ -66,7 +66,16 @@ def pagLogout(request):
     logout(request)
     return redirect('login')
 
-# Administrador
+#   ------------------------ Administrador ------------------------
+
+@login_required(login_url='login')
+@user_passes_test(esAdmin, login_url='index')
+def gestionUsuarios(request):
+    clientes = Cliente.objects.all
+    profesionales = Profesional.objects.all
+    administradores = Administrador.objects.all
+    return render(request,"SSAP\gestionUsuario.html", {'clientes': clientes, 'profesionales': profesionales, 'administradores': administradores})
+
 @login_required(login_url='login')
 @user_passes_test(esAdmin, login_url='index')
 def crearusuario(request):

@@ -1,0 +1,44 @@
+{%extends 'SSAP/base.html'%}
+{% load static %}
+{%block titulo%}SSAP | Gestión de Usuarios{%endblock%}
+{%block head%}
+<style>
+    table {border: 1px solid black;}
+    th {border: 1px solid black;}
+    caption {border: 1px solid black;}
+</style>
+{%endblock%}
+{%block contenido%}
+<center>
+<div>
+    <table>
+        <thead>
+            <caption>
+                <b>Usuarios Registrados <a href="{% url 'crearusuario'%}"><button>Añadir Usuario</button></a></b>
+            </caption>
+            <tr>
+                <th>Rut</th><th>Nombre</th><th>Tipo Usuario</th><th>Accion</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for c in clientes%}
+            <tr>
+                <th>{{c.rut}}</th><th>{{c.nombre_empresa}}</th><th>{{c.tipo}}</th><th></th><br>
+            </tr>
+            {%endfor%}
+            {%for p in profesionales%}
+            <tr>
+                <th>{{p.rut}}</th><th>{{p.nombre}}</th><th>{{p.tipo}}</th><th></th><br>
+            </tr>
+            {%endfor%}
+            {%for a in administradores%}
+            <tr>
+                <th>{{a.rut}}</th><th>{{a.nombre}}</th><th>{{a.tipo}}</th><th></th><br>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+    <a href="{%url 'index'%}">Volver</a>
+</div>
+</center>
+{%endblock%}

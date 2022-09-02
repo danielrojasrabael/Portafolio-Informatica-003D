@@ -46,7 +46,7 @@
         </div>
         <input type="submit" value="Crear Usuario"></input>
     </form>
-    <br><a href="/"><button>Volver</button></a>
+    <br><a href="{%url 'gestionusuario'%}"><button>Volver</button></a><br>
     {% for mensaje in messages %}
         {{mensaje}}<br>
     {% endfor %}

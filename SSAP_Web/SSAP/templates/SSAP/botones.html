@@ -1,11 +1,11 @@
 {%extends 'SSAP/base.html'%}
 {%block contenido%}
     <div>
-        {%if tipoUsuario.tipo == 'CLIENTE'%}
+        {%if user.usuario.tipo == 'CLIENTE'%}
             <br><a href="{%url 'index'%}"><button type="button">Menú Principal</button></a>
-        {%elif tipoUsuario.tipo == 'PROFESIONAL'%}
+        {%elif user.usuario.tipo == 'PROFESIONAL'%}
             <br><a href="{%url 'index'%}"><button type="button">Menú Principal</button></a>
-        {%elif tipoUsuario.tipo == 'ADMINISTRADOR' %}
+        {%elif user.usuario.tipo == 'ADMINISTRADOR' %}
             <br><a href="{%url 'index'%}"><button type="button">Menú Principal</button></a>
             <br><a href="{%url 'gestionusuario'%}"><button type="button">Gestionar Usuarios</button></a>
         {%endif%}

@@ -71,11 +71,28 @@ def pagLogout(request):
 @login_required(login_url='login')
 @user_passes_test(esAdmin, login_url='index')
 def gestionUsuarios(request):
-    tipoUsuario = Usuario.objects.get(rut = request.user.username)
-    clientes = Cliente.objects.all
-    profesionales = Profesional.objects.all
-    administradores = Administrador.objects.all
-    return render(request,"SSAP\gestionUsuario.html", {'clientes': clientes, 'profesionales': profesionales, 'administradores': administradores, 'tipoUsuario':tipoUsuario})
+    usuario = User.objects.all
+    return render(request,"SSAP\gestionUsuario.html", {'usr': usuario})
+
+@login_required(login_url='login')
+@user_passes_test(esAdmin, login_url='index')
+def desUsuario(request):
+    if request.method == 'POST':
+        usuario = User.objects.get(username = request.POST['rut'])
+        usuario.is_active = False
+        usuario.save()
+        messages.success(request, 'Usuario '+request.POST['rut']+' deshabilitado')
+    return redirect('gestionusuario')
+
+@login_required(login_url='login')
+@user_passes_test(esAdmin, login_url='index')
+def habUsuario(request):
+    if request.method == 'POST':
+        usuario = User.objects.get(username = request.POST['rut'])
+        usuario.is_active = True
+        usuario.save()
+        messages.success(request, 'Usuario '+request.POST['rut']+' habilitado')
+    return redirect('gestionusuario')
 
 @login_required(login_url='login')
 @user_passes_test(esAdmin, login_url='index')

@@ -14,7 +14,10 @@
     <table>
         <thead>
             <caption>
-                <b>Usuarios Registrados <a href="{% url 'crearusuario'%}"><button>Añadir Usuario</button></a></b>
+                <b>Usuarios Registrados <a href="{% url 'crearusuario'%}"><button>Añadir Usuario</button></a></b><br>
+            </caption>
+            <caption>
+                <input type="text" class="buscarTabla" placeholder="Buscar en Tabla">
             </caption>
             <tr>
                 <th>Rut</th><th>Nombre</th><th>Tipo Usuario</th><th>Accion</th>
@@ -49,7 +52,7 @@
                     <th>{{u.usuario.tipo}}</th>
                     <th>
                         {%if u.username == user.username%}
-                            <button disabled>Deshabilitar</button>
+                            <input type="button" value="Deshabilitar" disabled>
                         {%elif u.is_active == False%}
                             <form action="{% url 'habusuario'%}" method="post">{% csrf_token %}<input type="hidden" name="rut" value="{{u.username}}"><input type="submit" value="Habilitar"></form>
                         {%elif u.is_active == True%}

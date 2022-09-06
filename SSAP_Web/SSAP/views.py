@@ -71,7 +71,7 @@ def pagLogout(request):
 @login_required(login_url='login')
 @user_passes_test(esAdmin, login_url='index')
 def gestionUsuarios(request):
-    usuario = User.objects.all
+    usuario = User.objects.all().exclude(is_superuser=True)
     return render(request,"SSAP\gestionUsuario.html", {'usr': usuario})
 
 @login_required(login_url='login')

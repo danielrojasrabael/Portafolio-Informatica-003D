@@ -18,9 +18,7 @@ function cambioTipo(){
 }
 
 $(document).ready(function(){
-    $("#cliente").show()
-    $("#profesional").hide()
-    $("#administrador").hide()
+    cambioTipo();
 
     $("#formCrear").validate({
         errorclass: "invalido",

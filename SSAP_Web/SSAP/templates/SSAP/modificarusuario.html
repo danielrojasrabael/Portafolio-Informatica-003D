@@ -1,0 +1,54 @@
+{%extends 'SSAP/base.html'%}
+{% load static %}
+{%block titulo%}SSAP | Modificar Usuario{%endblock%}
+{%block head%}<script src="{%static 'js/crearUsuario.js'%}"></script>{%endblock%}
+{%block contenido%}
+<div style="text-align: center;">
+    <h2>Modificar Usuario</h2>
+    <form id="formCrear" action="" method="post">
+        {%csrf_token%}
+        <input type="hidden" name= "rutViejo" value="{{usuario.username}}">
+        <label for="username">Rut:</label>
+        <input type="text" name="username" placeholder="12.345.678-9" value="{{usuario.username}}" disabled></input><br>
+
+        <label for="password1">Contraseña: </label>
+        <input type="password" name="password1" placeholder="***********" id="id_password1"><br>
+
+        <label for="password2">Repetir Contraseña: </label>
+        <input type="password" name="password2" placeholder="***********" id="id_password2"><br>
+
+        <label for="direccion">Direccion:</label>
+        <input type="text" name="direccion" placeholder="Calle Falsa 1" value="{{usuario.usuario.direccion}}"></input><br>
+
+        <label for="tipo">Tipo Usuario:</label>
+        <select name="tipo" id="tipo" disabled>
+            <option value="{{usuario.usuario.tipo}}">{{usuario.usuario.tipo}}</option>
+        </select>
+        {%if usuario.usuario.tipo == 'CLIENTE'%}
+            <div id="cliente">
+                <label for="nombre_empresa" id="nombre_empresa_l">Nombre Empresa:</label>
+                <input type="text" name="nombre_empresa" id="nombre_empresa_f" placeholder="Empresa Falsa" value="{{usuario.usuario.cliente.nombre_empresa}}"></input><br>
+                <label for="rubro" id="rubro_l">Rubro:</label>
+                <input type="text" name="rubro" id="rubro" id="rubro_f" placeholder="Mineria" value="{{usuario.usuario.cliente.rubro_empresa}}"></input><br>
+                <label for="cant_trabajadores" id="cant_trabajadores_l">Cantidad Trabajadores:</label>
+                <input type="text" name="cant_trabajadores" id="cant_trabajadores_f" placeholder="2" value="{{usuario.usuario.cliente.cant_trabajadores}}"></input><br>
+            </div>
+        {%elif usuario.usuario.tipo == 'PROFESIONAL'%}
+            <div id="profesional">
+                <label for="nombre_profesional" id="nombre_profesional_l">Nombre:</label>
+                <input type="text" name="nombre_profesional" id="nombre_profesional_f" placeholder="Persona Falsa" value="{{usuario.usuario.profesional.nombre}}"></input><br>
+            </div>
+        {%elif usuario.usuario.tipo == 'ADMINISTRADOR' %}
+            <div id="administrador">
+                <label for="nombre_administrador" id="nombre_administrador_l">Nombre:</label>
+                <input type="text" name="nombre_administrador" id="nombre_administrador_f" placeholder="Persona Falsa" value="{{usuario.usuario.administrador.nombre}}"></input><br>
+            </div>
+        {%endif%}
+        <input type="submit" value="Modificar Usuario"></input>
+    </form>
+    <br><a href="{%url 'gestionusuario'%}"><button>Volver</button></a><br>
+    {% for mensaje in messages %}
+        {{mensaje}}<br>
+    {% endfor %}
+</div>
+{%endblock%}

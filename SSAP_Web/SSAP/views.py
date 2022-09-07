@@ -148,3 +148,40 @@ def crearusuario(request):
             messages.success(request,'Registro Incorrecto: Rut duplicado')
             return redirect('/crearusuario')
     return render(request, "SSAP\crearusuario.html", {'crearUsuario':crearUsuario})
+
+@login_required(login_url='login')
+@user_passes_test(esAdmin, login_url='index')
+def modificarUsuario(request):
+    if request.method=='POST' and 'rut' in request.POST:
+        usuario = User.objects.get(username=request.POST['rut'])
+        return render(request,"SSAP\modificarusuario.html", {'usuario':usuario})
+    elif request.method=='POST' and 'rutViejo' in request.POST:
+        usuario = Usuario.objects.get(rut=request.POST['rutViejo'])
+        dj_usuario = User.objects.get(username=usuario.django_user)
+        if(usuario.tipo=='CLIENTE'):
+            cliente = Cliente.objects.get(rut=usuario.rut)
+            dj_usuario.set_password(request.POST['password1'])
+            cliente.direccion = request.POST['direccion']
+            cliente.nombre_empresa = request.POST['nombre_empresa']
+            cliente.rubro_empresa = request.POST['rubro']
+            cliente.cant_trabajadores = request.POST['cant_trabajadores']
+            cliente.save()
+            dj_usuario.save()
+            messages.success(request,'Cliente Modificado')
+        elif(usuario.tipo=='PROFESIONAL'):
+            profesional = Profesional.objects.get(rut=usuario.rut)
+            dj_usuario.set_password(request.POST['password1'])
+            profesional.direccion = request.POST['direccion']
+            profesional.nombre = request.POST['nombre_profesional']
+            profesional.save()
+            dj_usuario.save()
+            messages.success(request,'Profesional Modificado')
+        elif(usuario.tipo=='ADMINISTRADOR'):
+            administrador = Administrador.objects.get(rut=usuario.rut)
+            dj_usuario.set_password(request.POST['password1'])
+            administrador.direccion = request.POST['direccion']
+            administrador.nombre = request.POST['nombre_administrador']
+            administrador.save()
+            dj_usuario.save()
+            messages.success(request,'Administrador Modificado')
+    return redirect('gestionusuario')

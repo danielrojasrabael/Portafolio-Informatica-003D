@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "Z4H+xZ/oxEmgMOn8xRR7kouOfIpBwEGHtc/JPr/tIbAWcpkrWQF2X2m650tEcT2GokGa1JPvTwt+I3yUSJw5/A==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\garab\\source\\repos\\No mas accidentes\\No mas accidentes\\No mas accidentes.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\garab\\.nuget\\packages\\controlzex\\4.4.0\\controlzex.4.4.0.nupkg.sha512",
+    "C:\\Users\\garab\\.nuget\\packages\\mahapps.metro\\2.4.9\\mahapps.metro.2.4.9.nupkg.sha512",
+    "C:\\Users\\garab\\.nuget\\packages\\mahapps.metro.resources\\0.6.1\\mahapps.metro.resources.0.6.1.nupkg.sha512",
+    "C:\\Users\\garab\\.nuget\\packages\\microsoft.xaml.behaviors.wpf\\1.1.19\\microsoft.xaml.behaviors.wpf.1.1.19.nupkg.sha512",
+    "C:\\Users\\garab\\.nuget\\packages\\system.text.json\\4.7.2\\system.text.json.4.7.2.nupkg.sha512"
+  ],
+  "logs": []
+}

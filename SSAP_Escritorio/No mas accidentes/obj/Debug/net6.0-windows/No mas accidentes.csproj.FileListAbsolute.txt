@@ -1,0 +1,29 @@
+C:\Users\garab\source\repos\No mas accidentes\No mas accidentes\obj\Debug\net6.0-windows\No mas accidentes.csproj.AssemblyReference.cache
+C:\Users\garab\source\repos\No mas accidentes\No mas accidentes\obj\Debug\net6.0-windows\MainWindow.g.cs
+C:\Users\garab\source\repos\No mas accidentes\No mas accidentes\obj\Debug\net6.0-windows\App.g.cs
+C:\Users\garab\source\repos\No mas accidentes\No mas accidentes\obj\Debug\net6.0-windows\No mas accidentes_MarkupCompile.cache
+C:\Users\garab\source\repos\No mas accidentes\No mas accidentes\obj\Debug\net6.0-windows\No mas accidentes_MarkupCompile.lref
+C:\Users\garab\source\repos\No mas accidentes\No mas accidentes\bin\Debug\net6.0-windows\No mas accidentes.exe
+C:\Users\garab\source\repos\No mas accidentes\No mas accidentes\bin\Debug\net6.0-windows\No mas accidentes.deps.json
+C:\Users\garab\source\repos\No mas accidentes\No mas accidentes\bin\Debug\net6.0-windows\No mas accidentes.runtimeconfig.json
+C:\Users\garab\source\repos\No mas accidentes\No mas accidentes\bin\Debug\net6.0-windows\No mas accidentes.dll
+C:\Users\garab\source\repos\No mas accidentes\No mas accidentes\bin\Debug\net6.0-windows\No mas accidentes.pdb
+C:\Users\garab\source\repos\No mas accidentes\No mas accidentes\bin\Debug\net6.0-windows\ControlzEx.dll
+C:\Users\garab\source\repos\No mas accidentes\No mas accidentes\bin\Debug\net6.0-windows\MahApps.Metro.dll
+C:\Users\garab\source\repos\No mas accidentes\No mas accidentes\bin\Debug\net6.0-windows\Microsoft.Xaml.Behaviors.dll
+C:\Users\garab\source\repos\No mas accidentes\No mas accidentes\bin\Debug\net6.0-windows\de\MahApps.Metro.resources.dll
+C:\Users\garab\source\repos\No mas accidentes\No mas accidentes\obj\Debug\net6.0-windows\App.baml
+C:\Users\garab\source\repos\No mas accidentes\No mas accidentes\obj\Debug\net6.0-windows\MainWindow.baml
+C:\Users\garab\source\repos\No mas accidentes\No mas accidentes\obj\Debug\net6.0-windows\No mas accidentes.g.resources
+C:\Users\garab\source\repos\No mas accidentes\No mas accidentes\obj\Debug\net6.0-windows\No mas accidentes.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\garab\source\repos\No mas accidentes\No mas accidentes\obj\Debug\net6.0-windows\No mas accidentes.AssemblyInfoInputs.cache
+C:\Users\garab\source\repos\No mas accidentes\No mas accidentes\obj\Debug\net6.0-windows\No mas accidentes.AssemblyInfo.cs
+C:\Users\garab\source\repos\No mas accidentes\No mas accidentes\obj\Debug\net6.0-windows\No mas accidentes.csproj.CoreCompileInputs.cache
+C:\Users\garab\source\repos\No mas accidentes\No mas accidentes\obj\Debug\net6.0-windows\No mas accidentes.csproj.CopyComplete
+C:\Users\garab\source\repos\No mas accidentes\No mas accidentes\obj\Debug\net6.0-windows\No mas accidentes.dll
+C:\Users\garab\source\repos\No mas accidentes\No mas accidentes\obj\Debug\net6.0-windows\refint\No mas accidentes.dll
+C:\Users\garab\source\repos\No mas accidentes\No mas accidentes\obj\Debug\net6.0-windows\No mas accidentes.pdb
+C:\Users\garab\source\repos\No mas accidentes\No mas accidentes\obj\Debug\net6.0-windows\No mas accidentes.genruntimeconfig.cache
+C:\Users\garab\source\repos\No mas accidentes\No mas accidentes\obj\Debug\net6.0-windows\ref\No mas accidentes.dll
+C:\Users\garab\source\repos\No mas accidentes\No mas accidentes\obj\Debug\net6.0-windows\Admin.g.cs
+C:\Users\garab\source\repos\No mas accidentes\No mas accidentes\obj\Debug\net6.0-windows\Admin.baml

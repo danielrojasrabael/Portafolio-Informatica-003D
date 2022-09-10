@@ -10,12 +10,30 @@
     <Compile Update="Admin.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="ClienteView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="CrearUsuario.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ProfesionalView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Admin.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="ClienteView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="CrearUsuario.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ProfesionalView.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

@@ -53,7 +53,7 @@ namespace No_mas_accidentes {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/No mas accidentes;V1.0.0.0;component/clienteview.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/No mas accidentes;component/clienteview.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\ClienteView.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

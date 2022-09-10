@@ -7,5 +7,10 @@
         xmlns:local="clr-namespace:No_mas_accidentes"
         mc:Ignorable="d"
         Title="Admin" Height="450" Width="800">
-    <Grid/>
+    <Grid>
+        <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Margin="68,192,99,52" SelectionChanged="DataGrid_SelectionChanged"/>
+        <Button Content="Modificar Usuarios" HorizontalAlignment="Left" Margin="57,45,0,0" VerticalAlignment="Top" Height="81" Width="137"/>
+        <Button Content="Crear Usuarios" HorizontalAlignment="Left" Margin="208,45,0,0" VerticalAlignment="Top" Height="81" Width="144" Click="Button_Click"/>
+        <Button Content="Salir" HorizontalAlignment="Left" Margin="616,10,0,0" VerticalAlignment="Top" Width="140"/>
+    </Grid>
 </mah:MetroWindow>

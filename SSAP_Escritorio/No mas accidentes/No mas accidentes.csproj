@@ -9,8 +9,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="LogoSample_ByTailorBrands.png" />
+    <None Remove="Screenshot_1.png" />
+    <None Remove="Sin título.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MahApps.Metro" Version="2.4.9" />
     <PackageReference Include="MahApps.Metro.Resources" Version="0.6.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="LogoSample_ByTailorBrands.png" />
+    <Resource Include="Screenshot_1.png" />
+    <Resource Include="Sin título.png" />
   </ItemGroup>
 
 </Project>

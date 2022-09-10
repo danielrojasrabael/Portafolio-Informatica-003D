@@ -32,7 +32,9 @@ namespace No_mas_accidentes
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            CrearUsuario userC = new CrearUsuario();
+            userC.Show();
+            this.Hide();
         }
     }
 }

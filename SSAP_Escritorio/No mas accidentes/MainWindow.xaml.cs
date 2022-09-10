@@ -41,6 +41,7 @@ namespace No_mas_accidentes
         {
             Admin main = new Admin();
             main.Show();
+            this.Hide();
         }
     }
 }

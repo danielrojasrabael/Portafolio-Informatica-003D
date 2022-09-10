@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace No_mas_accidentes
     /// <summary>
     /// Lógica de interacción para CrearUsuario.xaml
     /// </summary>
-    public partial class CrearUsuario : Window
+    public partial class CrearUsuario : MetroWindow
     {
         public CrearUsuario()
         {

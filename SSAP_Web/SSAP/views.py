@@ -1,4 +1,5 @@
 #Imports
+from ast import Delete
 import imp
 from pickle import TRUE
 from urllib import request
@@ -78,7 +79,7 @@ def pagLogout(request):
 @login_required(login_url='login')
 @user_passes_test(esAdmin, login_url='index')
 def gestionUsuarios(request):
-    usuario = User.objects.all().exclude(is_superuser=True)
+    usuario = User.objects.all().exclude(is_superuser=True).order_by("-is_active")
     return render(request,"SSAP\gestionUsuario.html", {'usr': usuario})
 
 @login_required(login_url='login')
@@ -207,5 +208,12 @@ def modificarUsuario(request):
 @login_required(login_url='login')
 @user_passes_test(esCliente, login_url='index')
 def notificaciones(request):
-    notificaciones = Notificacion.objects.filter(CLIENTE_rut = request.user.username)
+    notificaciones = Notificacion.objects.filter(CLIENTE_rut = request.user.username).order_by("-fecha")
     return render(request, 'SSAP/notificaciones.html', {'notificaciones':notificaciones})
+
+@login_required(login_url='login')
+@user_passes_test(esCliente, login_url='index')
+def elimNotif(request):
+    if request.method == 'POST':
+        Notificacion.objects.filter(CLIENTE_rut = request.user.username, id_notificacion = request.POST['id']).delete()
+    return redirect('notificaciones')

@@ -45,7 +45,7 @@ class Notificacion(models.Model):
     id_notificacion = models.AutoField(primary_key=True)
     titulo = models.CharField(max_length=200, null=False)
     descripcion = models.TextField(null=False)
-    fecha = models.DateField(null=False)
+    fecha = models.DateTimeField(null=False)
     CLIENTE_rut = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     class Meta:
         db_table = "notificacion"

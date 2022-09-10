@@ -3,6 +3,7 @@
     <div>
         {%if user.usuario.tipo == 'CLIENTE'%}
             <br><a href="{%url 'index'%}"><button type="button">Menú Principal</button></a>
+            <br><a href="{%url 'notificaciones'%}"><button type="button">Notificaciones</button></a>
         {%elif user.usuario.tipo == 'PROFESIONAL'%}
             <br><a href="{%url 'index'%}"><button type="button">Menú Principal</button></a>
         {%elif user.usuario.tipo == 'ADMINISTRADOR' %}

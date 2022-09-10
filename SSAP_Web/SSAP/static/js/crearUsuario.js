@@ -52,12 +52,22 @@ $(document).ready(function(){
             },
             cant_trabajadores:{
                 required: true,
-                number: true
+                digits: true
             },
             nombre_profesional:{
                 required: true
             },
             nombre_administrador:{
+                required: true
+            },
+            costo_base:{
+                required: true,
+                digits: true
+            },
+            fecha_firma:{
+                required: true
+            },
+            profesionalCliente:{
                 required: true
             }
         },
@@ -90,12 +100,22 @@ $(document).ready(function(){
             },
             cant_trabajadores:{
                 required: "Campo Requerido",
-                number: "Solo Números"
+                digits: "Solo Números"
             },
             nombre_profesional:{
                 required: "Campo Requerido"
             },
             nombre_administrador:{
+                required: "Campo Requerido"
+            },
+            costo_base:{
+                required: "Campo Requerido",
+                digits: "Solo numeros"
+            },
+            fecha_firma:{
+                required: "Campo Requerido"
+            },
+            profesionalCliente:{
                 required: "Campo Requerido"
             }
         }

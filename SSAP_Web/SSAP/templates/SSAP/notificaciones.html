@@ -1,0 +1,12 @@
+{%extends 'SSAP/botones.html'%}
+{%load static%}
+{%block titulo%}SSAP | Notificaciones{%endblock%}
+{%block content%}
+<div style="text-align: center;">
+    <h2>Notificaciones</h2>
+    {%for n in notificaciones%}
+        {{n.titulo}}
+        {{n.descripcion}}
+    {%endfor%}
+</div>
+{%endblock%}

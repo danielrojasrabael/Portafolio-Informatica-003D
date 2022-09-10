@@ -29,5 +29,6 @@ urlpatterns = [
     path('habusuario',views.habUsuario, name="habusuario"),
     path('crearusuario/',views.crearusuario, name="crearusuario"),
     path('modificarusuario/',views.modificarUsuario, name="modificarusuario"),
+    path('notificaciones/',views.notificaciones,name="notificaciones"),
     path('api/', include('API.urls_api'))
 ]

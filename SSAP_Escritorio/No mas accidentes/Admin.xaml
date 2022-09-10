@@ -7,7 +7,5 @@
         xmlns:local="clr-namespace:No_mas_accidentes"
         mc:Ignorable="d"
         Title="Admin" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+    <Grid/>
 </mah:MetroWindow>

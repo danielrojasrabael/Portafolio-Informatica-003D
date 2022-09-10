@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -33,7 +34,13 @@ namespace No_mas_accidentes
 
         private void TextBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            
+        }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Admin main = new Admin();
+            main.Show();
         }
     }
 }

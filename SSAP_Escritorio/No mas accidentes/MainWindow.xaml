@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid Background="#FFA28888">
-        <Button Content="Iniciar Session" HorizontalAlignment="Center" Margin="0,313,0,0" VerticalAlignment="Top" Height="57" Width="164"/>
+        <Button Content="Iniciar Session" HorizontalAlignment="Center" Margin="0,313,0,0" VerticalAlignment="Top" Height="57" Width="164" Click="Button_Click"/>
         <TextBox HorizontalAlignment="Center" Margin="0,164,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" mah:TextBoxHelper.Watermark="Usuario"/>
         <PasswordBox HorizontalAlignment="Center" Margin="0,237,0,0" VerticalAlignment="Top" Width="120" mah:TextBoxHelper.Watermark="Contraseña"/>
 

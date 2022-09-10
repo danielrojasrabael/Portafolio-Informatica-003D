@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\garab\\source\\repos\\No mas accidentes\\No mas accidentes\\No mas accidentes.csproj": {}
+    "C:\\Users\\garab\\Desktop\\appweb\\Portafolio-Informatica-003D\\SSAP_Escritorio\\No mas accidentes\\No mas accidentes.csproj": {}
   },
   "projects": {
-    "C:\\Users\\garab\\source\\repos\\No mas accidentes\\No mas accidentes\\No mas accidentes.csproj": {
+    "C:\\Users\\garab\\Desktop\\appweb\\Portafolio-Informatica-003D\\SSAP_Escritorio\\No mas accidentes\\No mas accidentes.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\garab\\source\\repos\\No mas accidentes\\No mas accidentes\\No mas accidentes.csproj",
+        "projectUniqueName": "C:\\Users\\garab\\Desktop\\appweb\\Portafolio-Informatica-003D\\SSAP_Escritorio\\No mas accidentes\\No mas accidentes.csproj",
         "projectName": "No mas accidentes",
-        "projectPath": "C:\\Users\\garab\\source\\repos\\No mas accidentes\\No mas accidentes\\No mas accidentes.csproj",
+        "projectPath": "C:\\Users\\garab\\Desktop\\appweb\\Portafolio-Informatica-003D\\SSAP_Escritorio\\No mas accidentes\\No mas accidentes.csproj",
         "packagesPath": "C:\\Users\\garab\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\garab\\source\\repos\\No mas accidentes\\No mas accidentes\\obj\\",
+        "outputPath": "C:\\Users\\garab\\Desktop\\appweb\\Portafolio-Informatica-003D\\SSAP_Escritorio\\No mas accidentes\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

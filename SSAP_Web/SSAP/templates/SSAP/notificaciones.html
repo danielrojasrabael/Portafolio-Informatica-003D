@@ -1,0 +1,16 @@
+{%extends 'SSAP/botones.html'%}
+{%load static%}
+{%block titulo%}SSAP | Notificaciones{%endblock%}
+{%block content%}
+<div style="text-align: center;">
+    <h2>Notificaciones</h2>
+    {%for n in notificaciones%}
+        <hr style="width: 50%;">
+        <div>
+            <b>{{n.titulo}} | {{n.fecha | date:"d/m/Y H:i"}}</b><br>
+            <p>{{n.descripcion}}</p>
+            <form action="{% url 'elimnotif' %}" method="post">{% csrf_token %}<input type="hidden" name="id" value="{{n.id_notificacion}}"><input type="submit" value="Borrar"></form>
+        </div>
+    {%endfor%}
+</div>
+{%endblock%}

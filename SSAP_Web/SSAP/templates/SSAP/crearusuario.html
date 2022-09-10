@@ -33,6 +33,18 @@
             <input type="text" name="rubro" id="rubro" id="rubro_f" placeholder="Mineria"></input><br>
             <label for="cant_trabajadores" id="cant_trabajadores_l">Cantidad Trabajadores:</label>
             <input type="text" name="cant_trabajadores" id="cant_trabajadores_f" placeholder="2"></input><br>
+            <hr>
+            <h3>Definicion de contrato</h3>
+            <label for="costo_base">Costo Base: $</label>
+            <input type="text" name="costo_base" placeholder="200000"><br>
+            <label for="fecha_firma">Fecha Firma:</label>
+            <input type="date" name="fecha_firma"><br>
+            <label for="profesionalCliente">Profesional Encargado: </label>
+            <select name="profesionalCliente">
+                {%for p in profesionales%}
+                    <option value="{{p.rut}}">{{p.nombre}}</option>
+                {%endfor%}
+            </select>
         </div>
 
         <div id="profesional">

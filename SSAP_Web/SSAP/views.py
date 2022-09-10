@@ -1,6 +1,8 @@
 #Imports
+from ast import Delete
 import imp
 from pickle import TRUE
+from urllib import request
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
@@ -33,6 +35,12 @@ class crearForm(UserCreationForm):
 def esAdmin(User):
     tipoUsuario = Usuario.objects.get(rut = User.username)
     if(tipoUsuario.tipo == "ADMINISTRADOR"):
+        return True
+    return False
+
+def esCliente(User):
+    tipoUsuario = Usuario.objects.get(rut = User.username)
+    if(tipoUsuario.tipo == "CLIENTE"):
         return True
     return False
 
@@ -71,7 +79,7 @@ def pagLogout(request):
 @login_required(login_url='login')
 @user_passes_test(esAdmin, login_url='index')
 def gestionUsuarios(request):
-    usuario = User.objects.all().exclude(is_superuser=True)
+    usuario = User.objects.all().exclude(is_superuser=True).order_by("-is_active")
     return render(request,"SSAP\gestionUsuario.html", {'usr': usuario})
 
 @login_required(login_url='login')
@@ -98,6 +106,7 @@ def habUsuario(request):
 @user_passes_test(esAdmin, login_url='index')
 def crearusuario(request):
     crearUsuario = crearForm()
+    profesionales = Profesional.objects.all()
     if request.method=='POST':
         filtroRut = Usuario.objects.filter(rut=request.POST['username']).first()
         if filtroRut is None:
@@ -115,6 +124,14 @@ def crearusuario(request):
                         cant_trabajadores = request.POST['cant_trabajadores']
                     )
                     nuevoCli.save()
+                    nuevoContrato = Contrato(
+                        costo_base = request.POST['costo_base'],
+                        fecha_firma = request.POST['fecha_firma'],
+                        ultimo_pago = request.POST['fecha_firma'],
+                        CLIENTE_rut = Cliente.objects.latest('rut'),
+                        PROFESIONAL_rut = Profesional.objects.get(rut=request.POST['profesionalCliente'])
+                    )
+                    nuevoContrato.save()
                     messages.success(request,'Cliente Creado')
                 elif(request.POST['tipo']=='PROFESIONAL'):
                     crearUsuario.save()
@@ -147,7 +164,7 @@ def crearusuario(request):
         else:
             messages.success(request,'Registro Incorrecto: Rut duplicado')
             return redirect('/crearusuario')
-    return render(request, "SSAP\crearusuario.html", {'crearUsuario':crearUsuario})
+    return render(request, "SSAP\crearusuario.html", {'crearUsuario':crearUsuario, 'profesionales':profesionales})
 
 @login_required(login_url='login')
 @user_passes_test(esAdmin, login_url='index')
@@ -185,3 +202,18 @@ def modificarUsuario(request):
             dj_usuario.save()
             messages.success(request,'Administrador Modificado')
     return redirect('gestionusuario')
+
+#   ------------------------ Cliente ------------------------
+
+@login_required(login_url='login')
+@user_passes_test(esCliente, login_url='index')
+def notificaciones(request):
+    notificaciones = Notificacion.objects.filter(CLIENTE_rut = request.user.username).order_by("-fecha")
+    return render(request, 'SSAP/notificaciones.html', {'notificaciones':notificaciones})
+
+@login_required(login_url='login')
+@user_passes_test(esCliente, login_url='index')
+def elimNotif(request):
+    if request.method == 'POST':
+        Notificacion.objects.filter(CLIENTE_rut = request.user.username, id_notificacion = request.POST['id']).delete()
+    return redirect('notificaciones')

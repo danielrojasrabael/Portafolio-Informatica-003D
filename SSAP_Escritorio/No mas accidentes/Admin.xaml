@@ -8,9 +8,35 @@
         mc:Ignorable="d"
         Title="Admin" Height="450" Width="800">
     <Grid>
-        <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Margin="68,192,99,52" SelectionChanged="DataGrid_SelectionChanged"/>
-        <Button Content="Modificar Usuarios" HorizontalAlignment="Left" Margin="57,45,0,0" VerticalAlignment="Top" Height="81" Width="137"/>
-        <Button Content="Crear Usuarios" HorizontalAlignment="Left" Margin="208,45,0,0" VerticalAlignment="Top" Height="81" Width="144" Click="Button_Click"/>
-        <Button Content="Salir" HorizontalAlignment="Left" Margin="616,10,0,0" VerticalAlignment="Top" Width="140"/>
+
+        <Button Content="Salir" HorizontalAlignment="Left" Margin="0,247,0,0" VerticalAlignment="Top" Width="188"/>
+        <mah:MetroTabControl TabStripPlacement="Left" Margin="0,42,0,0">
+            <TabItem Header="Usuarios">
+
+                <Grid Background="#FFE5E5E5">
+                    <Button Content="Crear Usuarios" HorizontalAlignment="Left" Margin="428,10,0,0" VerticalAlignment="Top" Height="31" Width="170" Click="Button_Click"/>
+                    <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,116,10,30"/>
+                </Grid>
+
+
+            </TabItem>
+            <TabItem Header="Gestionar &#xD;&#xA;Usuarios" Margin="-1,0,1,1" RenderTransformOrigin="0.5,0.5">
+                <TabItem.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform AngleX="1.561"/>
+                        <RotateTransform/>
+                        <TranslateTransform X="1.022"/>
+                    </TransformGroup>
+                </TabItem.RenderTransform>
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem Header="Crear reportes">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem Header="Ver Actividades">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+        </mah:MetroTabControl>
     </Grid>
 </mah:MetroWindow>

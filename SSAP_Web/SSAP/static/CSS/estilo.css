@@ -1,0 +1,125 @@
+body {
+    margin: 0;
+    padding:0px;
+    text-align: center;
+}
+/* Navbar */
+nav{
+    display: flex;
+    justify-content: space-around;    
+    align-items: center;
+    background-color: rgb(15, 117, 131);
+}
+
+.nav-links{
+    display: flex;
+    justify-content: space-around;
+    width: 40%;
+}
+
+.nav-links li{
+    list-style: none;
+}
+
+.nav-links a{
+    color: rgb(236, 230, 225);
+    text-decoration: none;
+    letter-spacing: 3px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.logo a{
+    color: rgb(236, 230, 225);
+    text-decoration: none;
+}
+
+.burg{
+    display: none;
+    cursor: pointer;
+}
+
+.burg div{
+    width: 25px;
+    height: 2px;
+    background-color: rgb(236, 230, 225);
+    margin: 5px;
+    transition: all 0.3s ease;
+}
+
+/* Responsiveness */
+
+@media screen and (max-width:1024px){
+    .nav-links{
+        width: 60%;
+    }
+}
+
+@media screen and (max-width:768px){
+    body{
+        overflow-x: hidden;
+    }
+
+    .nav-links{
+        position: absolute;
+        right: 0px;
+        height: 92vh;
+        top: 8vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 35%;
+        transform: translateX(100%);
+        transition: 0.5s ease-in;
+    }
+    
+    .burg{
+        display: block;
+    }
+}
+
+/* contracción de la navbar */
+
+.nav-active{
+    transform: translateX(0%);
+}
+
+/* animaciones*/
+
+@keyframes navLinkFade{
+    from{
+        opacity: 0;
+        transform: translateX(50px);
+    }
+
+    to{
+        opacity: 1;
+        transform: translateX(0px);
+    }
+}
+
+/* animación botón hamburguesa (navbar) */
+
+.toggle .linea1{
+    transform: rotate(-45deg) translate(-5px,6px);
+}
+
+.toggle .linea2{
+    opacity: 0;
+}
+
+.toggle .linea3{
+    transform: rotate(45deg) translate(-5px,-6px);
+}
+
+/* fondos */
+
+.fondo-home{
+    padding: 0;
+    margin: 0;
+    background: url('/static/IMG/colores.png') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}

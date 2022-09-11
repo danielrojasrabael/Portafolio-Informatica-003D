@@ -14,4 +14,12 @@ $(document).ready(function(){
             }
         });
     });
+
+    $('#sidebar button').mouseover(function(){
+        $(this).css("background-color", "rgb(25, 167, 185)");
+        $(this).css("color", "white");
+    }).mouseout(function(){
+        $(this).css("background-color", "white");
+        $(this).css("color", "black");
+    });
 });

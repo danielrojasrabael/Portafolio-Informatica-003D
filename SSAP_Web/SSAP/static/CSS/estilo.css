@@ -3,6 +3,18 @@ body {
     padding:0px;
     text-align: center;
 }
+
+/* Sidebar */
+
+#sidebar{
+    position: fixed;
+    height: 100%;
+    background-color: rgb(15, 117, 131);
+}
+
+#sidebar button{
+    width: 100%;
+}
 /* Navbar */
 nav{
     display: flex;

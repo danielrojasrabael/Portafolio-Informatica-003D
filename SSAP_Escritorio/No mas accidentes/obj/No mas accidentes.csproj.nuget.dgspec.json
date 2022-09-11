@@ -1,37 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\garab\\Desktop\\appweb\\Portafolio-Informatica-003D\\SSAP_Escritorio\\No mas accidentes\\No mas accidentes.csproj": {}
+    "C:\\Users\\Wilo\\Desktop\\Portafolio\\SSAP\\SSAP_Escritorio\\No mas accidentes\\No mas accidentes.csproj": {}
   },
   "projects": {
-    "C:\\Users\\garab\\Desktop\\appweb\\Portafolio-Informatica-003D\\SSAP_Escritorio\\No mas accidentes\\No mas accidentes.csproj": {
+    "C:\\Users\\Wilo\\Desktop\\Portafolio\\SSAP\\SSAP_Escritorio\\No mas accidentes\\No mas accidentes.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\garab\\Desktop\\appweb\\Portafolio-Informatica-003D\\SSAP_Escritorio\\No mas accidentes\\No mas accidentes.csproj",
+        "projectUniqueName": "C:\\Users\\Wilo\\Desktop\\Portafolio\\SSAP\\SSAP_Escritorio\\No mas accidentes\\No mas accidentes.csproj",
         "projectName": "No mas accidentes",
-        "projectPath": "C:\\Users\\garab\\Desktop\\appweb\\Portafolio-Informatica-003D\\SSAP_Escritorio\\No mas accidentes\\No mas accidentes.csproj",
-        "packagesPath": "C:\\Users\\garab\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\garab\\Desktop\\appweb\\Portafolio-Informatica-003D\\SSAP_Escritorio\\No mas accidentes\\obj\\",
+        "projectPath": "C:\\Users\\Wilo\\Desktop\\Portafolio\\SSAP\\SSAP_Escritorio\\No mas accidentes\\No mas accidentes.csproj",
+        "packagesPath": "C:\\Users\\Wilo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Wilo\\Desktop\\Portafolio\\SSAP\\SSAP_Escritorio\\No mas accidentes\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\garab\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Wilo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net6.0-windows"
+          "net5.0-windows7.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net6.0-windows7.0": {
-            "targetAlias": "net6.0-windows",
+          "net5.0-windows7.0": {
+            "targetAlias": "net5.0-windows",
             "projectReferences": {}
           }
         },
@@ -42,8 +37,8 @@
         }
       },
       "frameworks": {
-        "net6.0-windows7.0": {
-          "targetAlias": "net6.0-windows",
+        "net5.0-windows7.0": {
+          "targetAlias": "net5.0-windows",
           "dependencies": {
             "MahApps.Metro": {
               "target": "Package",
@@ -60,8 +55,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -73,7 +67,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.411\\RuntimeIdentifierGraph.json"
         }
       }
     }

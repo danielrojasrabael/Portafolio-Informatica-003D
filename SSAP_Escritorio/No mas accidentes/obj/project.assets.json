@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    "net6.0-windows7.0": {
+    "net5.0-windows7.0": {
       "ControlzEx/4.4.0": {
         "type": "package",
         "dependencies": {
@@ -9,14 +9,10 @@
           "System.Text.Json": "4.7.2"
         },
         "compile": {
-          "lib/netcoreapp3.1/ControlzEx.dll": {
-            "related": ".pdb;.xml"
-          }
+          "lib/netcoreapp3.1/ControlzEx.dll": {}
         },
         "runtime": {
-          "lib/netcoreapp3.1/ControlzEx.dll": {
-            "related": ".pdb;.xml"
-          }
+          "lib/netcoreapp3.1/ControlzEx.dll": {}
         },
         "frameworkReferences": [
           "Microsoft.WindowsDesktop.App.WPF"
@@ -28,14 +24,10 @@
           "ControlzEx": "[4.4.0, 6.0.0)"
         },
         "compile": {
-          "lib/netcoreapp3.1/MahApps.Metro.dll": {
-            "related": ".pdb;.xml"
-          }
+          "lib/netcoreapp3.1/MahApps.Metro.dll": {}
         },
         "runtime": {
-          "lib/netcoreapp3.1/MahApps.Metro.dll": {
-            "related": ".pdb;.xml"
-          }
+          "lib/netcoreapp3.1/MahApps.Metro.dll": {}
         },
         "frameworkReferences": [
           "Microsoft.WindowsDesktop.App.WPF"
@@ -55,14 +47,10 @@
       "Microsoft.Xaml.Behaviors.Wpf/1.1.19": {
         "type": "package",
         "compile": {
-          "lib/netcoreapp3.0/Microsoft.Xaml.Behaviors.dll": {
-            "related": ".pdb;.xml"
-          }
+          "lib/netcoreapp3.0/Microsoft.Xaml.Behaviors.dll": {}
         },
         "runtime": {
-          "lib/netcoreapp3.0/Microsoft.Xaml.Behaviors.dll": {
-            "related": ".pdb;.xml"
-          }
+          "lib/netcoreapp3.0/Microsoft.Xaml.Behaviors.dll": {}
         },
         "frameworkReferences": [
           "Microsoft.WindowsDesktop.App.WPF"
@@ -71,14 +59,10 @@
       "System.Text.Json/4.7.2": {
         "type": "package",
         "compile": {
-          "lib/netcoreapp3.0/System.Text.Json.dll": {
-            "related": ".xml"
-          }
+          "lib/netcoreapp3.0/System.Text.Json.dll": {}
         },
         "runtime": {
-          "lib/netcoreapp3.0/System.Text.Json.dll": {
-            "related": ".xml"
-          }
+          "lib/netcoreapp3.0/System.Text.Json.dll": {}
         }
       }
     }
@@ -203,43 +187,37 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net6.0-windows7.0": [
+    "net5.0-windows7.0": [
       "MahApps.Metro >= 2.4.9",
       "MahApps.Metro.Resources >= 0.6.1"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\garab\\.nuget\\packages\\": {},
-    "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\Wilo\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\garab\\Desktop\\appweb\\Portafolio-Informatica-003D\\SSAP_Escritorio\\No mas accidentes\\No mas accidentes.csproj",
+      "projectUniqueName": "C:\\Users\\Wilo\\Desktop\\Portafolio\\SSAP\\SSAP_Escritorio\\No mas accidentes\\No mas accidentes.csproj",
       "projectName": "No mas accidentes",
-      "projectPath": "C:\\Users\\garab\\Desktop\\appweb\\Portafolio-Informatica-003D\\SSAP_Escritorio\\No mas accidentes\\No mas accidentes.csproj",
-      "packagesPath": "C:\\Users\\garab\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\garab\\Desktop\\appweb\\Portafolio-Informatica-003D\\SSAP_Escritorio\\No mas accidentes\\obj\\",
+      "projectPath": "C:\\Users\\Wilo\\Desktop\\Portafolio\\SSAP\\SSAP_Escritorio\\No mas accidentes\\No mas accidentes.csproj",
+      "packagesPath": "C:\\Users\\Wilo\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Wilo\\Desktop\\Portafolio\\SSAP\\SSAP_Escritorio\\No mas accidentes\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\garab\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\Wilo\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net6.0-windows"
+        "net5.0-windows7.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net6.0-windows7.0": {
-          "targetAlias": "net6.0-windows",
+        "net5.0-windows7.0": {
+          "targetAlias": "net5.0-windows",
           "projectReferences": {}
         }
       },
@@ -250,8 +228,8 @@
       }
     },
     "frameworks": {
-      "net6.0-windows7.0": {
-        "targetAlias": "net6.0-windows",
+      "net5.0-windows7.0": {
+        "targetAlias": "net5.0-windows",
         "dependencies": {
           "MahApps.Metro": {
             "target": "Package",
@@ -268,8 +246,7 @@
           "net47",
           "net471",
           "net472",
-          "net48",
-          "net481"
+          "net48"
         ],
         "assetTargetFallback": true,
         "warn": true,
@@ -281,7 +258,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.411\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -1,6 +1,10 @@
 {
   "runtimeOptions": {
-    "tfm": "net6.0",
+    "tfm": "net5.0",
+    "framework": {
+      "name": "Microsoft.WindowsDesktop.App",
+      "version": "5.0.0"
+    },
     "additionalProbingPaths": [
       "C:\\Users\\Wilo\\.dotnet\\store\\|arch|\\|tfm|",
       "C:\\Users\\Wilo\\.nuget\\packages"

@@ -1,7 +1,7 @@
-{%extends 'SSAP/botones.html'%}
+{%extends 'SSAP/base.html'%}
 {%load static%}
 {%block titulo%}SSAP | Menú Principal{%endblock%}
-{%block content%}
+{%block contenido%}
 <div style="text-align: center;">
     {%if tipoUsuario.tipo == 'CLIENTE'%}
         <h1>{{usuario.nombre_empresa}} Bienvenido a SSAP</h1><br>

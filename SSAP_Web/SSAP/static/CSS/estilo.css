@@ -2,6 +2,7 @@ body {
     margin: 0;
     padding:0px;
     text-align: center;
+    overflow-x: hidden;
 }
 
 /* Sidebar */
@@ -16,17 +17,29 @@ body {
     width: 100%;
 }
 /* Navbar */
+
 nav{
     display: flex;
     justify-content: space-around;    
     align-items: center;
     background-color: rgb(15, 117, 131);
+    min-height: 8vh;
 }
 
 .nav-links{
-    display: flex;
+    padding-left: 0%;
     justify-content: space-around;
-    width: 40%;
+    position: absolute;
+    left: 0px;
+    height: 92vh;
+    top: 8vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 15%;
+    transform: translateX(-100%);
+    transition: 0.5s ease-in;
+    background-color: rgb(104, 171, 180);
 }
 
 .nav-links li{
@@ -35,6 +48,7 @@ nav{
 
 .nav-links a{
     color: rgb(236, 230, 225);
+    width: 100%;
     text-decoration: none;
     letter-spacing: 3px;
     font-weight: bold;
@@ -63,32 +77,14 @@ nav{
 
 @media screen and (max-width:1024px){
     .nav-links{
-        width: 60%;
+        width: 50%;
     }
 }
 
-@media screen and (max-width:768px){
-    body{
-        overflow-x: hidden;
-    }
-
-    .nav-links{
-        position: absolute;
-        right: 0px;
-        height: 92vh;
-        top: 8vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 35%;
-        transform: translateX(100%);
-        transition: 0.5s ease-in;
-    }
-    
-    .burg{
-        display: block;
-    }
+.burg{
+    display: block;
 }
+
 
 /* contracción de la navbar */
 

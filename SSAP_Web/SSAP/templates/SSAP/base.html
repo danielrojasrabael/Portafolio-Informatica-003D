@@ -41,18 +41,36 @@
     </head>
     <body>
         <nav class="sticky-top">
-            <div class="logo">
-                <h4><a href="">Placeholder</a></h4>
-            </div>
-            <ul class="nav-links">
-                <li><a href="">Perfil</a></li>
-                <li><a href="">Logout</a></li>
-            </ul>
+
             <div class="burg">
                 <div class="linea1"></div>
                 <div class="linea2"></div>
                 <div class="linea3"></div>
             </div>
+
+            <div class="logo">
+                <h4><a href="">Placeholder</a></h4>
+            </div>
+            <ul class="nav-links" id="sidebar">
+                
+                {%if user.usuario.tipo == 'CLIENTE'%}
+                <li><a href="{%url 'index'%}"><button type="button">Menú Principal</button></a></li>
+                <li><a href="{%url 'notificaciones'%}"><button type="button">Notificaciones</button></a></li>
+                
+                {%elif user.usuario.tipo == 'PROFESIONAL'%}
+                <li><a href="{%url 'index'%}"><button type="button">Menú Principal</button></a></li>
+                
+                {%elif user.usuario.tipo == 'ADMINISTRADOR' %}
+                <li><a href="{%url 'index'%}"><button type="button">Menú Principal</button></a></li>
+                <li><a href="{%url 'gestionusuario'%}"><button type="button">Gestionar Usuarios</button></a></li>
+                
+                {%endif%}
+                
+            </ul>
+
+            <div>
+            </div>
+
         </nav>
         {%block contenido%}
         {%endblock%}

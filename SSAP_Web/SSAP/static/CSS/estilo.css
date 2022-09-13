@@ -82,6 +82,18 @@ nav{
     }
 }
 
+@media screen and (max-width:768px){
+    .fondo-falso{
+        height: 84vh;
+        width: 100%;
+        background: url('/static/IMG/colores-celular.png') no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
+}
+
 .burg{
     display: block;
 }
@@ -123,12 +135,56 @@ nav{
 
 /* fondos */
 
-.fondo-home{
-    padding: 0;
-    margin: 0;
+.fondo-falso{
+    height: 84vh;
+    width: 100%;
     background: url('/static/IMG/colores.png') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+}
+
+.fondo-home{
+    background: url('/static/IMG/colores.png') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+/* Footer */
+.pie{
+    display: flex;
+    justify-content: space-around;    
+    align-items: center;
+    background-color: rgb(15, 117, 131);
+    color: rgb(63, 73, 75);
+    min-height: 8vh;
+}
+
+/* Recursos */
+
+.panel-blanco-redondo{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.493);
+    border-radius: 25px;
+    width: 80%;
+}
+
+.contenedor{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.relleno{
+    padding: 5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

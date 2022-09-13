@@ -170,7 +170,7 @@ nav{
     flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.493);
+    background-color: rgba(0, 0, 0, 0.075);
     border-radius: 25px;
     width: 80%;
 }

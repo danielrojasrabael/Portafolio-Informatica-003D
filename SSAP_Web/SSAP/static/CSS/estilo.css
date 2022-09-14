@@ -5,6 +5,30 @@ body {
     overflow-x: hidden;
 }
 
+body h1{
+    margin: 0;
+}
+
+body h2{
+    margin: 0;
+}
+
+body h3{
+    margin: 0;
+}
+
+body h4{
+    margin: 0;
+}
+
+body h5{
+    margin: 0;
+}
+
+body h6{
+    margin: 0;
+}
+
 /* Sidebar */
 
 #sidebar{

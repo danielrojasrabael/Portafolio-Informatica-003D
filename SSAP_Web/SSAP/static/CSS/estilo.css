@@ -212,3 +212,7 @@ nav{
     justify-content: center;
     align-items: center;
 }
+
+.esp-input{
+    padding-bottom: 1vh;
+}

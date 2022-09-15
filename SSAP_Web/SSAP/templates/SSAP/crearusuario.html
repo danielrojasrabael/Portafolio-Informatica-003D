@@ -9,40 +9,40 @@
 
         <div class="panel-blanco-redondo">
             
-            <div style="text-align: center;">
-                <h2>Crear Usuario</h2>
+            <div style="text-align: center; width: 90%;">
+                <h2 class="esp-input">Crear Usuario</h2>
                 
                 <form id="formCrear" action="" method="post">
                     {%csrf_token%}
-                    <div class="row">
+                    <div class="row esp-input">
                         <label for="username" class="col-sm-4 col-form-label col-form-label-lg">Rut:</label>
                         <div class="col-sm-8">
                             {{crearUsuario.username}}</input>
                         </div>
                     </div>
                     
-                    <div class="row">
+                    <div class="row esp-input">
                         <label for="password1" class="col-sm-4 col-form-label col-form-label-lg">Contraseña:</label>
                         <div class="col-sm-8">
                             {{crearUsuario.password1}}</input>
                         </div>
                     </div>                    
 
-                    <div class="row">
+                    <div class="row esp-input">
                         <label for="password2" class="col-sm-4 col-form-label col-form-label-lg">Repetir Contraseña:</label>
                         <div class="col-sm-8">
                             {{crearUsuario.password2}}</input>
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row esp-input">
                         <label for="direccion" class="col-sm-4 col-form-label col-form-label-lg">Direccion:</label>
                         <div class="col-sm-8">
-                            <input class="form-control form-control-lg" type="text" name="direccion" placeholder="Calle Falsa 1"></input><br>
+                            <input class="form-control form-control-lg" type="text" name="direccion" placeholder="Calle Falsa 1"></input>
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row esp-input">
                         <label for="tipo" class="col-sm-4 col-form-label col-form-label-lg">Tipo Usuario:</label>
                         <div class="col-sm-8">
                             <select class="form-select form-select-lg" name="tipo" id="tipo" onchange="cambioTipo()">
@@ -55,29 +55,29 @@
 
                     <div id="cliente">
 
-                        <div class="row">
+                        <div class="row esp-input">
                             <label for="nombre_empresa" class="col-sm-4 col-form-label col-form-label-lg">Nombre Empresa:</label>
                             <div class="col-sm-8">
                                 <input class="form-control form-control-lg" type="text" name="nombre_empresa" id="nombre_empresa_f" placeholder="Empresa Falsa"></input>
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row esp-input">
                             <label for="rubro" class="col-sm-4 col-form-label col-form-label-lg">Rubro:</label>
                             <div class="col-sm-8">
                                 <input class="form-control form-control-lg" type="text" name="rubro" id="rubro" id="rubro_f" placeholder="Mineria"></input>
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row esp-input">
                             <label for="cant_trabajadores" class="col-sm-4 col-form-label col-form-label-lg">Cantidad Trabajadores:</label>
                             <div class="col-sm-8">
                                 <input class="form-control form-control-lg" type="text" name="cant_trabajadores" id="cant_trabajadores_f" placeholder="2"></input>
                             </div>
                         </div>
 
-                        <label for="cant_trabajadores" id="cant_trabajadores_l">Cantidad Trabajadores:</label>
                         <hr>
+
                         <h3>Definicion de contrato</h3>
                         <label for="costo_base">Costo Base: $</label>
                         <input class="form-control" type="text" name="costo_base" placeholder="200000"><br>

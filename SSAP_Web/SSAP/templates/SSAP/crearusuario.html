@@ -79,26 +79,43 @@
                         <hr>
 
                         <h3>Definicion de contrato</h3>
-                        <label for="costo_base">Costo Base: $</label>
-                        <input class="form-control" type="text" name="costo_base" placeholder="200000"><br>
-                        <label for="fecha_firma">Fecha Firma:</label>
-                        <input class="form-control" type="date" name="fecha_firma"><br>
-                        <label for="profesionalCliente">Profesional Encargado: </label>
-                        <select class="form-select" name="profesionalCliente">
-                            {%for p in profesionales%}
-                                <option value="{{p.rut}}">{{p.nombre}}</option>
-                            {%endfor%}
-                        </select>
+                        <div class="row esp-input">
+                            <label for="costo_base" class="col-sm-4 col-form-label col-form-label-lg">Costo Base (CLP$):</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="text" name="costo_base" placeholder="200000"><br>
+                            </div>
+                        </div>
+
+                        <div class="row esp-input">
+                            <label for="fecha_firma" class="col-sm-4 col-form-label col-form-label-lg">Fecha Firma:</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="date" name="fecha_firma"><br>
+                            </div>
+                        </div>
+                        <div class="row esp-input">
+                            <label for="profesionalCliente" class="col-sm-4 col-form-label col-form-label-lg">Profesional Encargado: </label>
+                            <div class="col-sm-8">
+                                <select class="form-select form-select-lg"  name="profesionalCliente">
+                                    {%for p in profesionales%}
+                                        <option value="{{p.rut}}">{{p.nombre}}</option>
+                                    {%endfor%}
+                                </select>
+                            </div>
+                        </div>
                     </div>
 
-                    <div id="profesional">
-                        <label for="nombre_profesional" id="nombre_profesional_l">Nombre:</label>
-                        <input type="text" name="nombre_profesional" id="nombre_profesional_f" placeholder="Persona Falsa"></input><br>
+                    <div id="profesional" class="row esp-input">
+                        <label for="nombre_profesional" id="nombre_profesional_l" class="col-sm-4 col-form-label col-form-label-lg">Nombre:</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="nombre_profesional" id="nombre_profesional_f" placeholder="Persona Falsa" class="form-control form-control-lg"></input><br>
+                        </div>
                     </div>
 
-                    <div id="administrador">
-                        <label for="nombre_administrador" id="nombre_administrador_l">Nombre:</label>
-                        <input type="text" name="nombre_administrador" id="nombre_administrador_f" placeholder="Persona Falsa"></input><br>
+                    <div id="administrador" class="row esp-input">
+                        <label for="nombre_administrador" id="nombre_administrador_l" class="col-sm-4 col-form-label col-form-label-lg">Nombre:</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="nombre_administrador" id="nombre_administrador_f" placeholder="Persona Falsa" class="form-control form-control-lg"></input><br>
+                        </div>
                     </div>
                     <input type="submit" value="Crear Usuario"></input>
                 </form>

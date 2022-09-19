@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from telnetlib import AUTHENTICATION
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -78,7 +79,7 @@ WSGI_APPLICATION = 'SSAP_Web.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
-        'NAME': '127.0.0.1:1521/XE',
+        'NAME': '127.0.0.1:1522/ORCL1',
         'USER': 'SSAP',
         'PASSWORD': '123456',
         'TEST': {
@@ -127,3 +128,14 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny'
     ]
 }
+
+# Añadidos
+# python .\manage.py createcachetable
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'CACHE',
+    }
+}
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+AUTHENTICATION_BACKENDS = ['SSAP.backends.autenticar',]

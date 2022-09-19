@@ -41,7 +41,7 @@
     </head>
     <body>
         <nav class="sticky-top">
-            {%if user.username%}
+            {%if request.session.usuario%}
                 <div class="burg">
                     <div class="linea1"></div>
                     <div class="linea2"></div>
@@ -55,12 +55,12 @@
                     <h4><a href="">Placeholder</a></h4>
                 </div>
                 <ul class="nav-links" id="sidebar">
-                    {%if user.usuario.tipo == 'CLIENTE'%}
+                    {%if request.session.usuario.tipo == 'CLIENTE'%}
                     <li><a href="{%url 'index'%}"><button type="button">Menú Principal</button></a></li>
                     <li><a href="{%url 'notificaciones'%}"><button type="button">Notificaciones</button></a></li>
-                    {%elif user.usuario.tipo == 'PROFESIONAL'%}
+                    {%elif request.session.usuario.tipo == 'PROFESIONAL'%}
                     <li><a href="{%url 'index'%}"><button type="button">Menú Principal</button></a></li>
-                    {%elif user.usuario.tipo == 'ADMINISTRADOR' %}
+                    {%elif request.session.usuario.tipo == 'ADMINISTRADOR' %}
                     <li><a href="{%url 'index'%}"><button type="button">Menú Principal</button></a></li>
                     <li><a href="{%url 'gestionusuario'%}"><button type="button">Gestionar Usuarios</button></a></li>
                     {%endif%}

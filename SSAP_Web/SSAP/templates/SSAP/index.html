@@ -8,14 +8,14 @@
         
         <div class="panel-blanco-redondo">
             <div style="text-align: center;">
-                {%if tipoUsuario.tipo == 'CLIENTE'%}
-                    <h1>{{usuario.nombre_empresa}} Bienvenido a SSAP</h1><br>
+                {%if request.session.usuario.tipo == 'CLIENTE'%}
+                    <h1>{{tipoUsuario.nombre_empresa}} Bienvenido a SSAP</h1><br>
                     <h3>Tipo Usuario: Cliente</h3>
-                {%elif tipoUsuario.tipo == 'PROFESIONAL'%}
-                    <h1>{{usuario.nombre}} Bienvenido a SSAP</h1><br>
+                {%elif request.session.usuario.tipo == 'PROFESIONAL'%}
+                    <h1>{{tipoUsuario.nombre}} Bienvenido a SSAP</h1><br>
                     <h3>Tipo Usuario: Profesional</h3>
-                {%elif tipoUsuario.tipo == 'ADMINISTRADOR' %}
-                    <h1>{{usuario.nombre}} Bienvenido a SSAP</h1><br>
+                {%elif request.session.usuario.tipo == 'ADMINISTRADOR' %}
+                    <h1>{{tipoUsuario.nombre}} Bienvenido a SSAP</h1><br>
                     <h3>Tipo Usuario: Administrador</h3><br>
                 {%endif%}
             </div>

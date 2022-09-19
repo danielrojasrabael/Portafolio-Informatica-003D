@@ -1,8 +1,4 @@
 #Imports
-from ast import Delete
-import imp
-from pickle import TRUE
-from urllib import request
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
@@ -10,210 +6,241 @@ from django.contrib import messages
 from SSAP.models import *
 
 #Login/Logout
-from django.contrib.auth import authenticate, logout
-from django.contrib.auth import login as auth_login
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth import authenticate
 
 #Usuarios
 from django.contrib.auth.models import User
-from django import forms
-from django.contrib.auth.forms import UserCreationForm
 
-# Formularios y funciones
-class crearForm(UserCreationForm):
-    class Meta:
-        model = User
-        fields = ['username', 'password1','password2']
-    username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': '12.345.678-9', 'class':'form-control form-control-lg'}))
-    password1 = forms.CharField(strip=False,widget=forms.PasswordInput(attrs={'placeholder': '***********', 'class':'form-control form-control-lg'}))
-    password2 = forms.CharField(strip=False,widget=forms.PasswordInput(attrs={'placeholder': '***********', 'class':'form-control form-control-lg'}))
-    def __init__(self, *args, **kwargs):
-        super(crearForm, self).__init__(*args, **kwargs)
-        for fieldname in ['username', 'password1', 'password2']:
-            self.fields[fieldname].help_text = None
+# Funciones
+def func_logout(request):
+    request.session.__delitem__('usuario')
+    request.session.__delitem__('subtipo')
 
-def esAdmin(User):
-    tipoUsuario = Usuario.objects.get(rut = User.username)
-    if(tipoUsuario.tipo == "ADMINISTRADOR"):
-        return True
-    return False
+def func_login(request, usuario,subtipo):
+    request.session['usuario'] = usuario
+    request.session['subtipo'] = subtipo
 
-def esCliente(User):
-    tipoUsuario = Usuario.objects.get(rut = User.username)
-    if(tipoUsuario.tipo == "CLIENTE"):
-        return True
-    return False
+# Decoradores
+def logueado(function):
+    def _function(request):
+        usuarioSesion = request.session.get('usuario')
+        if usuarioSesion is None:
+            return redirect('login')
+        
+        usuario = Usuario.filtro_id(id=usuarioSesion.id_usuario)
+        if usuario.estado == False:
+            request.session.__delitem__('usuario')
+            messages.success(request,"Usuario deshabilitado")
+            return redirect('login')
+        return function(request)
+    return _function
+
+def esAdmin(function):
+    def _function(request):
+        usuarioSesion = request.session.get('usuario')
+        if usuarioSesion.tipo != 'ADMINISTRADOR':
+            return redirect('login')
+        return function(request)
+    return _function
+
+def esCliente(function):
+    def _function(request):
+        usuarioSesion = request.session.get('usuario')
+        if usuarioSesion.tipo != 'CLIENTE':
+            return redirect('login')
+        return function(request)
+    return _function
+
+# Pruebas Wilo
+
+def pruebas(request):
+    usuario1 = Usuario.todos()
+    usuario2 = Usuario.todos(orden_id=True)
+    print("-------------- USUARIOS ORDENADOS POR ESTADO ----------------")
+    for u in usuario1:
+        print(u.id_usuario, u.direccion, u.estado)
+    print("-------------- USUARIOS ORDENADOS POR ID ----------------")
+    for u in usuario2:
+        print(u.id_usuario, u.direccion, u.estado)
+    print("-------------- CLIENTES POR ID ----------------")
+    usuario = Usuario.filtro_id(id=38)
+    print(Cliente.filtro_id(usuario.id_usuario).rut)
+    return redirect('index')
 
 # Vistas
 #   ------------------------ Todos los Usuarios ------------------------
 def login(request):
-    if request.user.is_authenticated:
+    if request.session.get('usuario') is not None:
         return redirect('index')
-    elif request.method=='POST':
-        usuario = authenticate(request, username=request.POST['rut'], password=request.POST['password'])
+    if request.method=='POST':
+        usuario = authenticate(request, rut=request.POST['rut'], password=request.POST['password'])
         if usuario is not None:
-            auth_login(request, usuario)
+            tipo = None
+            for cli in Cliente.todos():
+                if usuario.id_usuario == cli.id_usuario:
+                    tipo = cli
+            for pro in Profesional.todos():
+                if usuario.id_usuario == pro.id_usuario:
+                    tipo = pro
+            for adm in Administrador.todos():
+                if usuario.id_usuario == adm.id_usuario:
+                    tipo = adm
+            func_login(request, usuario, tipo)
             return redirect('index')
         else:
             messages.warning(request, 'Rut o Contraseña erroneos')
     return render(request, "SSAP\login.html")
 
-@login_required(login_url='login')
+@logueado
 def index(request):
-    tipoUsuario = Usuario.objects.get(rut = request.user.username)
-    if(tipoUsuario.tipo == "CLIENTE"):
-        usuario = Cliente.objects.get(rut=tipoUsuario.rut)
-    elif(tipoUsuario.tipo == "PROFESIONAL"):
-        usuario = Profesional.objects.get(rut=tipoUsuario.rut)
-    elif(tipoUsuario.tipo == "ADMINISTRADOR"):
-        usuario = Administrador.objects.get(rut=tipoUsuario.rut)
-    return render(request, "SSAP\index.html",{'tipoUsuario':tipoUsuario, 'usuario':usuario})
+    tipo = request.session.get('subtipo')
+    return render(request, "SSAP\index.html",{'tipoUsuario':tipo})
 
-@login_required(login_url='login')
+@logueado
 def pagLogout(request):
-    logout(request)
+    func_logout(request)
     return redirect('login')
 
 #   ------------------------ Administrador ------------------------
 
-@login_required(login_url='login')
-@user_passes_test(esAdmin, login_url='index')
+@logueado
+@esAdmin
 def gestionUsuarios(request):
-    usuario = User.objects.all().exclude(is_superuser=True).order_by("-is_active")
-    return render(request,"SSAP\gestionUsuario.html", {'usr': usuario})
+    usuarios = Usuario.todos()
+    clientes = Cliente.todos()
+    profesionales = Profesional.todos()
+    administradores = Administrador.todos()
+    return render(request,"SSAP\gestionUsuario.html", {'usr': usuarios, 'cli':clientes, 'pro':profesionales, 'adm':administradores})
 
-@login_required(login_url='login')
-@user_passes_test(esAdmin, login_url='index')
+@logueado
+@esAdmin
 def desUsuario(request):
     if request.method == 'POST':
-        usuario = User.objects.get(username = request.POST['rut'])
-        usuario.is_active = False
-        usuario.save()
-        messages.success(request, 'Usuario '+request.POST['rut']+' deshabilitado')
+        usuario = Usuario.filtro_id(id=request.POST['id'])
+        usuario.deshabilitar()
+        messages.success(request, 'Usuario '+request.POST['nombre']+' deshabilitado')
     return redirect('gestionusuario')
 
-@login_required(login_url='login')
-@user_passes_test(esAdmin, login_url='index')
+@logueado
+@esAdmin
 def habUsuario(request):
     if request.method == 'POST':
-        usuario = User.objects.get(username = request.POST['rut'])
-        usuario.is_active = True
-        usuario.save()
-        messages.success(request, 'Usuario '+request.POST['rut']+' habilitado')
+        usuario = Usuario.filtro_id(id=request.POST['id'])
+        usuario.habilitar()
+        messages.success(request, 'Usuario '+request.POST['nombre']+' habilitado')
     return redirect('gestionusuario')
 
-@login_required(login_url='login')
-@user_passes_test(esAdmin, login_url='index')
+@logueado
+@esAdmin
 def crearusuario(request):
-    crearUsuario = crearForm()
-    profesionales = Profesional.objects.all()
+    profesionales = Profesional.todos()
     if request.method=='POST':
-        filtroRut = Usuario.objects.filter(rut=request.POST['username']).first()
-        if filtroRut is None:
-            crearUsuario = crearForm(request.POST)
-            if crearUsuario.is_valid:
-                if(request.POST['tipo']=='CLIENTE'):
-                    crearUsuario.save()
-                    nuevoCli = Cliente(
-                        django_user=User.objects.latest('id'),
-                        rut = request.POST['username'],
-                        tipo = request.POST['tipo'],
-                        direccion = request.POST['direccion'],
-                        nombre_empresa = request.POST['nombre_empresa'],
-                        rubro_empresa = request.POST['rubro'],
-                        cant_trabajadores = request.POST['cant_trabajadores']
-                    )
-                    nuevoCli.save()
-                    nuevoContrato = Contrato(
-                        costo_base = request.POST['costo_base'],
-                        fecha_firma = request.POST['fecha_firma'],
-                        ultimo_pago = request.POST['fecha_firma'],
-                        CLIENTE_rut = Cliente.objects.latest('rut'),
-                        PROFESIONAL_rut = Profesional.objects.get(rut=request.POST['profesionalCliente'])
-                    )
-                    nuevoContrato.save()
-                    messages.success(request,'Cliente Creado')
-                elif(request.POST['tipo']=='PROFESIONAL'):
-                    crearUsuario.save()
-                    nuevoPro = Profesional(
-                        django_user=User.objects.latest('id'),
-                        rut = request.POST['username'],
-                        tipo = request.POST['tipo'],
-                        direccion = request.POST['direccion'],
-                        nombre = request.POST['nombre_profesional']
-                    )
-                    nuevoPro.save()
-                    messages.success(request,'Profesional Creado')
-                elif(request.POST['tipo']=='ADMINISTRADOR'):
-                    crearUsuario.save()
-                    nuevoAdm = Administrador(
-                        django_user=User.objects.latest('id'),
-                        rut = request.POST['username'],
-                        tipo = request.POST['tipo'],
-                        direccion = request.POST['direccion'],
-                        nombre = request.POST['nombre_administrador']
-                    )
-                    nuevoAdm.save()
-                    messages.success(request,'Administrador Creado')
-                else:
-                    messages.success(request,'Error: Tipo de usuario no admitido')
+        filtroRutC = Cliente.filtro_rut(rut=request.POST['username'])
+        filtroRutP = Profesional.filtro_rut(rut=request.POST['username'])
+        filtroRutA = Administrador.filtro_rut(rut=request.POST['username'])
+        tipos = ['CLIENTE', 'PROFESIONAL','ADMINISTRADOR']
+        if request.POST['tipo'] not in tipos:
+            messages.success(request,'Error: Tipo de usuario no admitido')
+            return redirect('/crearusuario')
+        if filtroRutC is None and filtroRutP is None and filtroRutA is None:
+            nuevoUsr = Usuario(
+                contraseña=request.POST['password1'],
+                tipo = request.POST['tipo'],
+                id_comuna = 1,
+                direccion = request.POST['direccion']
+            )
+            nuevoUsr.guardar()
+            id_usr = Usuario.todos(orden_id=True)[-1].id_usuario
+            if(request.POST['tipo']=='CLIENTE'):
+                nuevoCli = Cliente(
+                    id_usuario = id_usr,
+                    rut = request.POST['username'],
+                    nombre_empresa = request.POST['nombre_empresa'],
+                    rubro_empresa = request.POST['rubro'],
+                    cant_trabajadores = request.POST['cant_trabajadores']
+                )
+                nuevoCli.guardar()
+                nuevoContrato = Contrato(
+                    costo_base = request.POST['costo_base'],
+                    fecha_firma = request.POST['fecha_firma'],
+                    ultimo_pago = request.POST['fecha_firma'],
+                    CLIENTE_rut = request.POST['username'],
+                    PROFESIONAL_rut = request.POST['profesionalCliente']
+                )
+                nuevoContrato.guardar()
+                messages.success(request,'Cliente Creado')
                 return redirect('/crearusuario')
-            else:
-                messages.success(request,'Registro Incorrecto: Error de Formulario')
+            elif(request.POST['tipo']=='PROFESIONAL'):
+                nuevoPro = Profesional(
+                    id_usuario = id_usr,
+                    rut = request.POST['username'],
+                    nombre = request.POST['nombre_profesional']
+                )
+                nuevoPro.guardar()
+                messages.success(request,'Profesional Creado')
+                return redirect('/crearusuario')
+            elif(request.POST['tipo']=='ADMINISTRADOR'):
+                nuevoAdm = Administrador(
+                    id_usuario = id_usr,
+                    rut = request.POST['username'],
+                    nombre = request.POST['nombre_administrador']
+                )
+                nuevoAdm.guardar()
+                messages.success(request,'Administrador Creado')
                 return redirect('/crearusuario')
         else:
             messages.success(request,'Registro Incorrecto: Rut duplicado')
             return redirect('/crearusuario')
-    return render(request, "SSAP\crearusuario.html", {'crearUsuario':crearUsuario, 'profesionales':profesionales})
+    return render(request, "SSAP\crearusuario.html", {'profesionales':profesionales})
 
-@login_required(login_url='login')
-@user_passes_test(esAdmin, login_url='index')
+@logueado
+@esAdmin
 def modificarUsuario(request):
-    if request.method=='POST' and 'rut' in request.POST:
-        usuario = User.objects.get(username=request.POST['rut'])
-        return render(request,"SSAP\modificarusuario.html", {'usuario':usuario})
+    if request.method=='POST' and 'id' in request.POST:
+        usuario = Usuario.filtro_id(id=request.POST['id'])
+        cliente = Cliente.filtro_id(id=usuario.id_usuario)
+        profesional = Profesional.filtro_id(id=usuario.id_usuario)
+        administrador = Administrador.filtro_id(id=usuario.id_usuario)
+        return render(request,"SSAP\modificarusuario.html", {'usuario':usuario, 'cliente':cliente, 'profesional':profesional,'administrador':administrador})
     elif request.method=='POST' and 'rutViejo' in request.POST:
-        usuario = Usuario.objects.get(rut=request.POST['rutViejo'])
-        dj_usuario = User.objects.get(username=usuario.django_user)
+        usuario = Usuario.filtro_id(id=request.POST['id_usr'])
+        usuario.contraseña = request.POST['password1']
+        usuario.direccion = request.POST['direccion']
         if(usuario.tipo=='CLIENTE'):
-            cliente = Cliente.objects.get(rut=usuario.rut)
-            dj_usuario.set_password(request.POST['password1'])
-            cliente.direccion = request.POST['direccion']
+            cliente = Cliente.filtro_id(usuario.id_usuario)
             cliente.nombre_empresa = request.POST['nombre_empresa']
             cliente.rubro_empresa = request.POST['rubro']
             cliente.cant_trabajadores = request.POST['cant_trabajadores']
-            cliente.save()
-            dj_usuario.save()
+            usuario.actualizar()
+            cliente.actualizar()
             messages.success(request,'Cliente Modificado')
         elif(usuario.tipo=='PROFESIONAL'):
-            profesional = Profesional.objects.get(rut=usuario.rut)
-            dj_usuario.set_password(request.POST['password1'])
-            profesional.direccion = request.POST['direccion']
+            profesional = Profesional.filtro_id(id=usuario.id_usuario)
             profesional.nombre = request.POST['nombre_profesional']
-            profesional.save()
-            dj_usuario.save()
             messages.success(request,'Profesional Modificado')
+            usuario.actualizar()
+            profesional.actualizar()
         elif(usuario.tipo=='ADMINISTRADOR'):
-            administrador = Administrador.objects.get(rut=usuario.rut)
-            dj_usuario.set_password(request.POST['password1'])
-            administrador.direccion = request.POST['direccion']
+            administrador = Administrador.filtro_id(usuario.id_usuario)
             administrador.nombre = request.POST['nombre_administrador']
-            administrador.save()
-            dj_usuario.save()
+            usuario.actualizar()
+            administrador.actualizar()
             messages.success(request,'Administrador Modificado')
     return redirect('gestionusuario')
 
 #   ------------------------ Cliente ------------------------
 
-@login_required(login_url='login')
-@user_passes_test(esCliente, login_url='index')
+@logueado
+@esCliente
 def notificaciones(request):
-    notificaciones = Notificacion.objects.filter(CLIENTE_rut = request.user.username).order_by("-fecha")
+    cliente = request.session.get('subtipo')
+    notificaciones = Notificacion.todos(cliente.rut)
     return render(request, 'SSAP/notificaciones.html', {'notificaciones':notificaciones})
 
-@login_required(login_url='login')
-@user_passes_test(esCliente, login_url='index')
+@logueado
+@esCliente
 def elimNotif(request):
     if request.method == 'POST':
-        Notificacion.objects.filter(CLIENTE_rut = request.user.username, id_notificacion = request.POST['id']).delete()
+        cliente = request.session.get('subtipo')
+        Notificacion.eliminar(id=request.POST['id'], rut=cliente.rut)
     return redirect('notificaciones')

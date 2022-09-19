@@ -8,6 +8,7 @@ Installs Python:
   - pip install cx_Oracle
   
   - pip install djangorestframework
-
+  
+  - python .\manage.py createcachetable
 Notas: 
 - El puerto que ando ocupando es el "1522" y la instancia oracle es "orcl1", cambiar si es necesario en cada caso.

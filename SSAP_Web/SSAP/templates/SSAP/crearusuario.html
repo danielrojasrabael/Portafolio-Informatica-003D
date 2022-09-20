@@ -117,9 +117,14 @@
                             <input type="text" name="nombre_administrador" id="nombre_administrador_f" placeholder="Persona Falsa" class="form-control form-control-lg"></input><br>
                         </div>
                     </div>
-                    <input type="submit" value="Crear Usuario"></input>
+
+                    <div class="row esp-input">
+                        <input type="submit" value="Crear Usuario" class="btn btn-primary btn-lg"></input>
+                    </div>
                 </form>
-                <br><a href="{%url 'gestionusuario'%}"><button>Volver</button></a><br>
+                <div class="row esp-input">
+                    <a class="btn btn-danger btn-lg" href="{%url 'gestionusuario'%}">Volver</a>
+                </div>
                 {% for mensaje in messages %}
                     {{mensaje}}<br>
                 {% endfor %}

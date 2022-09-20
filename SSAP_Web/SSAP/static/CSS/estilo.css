@@ -29,14 +29,23 @@ body h6{
     margin: 0;
 }
 
+caption{
+    caption-side: top;
+}
+
 /* Extensión de BootStrap */
 
+    /* Botones */
+
 #bootstrap-overrides .btn-primary{
-    --bs-btn-bg: rgb(15, 117, 131);
-    --bs-btn-border-color: rgb(15, 117, 131);
-    --bs-btn-hover-bg: rgb(104, 171, 180);
-    --bs-btn-hover-border-color: rgb(104, 171, 180);
-    --bs-btn-active-border-color: rgb(104, 171, 180);
+    --bs-btn-bg: rgb(99, 20, 168);
+    --bs-btn-border-color: rgb(99, 20, 168);
+    --bs-btn-hover-bg: rgb(193, 161, 220);
+    --bs-btn-hover-border-color: rgb(193, 161, 220);
+    --bs-btn-active-border-color: rgb(99, 20, 168);
+    --bs-btn-active-bg: rgb(99, 20, 168);
+    --bs-btn-disabled-bg: rgb(193, 161, 220);
+    --bs-btn-disabled-border-color: rgb(193, 161, 220);
 }
 
 /* Sidebar */
@@ -44,7 +53,7 @@ body h6{
 #sidebar{
     position: fixed;
     height: 100%;
-    background-color: rgb(104, 171, 180);
+    background-color: rgb(193, 161, 220);
 }
 
 #sidebar li, #sidebar button{
@@ -57,7 +66,7 @@ nav{
     display: flex;
     justify-content: space-around;    
     align-items: center;
-    background-color: rgb(15, 117, 131);
+    background-color: rgb(99, 20, 168);
     min-height: 8vh;
 }
 
@@ -74,7 +83,7 @@ nav{
     width: 15%;
     transform: translateX(-100%);
     transition: 0.5s ease-in;
-    background-color: rgb(104, 171, 180);
+    background-color: rgb(193, 161, 220);
 }
 
 .nav-links li{
@@ -192,8 +201,8 @@ nav{
     display: flex;
     justify-content: space-around;    
     align-items: center;
-    background-color: rgb(15, 117, 131);
-    color: rgb(63, 73, 75);
+    background-color: rgb(99, 20, 168);
+    color: rgb(255, 255, 255);
     min-height: 8vh;
 }
 

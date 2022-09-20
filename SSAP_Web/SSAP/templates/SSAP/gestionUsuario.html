@@ -1,14 +1,6 @@
 {%extends 'SSAP/base.html'%}
 {% load static %}
 {%block titulo%}SSAP | Gestión de Usuarios{%endblock%}
-{%block head%}
-<style>
-    table {border: 1px solid black;}
-    th {border: 1px solid black;}
-    caption {border: 1px solid black;}
-    .accion {width: 100%;}
-</style>
-{%endblock%}
 {%block contenido%}
 <center>
     <div class="fondo-home">
@@ -16,79 +8,155 @@
         <div class="contenedor">
     
             <div class="panel-blanco-redondo">
-                <div>
-                    <table>
-                        <thead>
+                
+                <table class="table table-responsive table-light table-striped align-middle">
+                    <thead>
+                        
+                        <tr>
                             <caption>
-                                <b>Usuarios Registrados <a href="{% url 'crearusuario'%}"><button>Añadir Usuario</button></a></b><br>
+                                Usuarios Registrados
                             </caption>
+
                             <caption>
-                                <input type="text" class="buscarTabla" placeholder="Buscar en Tabla">
+                                <a href="{% url 'crearusuario'%}" class="btn btn-primary col-sm-12">Añadir Usuario</a>
                             </caption>
-                            <tr>
-                                <th>Rut</th><th>Nombre</th><th>Tipo Usuario</th><th>Accion</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {%for u in usr%}
-                            <tr>
-                                {%if u.tipo == "CLIENTE"%}
-                                    {%for c in cli%}
-                                        {%if c.id_usuario == u.id_usuario%}
-                                            <th>{{c.rut}}</th><th>{{c.nombre_empresa}}</th><th>CLIENTE</th>
-                                            <th>
-                                                {%if u.estado == False%}
-                                                    <form action="{% url 'habusuario'%}" method="post">{% csrf_token %}<input type="hidden" name="id" value="{{u.id_usuario}}"><input type="hidden" name="nombre" value="{{c.nombre_empresa}}"><input type="submit" value="Habilitar" class="accion"></form>
+
+                            <caption>
+                                <input type="text" class="buscarTabla form-control form-control-lg col-sm-12" placeholder="Buscar en Tabla">
+                            </caption>
+
+                            <th scope="col">Rut</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Tipo Usuario</th>
+                            <th scope="col">Accion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {%for u in usr%}
+                        <tr>
+                            {%if u.tipo == "CLIENTE"%}
+                                {%for c in cli%}
+                                    {%if c.id_usuario == u.id_usuario%}
+
+                                        <th>{{c.rut}}</th>
+                                        <th>{{c.nombre_empresa}}</th>
+                                        <th>CLIENTE</th>
+
+                                        <th>
+                                            {%if u.estado == False%}
+                                                <div class="row esp-input">
+                                                    <form action="{% url 'habusuario'%}" method="post" class="col-sm-12">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="id" value="{{u.id_usuario}}">
+                                                        <input type="hidden" name="nombre" value="{{c.nombre_empresa}}">
+                                                        <input type="submit" value="Habilitar" class="accion btn btn-success col-sm-12">
+                                                    </form>
+                                                </div>
+                                            {%else%}
+                                                <div class="row esp-input">
+                                                    <form action="{% url 'desusuario'%}" method="post" class="col-sm-12">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="id" value="{{u.id_usuario}}">
+                                                        <input type="hidden" name="nombre" value="{{c.nombre_empresa}}">
+                                                        <input type="submit" value="Deshabilitar" class="accion btn btn-danger col-sm-12">
+                                                    </form>
+                                                </div>
+
+                                                <div class="row esp-input">
+                                                    <form action="{% url 'modificarusuario'%}" method="post" class="col-sm-12">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="id" value="{{u.id_usuario}}">
+                                                        <input type="submit" value="Modificar" class="accion btn btn-primary col-sm-12">
+                                                    </form>
+                                                </div>
+                                            {%endif%}
+                                        </th>
+                                    {%endif%}
+                                {%endfor%}
+                            {%endif%}
+                            {%if u.tipo == "PROFESIONAL"%}
+                                {% for p in pro %}
+                                    {%if p.id_usuario == u.id_usuario%}
+                                        <th>{{p.rut}}</th><th>{{p.nombre}}</th><th>PROFESIONAL</th>
+                                        <th>
+                                            {%if u.estado == False%}
+                                                <div class="row esp-input">
+                                                    <form action="{% url 'habusuario'%}" method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="id" value="{{u.id_usuario}}">
+                                                        <input type="hidden" name="nombre" value="{{p.nombre}}">
+                                                        <input type="submit" value="Habilitar" class="accion btn btn-success col-sm-12">
+                                                    </form>
+                                                </div>
+                                            {%else%}
+                                                <div class="row esp-input">
+                                                    <form action="{% url 'desusuario'%}" method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="id" value="{{u.id_usuario}}">
+                                                        <input type="hidden" name="nombre" value="{{p.nombre}}">
+                                                        <input type="submit" value="Deshabilitar" class="accion btn btn-danger col-sm-12">
+                                                    </form>
+                                                </div>
+
+                                                <div>
+                                                    <form action="{% url 'modificarusuario'%}" method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="id" value="{{u.id_usuario}}">
+                                                        <input type="submit" value="Modificar" class="accion btn btn-primary col-sm-12">
+                                                    </form>
+                                                </div>
+                                            {%endif%}
+                                        </th>
+                                    {%endif%}
+                                {% endfor %}
+                            {%endif%}
+                            {%if u.tipo == "ADMINISTRADOR"%}
+                                {% for a in adm %}
+                                    {%if a.id_usuario == u.id_usuario%}
+                                        <th>{{a.rut}}</th><th>{{a.nombre}}</th><th>ADMINISTRADOR</th>
+                                        <th>
+                                            {%if u.estado == False%}
+                                                <div class="row esp-input">
+                                                    <form action="{% url 'habusuario'%}" method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="id" value="{{u.id_usuario}}">
+                                                        <input type="hidden" name="nombre" value="{{a.nombre}}">
+                                                        <input type="submit" value="Habilitar" class="accion btn btn-success col-sm-12">
+                                                    </form>
+                                                </div>
+                                            {%else%}
+                                                {%if u.id_usuario == request.session.usuario.id_usuario%}
+                                                    <div class="row esp-input">
+                                                        <div>
+                                                            <button class="btn btn-danger col-sm-12" type="button" disabled>Deshabilitar</button>
+                                                        </div>
+                                                    </div>
                                                 {%else%}
-                                                    <form action="{% url 'desusuario'%}" method="post">{% csrf_token %}<input type="hidden" name="id" value="{{u.id_usuario}}"><input type="hidden" name="nombre" value="{{c.nombre_empresa}}"><input type="submit" value="Deshabilitar" class="accion"></form>
-                                                    <form action="{% url 'modificarusuario'%}" method="post">{% csrf_token %}<input type="hidden" name="id" value="{{u.id_usuario}}"><input type="submit" value="Modificar" class="accion"></form>
+                                                    <div class="row esp-input">
+                                                        <form action="{% url 'desusuario'%}" method="post">
+                                                            {% csrf_token %}
+                                                            <input type="hidden" name="id" value="{{u.id_usuario}}">
+                                                            <input type="hidden" name="nombre" value="{{a.nombre}}">
+                                                            <input type="submit" value="Deshabilitar" class="accion btn btn-danger col-sm-12">
+                                                        </form>
+                                                    </div>
                                                 {%endif%}
-                                            </th>
-                                        {%endif%}
-                                    {%endfor%}
-                                {%endif%}
-                                {%if u.tipo == "PROFESIONAL"%}
-                                    {% for p in pro %}
-                                        {%if p.id_usuario == u.id_usuario%}
-                                            <th>{{p.rut}}</th><th>{{p.nombre}}</th><th>PROFESIONAL</th>
-                                            <th>
-                                                {%if u.estado == False%}
-                                                    <form action="{% url 'habusuario'%}" method="post">{% csrf_token %}<input type="hidden" name="id" value="{{u.id_usuario}}"><input type="hidden" name="nombre" value="{{p.nombre}}"><input type="submit" value="Habilitar" class="accion"></form>
-                                                {%else%}
-                                                    <form action="{% url 'desusuario'%}" method="post">{% csrf_token %}<input type="hidden" name="id" value="{{u.id_usuario}}"><input type="hidden" name="nombre" value="{{p.nombre}}"><input type="submit" value="Deshabilitar" class="accion"></form>
-                                                    <form action="{% url 'modificarusuario'%}" method="post">{% csrf_token %}<input type="hidden" name="id" value="{{u.id_usuario}}"><input type="submit" value="Modificar" class="accion"></form>
-                                                {%endif%}
-                                            </th>
-                                        {%endif%}
-                                    {% endfor %}
-                                {%endif%}
-                                {%if u.tipo == "ADMINISTRADOR"%}
-                                    {% for a in adm %}
-                                        {%if a.id_usuario == u.id_usuario%}
-                                            <th>{{a.rut}}</th><th>{{a.nombre}}</th><th>ADMINISTRADOR</th>
-                                            <th>
-                                                {%if u.estado == False%}
-                                                    <form action="{% url 'habusuario'%}" method="post">{% csrf_token %}<input type="hidden" name="id" value="{{u.id_usuario}}"><input type="hidden" name="nombre" value="{{a.nombre}}"><input type="submit" value="Habilitar" class="accion"></form>
-                                                {%else%}
-                                                    {%if u.id_usuario == request.session.usuario.id_usuario%}
-                                                        <button type="button" disabled>Deshabilitar</button>
-                                                    {%else%}
-                                                        <form action="{% url 'desusuario'%}" method="post">{% csrf_token %}<input type="hidden" name="id" value="{{u.id_usuario}}"><input type="hidden" name="nombre" value="{{a.nombre}}"><input type="submit" value="Deshabilitar" class="accion"></form>
-                                                    {%endif%}
-                                                    <form action="{% url 'modificarusuario'%}" method="post">{% csrf_token %}<input type="hidden" name="id" value="{{u.id_usuario}}"><input type="submit" value="Modificar" class="accion"></form>
-                                                {%endif%}
-                                            </th>
-                                        {%endif%}
-                                    {% endfor %}
-                                {%endif%}
-                            </tr>
-                        {%endfor%}
-                        </tbody>
-                    </table>
-                    {% for mensaje in messages %}
-                        {{mensaje}}<br>
-                    {% endfor %}
-                </div>
+                                                    <div class="row esp-input">
+                                                        <form action="{% url 'modificarusuario'%}" method="post">
+                                                            {% csrf_token %}
+                                                            <input type="hidden" name="id" value="{{u.id_usuario}}">
+                                                            <input type="submit" value="Modificar" class="accion btn btn-primary col-sm-12">
+                                                        </form>
+                                                    </div>
+                                            {%endif%}
+                                        </th>
+                                    {%endif%}
+                                {% endfor %}
+                            {%endif%}
+                        </tr>
+                    {%endfor%}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

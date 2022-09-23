@@ -1,8 +1,14 @@
+html { 
+    height: 100%;
+    
+}
+
 body {
     margin: 0;
     padding:0px;
     text-align: center;
     overflow-x: hidden;
+    min-height: 100%;
 }
 
 body h1{
@@ -48,15 +54,42 @@ caption{
     --bs-btn-disabled-border-color: rgb(193, 161, 220);
 }
 
-/* Sidebar */
-
-#sidebar{
-    position: fixed;
-    height: 100%;
-    background-color: rgb(193, 161, 220);
+#bootstrap-overrides .btn-logo{
+    --bs-btn-bg: rgb(237, 236, 238);
+    --bs-btn-border-color: rgb(237, 236, 238);
+    --bs-btn-hover-bg: rgba(0, 0, 0, 0.075);
+    --bs-btn-hover-border-color: rgb(237, 236, 238);
+    --bs-btn-active-border-color: rgb(237, 236, 238);
+    --bs-btn-active-bg: rgb(237, 236, 238);
+    --bs-btn-disabled-bg: rgba(0, 0, 0, 0.075);
+    --bs-btn-disabled-border-color: rgb(237, 236, 238);
+    --bs-btn-border-radius: 2.5vh;
 }
 
-#sidebar li, #sidebar button{
+#bootstrap-overrides .btn-sidebar{
+    --bs-btn-bg: rgb(230, 230, 230);
+    --bs-btn-border-color: rgb(230, 230, 230);
+    --bs-btn-hover-bg: rgb(99, 20, 168);
+    --bs-btn-hover-border-color: rgb(99, 20, 168);
+    --bs-btn-active-border-color: rgb(230, 230, 230);
+    --bs-btn-active-bg: rgb(230, 230, 230);
+    --bs-btn-disabled-bg: rgba(0, 0, 0, 0.075);
+    --bs-btn-disabled-border-color: rgb(230, 230, 230);
+    --bs-btn-border-radius: 0;
+    --bs-btn-color: rgb(99, 20, 168);
+    --bs-btn-hover-color: rgb(230, 230, 230);
+}
+
+/* Sidebar */
+
+.sidebar{
+    position: fixed;
+    height: 100%;
+    background-color: rgb(237, 236, 238);
+    color: rgb(99, 20, 168);
+}
+
+.sidebar li, .sidebar button{
     width: 100%;
     height: 100%;
 }
@@ -66,7 +99,7 @@ nav{
     display: flex;
     justify-content: space-around;    
     align-items: center;
-    background-color: rgb(99, 20, 168);
+    background-color: rgb(237, 236, 238);
     min-height: 8vh;
 }
 
@@ -83,7 +116,7 @@ nav{
     width: 15%;
     transform: translateX(-100%);
     transition: 0.5s ease-in;
-    background-color: rgb(193, 161, 220);
+    background-color: rgb(237, 236, 238);
 }
 
 .nav-links li{
@@ -104,6 +137,10 @@ nav{
     text-decoration: none;
 }
 
+.logo a img{
+    height: 5vh;
+}
+
 .burg{
     display: none;
     cursor: pointer;
@@ -112,7 +149,7 @@ nav{
 .burg div{
     width: 25px;
     height: 2px;
-    background-color: rgb(236, 230, 225);
+    background-color: rgb(99, 20, 168);
     margin: 5px;
     transition: all 0.3s ease;
 }
@@ -197,12 +234,15 @@ nav{
 }
 
 /* Footer */
+footer{
+    bottom: 0px;
+}
 .pie{
     display: flex;
     justify-content: space-around;    
     align-items: center;
-    background-color: rgb(99, 20, 168);
-    color: rgb(255, 255, 255);
+    background-color: rgb(237, 236, 238);
+    color: rgb(99, 20, 168);
     min-height: 8vh;
 }
 

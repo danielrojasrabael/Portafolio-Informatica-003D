@@ -69,6 +69,14 @@
                                                         <input type="submit" value="Modificar" class="accion btn btn-primary col-sm-12">
                                                     </form>
                                                 </div>
+
+                                                <div class="row esp-input">
+                                                    <form action="{% url 'controlpagos'%}" method="post" class="col-sm-12">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="id" value="{}">
+                                                        <input type="submit" value="Control Pagos" class="accion btn btn-warning col-sm-12">
+                                                    </form>
+                                                </div>
                                             {%endif%}
                                         </th>
                                     {%endif%}

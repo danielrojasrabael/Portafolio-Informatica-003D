@@ -114,6 +114,11 @@ def gestionUsuarios(request):
 
 @logueado
 @esAdmin
+def controlPagos(request):
+    return render(request,"SSAP\controlpagos.html")
+
+@logueado
+@esAdmin
 def desUsuario(request):
     if request.method == 'POST':
         usuario = Usuario.filtro_id(id=request.POST['id'])

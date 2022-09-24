@@ -26,6 +26,7 @@ urlpatterns = [
     path('gestionusuario/',views.gestionUsuarios, name="gestionusuario"),
     path('desusuario',views.desUsuario, name="desusuario"),
     path('habusuario',views.habUsuario, name="habusuario"),
+    path('controlpagos/',views.controlPagos, name="controlpagos"),
     path('crearusuario/',views.crearusuario, name="crearusuario"),
     path('modificarusuario/',views.modificarUsuario, name="modificarusuario"),
     path('notificaciones/',views.notificaciones,name="notificaciones"),

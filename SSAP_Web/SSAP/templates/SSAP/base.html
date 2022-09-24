@@ -55,16 +55,19 @@
                     <h4><a class="btn btn-logo btn-sm" href=""><img class="img-fluid" src="{%static 'IMG/ssap.png'%}"></a></h4>
                 </div>
                 <ul class="nav-links sidebar">
-                    {%if request.session.usuario.tipo == 'CLIENTE'%}
+
                     <li><a href="{%url 'index'%}"><button class="btn btn-sidebar" type="button">Menú Principal</button></a></li>
+
+                    {%if request.session.usuario.tipo == 'CLIENTE'%}
                     <li><a href="{%url 'notificaciones'%}"><button class="btn btn-sidebar" type="button">Notificaciones</button></a></li>
                     {%elif request.session.usuario.tipo == 'PROFESIONAL'%}
-                    <li><a href="{%url 'index'%}"><button class="btn btn-sidebar" type="button">Menú Principal</button></a></li>
-                    {%elif request.session.usuario.tipo == 'ADMINISTRADOR' %}
-                    <li><a href="{%url 'index'%}"><button class="btn btn-sidebar" type="button">Menú Principal</button></a></li>
+
+                    {%elif request.session.usuario.tipo == 'ADMINISTRADOR' %}   
                     <li><a href="{%url 'gestionusuario'%}"><button class="btn btn-sidebar" type="button">Gestionar Usuarios</button></a></li>
                     {%endif%}
+
                     <li><a href="{%url 'logout'%}"><button class="btn btn-sidebar" type="button">Logout</button></a></li>
+                    
                 </ul>
                 <div>
                 </div>

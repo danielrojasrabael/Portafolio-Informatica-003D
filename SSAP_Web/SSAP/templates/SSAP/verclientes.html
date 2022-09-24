@@ -1,0 +1,35 @@
+{%extends 'SSAP/base.html'%}
+{% load static %}
+{%block titulo%}SSAP | Ver Clientes{%endblock%}
+{%block contenido%}
+
+<div class="fondo-home">
+
+    <div class="contenedor">
+
+        <div class="panel-blanco-redondo">
+            
+            <table class="table table-responsive table-light table-striped align-middle">
+                <thead>
+                    <caption>Clientes</caption>
+                    
+                    <tr>
+                        <th scope="col">Rut</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Dirección</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>34.567.891-2</th>
+                        <th>Duoc UC</th>
+                        <th>IPE Naranjo</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{%endblock%}

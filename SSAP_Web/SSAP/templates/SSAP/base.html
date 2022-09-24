@@ -52,7 +52,7 @@
                 </div>
             {%endif%}
                 <div class="logo">
-                    <h4><a class="btn btn-logo btn-sm" href=""><img class="img-fluid" src="{%static 'IMG/ssap.png'%}"></a></h4>
+                    <h4><a class="btn btn-logo btn-sm" href="{%url 'index'%}"><img class="img-fluid" src="{%static 'IMG/ssap.png'%}"></a></h4>
                 </div>
                 <ul class="nav-links sidebar">
 
@@ -61,7 +61,7 @@
                     {%if request.session.usuario.tipo == 'CLIENTE'%}
                     <li><a href="{%url 'notificaciones'%}"><button class="btn btn-sidebar" type="button">Notificaciones</button></a></li>
                     {%elif request.session.usuario.tipo == 'PROFESIONAL'%}
-
+                    <li><a href="{%url 'verclientes'%}"><button class="btn btn-sidebar" type="button">Ver Clientes</button></a></li>
                     {%elif request.session.usuario.tipo == 'ADMINISTRADOR' %}   
                     <li><a href="{%url 'gestionusuario'%}"><button class="btn btn-sidebar" type="button">Gestionar Usuarios</button></a></li>
                     {%endif%}

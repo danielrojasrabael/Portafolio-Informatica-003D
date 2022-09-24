@@ -51,6 +51,14 @@ def esCliente(function):
         return function(request)
     return _function
 
+def esProfesional(function):
+    def _function(request):
+        usuarioSesion = request.session.get('usuario')
+        if usuarioSesion.tipo != 'PROFESIONAL':
+            return redirect('login')
+        return function(request)
+    return _function
+
 # Pruebas Wilo
 
 def pruebas(request):
@@ -249,3 +257,10 @@ def elimNotif(request):
         cliente = request.session.get('subtipo')
         Notificacion.eliminar(id=request.POST['id'], rut=cliente.rut)
     return redirect('notificaciones')
+
+#   ------------------------ Profesional ------------------------
+
+@logueado
+@esProfesional
+def verClientes(request):
+    return render(request,"SSAP/verclientes.html")

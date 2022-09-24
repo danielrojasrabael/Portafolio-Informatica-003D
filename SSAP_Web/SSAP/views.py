@@ -264,3 +264,8 @@ def elimNotif(request):
 @esProfesional
 def verClientes(request):
     return render(request,"SSAP/verclientes.html")
+
+@logueado
+@esProfesional
+def checklists(request):
+    return render(request,"SSAP/checklists.html")

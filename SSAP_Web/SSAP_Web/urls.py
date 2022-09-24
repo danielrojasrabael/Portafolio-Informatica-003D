@@ -20,21 +20,22 @@ from SSAP import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.index,name="index"),
+    path('', views.index, name="index"),
     path('login/', views.login, name="login"),
     path('logout/', views.pagLogout, name="logout"),
     #   ------------------------ Administrador ------------------------
-    path('gestionusuario/',views.gestionUsuarios, name="gestionusuario"),
-    path('desusuario',views.desUsuario, name="desusuario"),
-    path('habusuario',views.habUsuario, name="habusuario"),
-    path('controlpagos/',views.controlPagos, name="controlpagos"),
-    path('crearusuario/',views.crearusuario, name="crearusuario"),
-    path('modificarusuario/',views.modificarUsuario, name="modificarusuario"),
+    path('gestionusuario/', views.gestionUsuarios, name="gestionusuario"),
+    path('desusuario', views.desUsuario, name="desusuario"),
+    path('habusuario', views.habUsuario, name="habusuario"),
+    path('controlpagos/', views.controlPagos, name="controlpagos"),
+    path('crearusuario/', views.crearusuario, name="crearusuario"),
+    path('modificarusuario/', views.modificarUsuario, name="modificarusuario"),
     #   ------------------------ Cliente ------------------------
-    path('notificaciones/',views.notificaciones,name="notificaciones"),
-    path('elimnotif/',views.elimNotif,name="elimnotif"),
+    path('notificaciones/', views.notificaciones, name="notificaciones"),
+    path('elimnotif/', views.elimNotif, name="elimnotif"),
     #   ------------------------ Profesional ------------------------
-    path('verclientes/',views.verClientes,name="verclientes"),
+    path('verclientes/', views.verClientes, name="verclientes"),
+    path('checklists/', views.checklists, name="checklists"),
     #   ------------------------ Miscelaneo ------------------------
-    path('pruebas/',views.pruebas,name='pruebas'),
+    path('pruebas/', views.pruebas, name='pruebas'),
 ]

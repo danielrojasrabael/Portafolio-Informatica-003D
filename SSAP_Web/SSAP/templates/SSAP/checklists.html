@@ -1,0 +1,57 @@
+{%extends 'SSAP/base.html'%}
+{% load static %}
+{%block titulo%}SSAP | Gestión de Usuarios{%endblock%}
+{%block contenido%}
+<div class="fondo-home">
+
+    <div class="contenedor">
+
+        <div class="panel-blanco-redondo">
+            
+            <table class="table table-responsive table-light table-striped align-middle">
+                <thead>
+                    <caption>Lista de Clientes</caption>
+                    
+                    <tr>
+                        <th scope="col">Cliente</th>
+                        <th scope="col">Estado CheckList</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Duoc UC</th>
+                        <th>Con CheckList</th>
+                        <th>
+                            <div class="row esp-input">
+                            <form action="{}" method="post" class="col-sm-12">
+                                {% csrf_token %}
+                                <input type="hidden" name="id" value="{}">
+                                <input type="hidden" name="nombre" value="{}">
+                                <input type="submit" value="Modificar CheckList" class="accion btn btn-primary col-sm-12">
+                            </form>
+                            </div>
+                        </th>
+                    </tr>
+
+                    <tr>
+                        <th>Cliente 2</th>
+                        <th>Sin CheckList</th>
+                        <th>
+                            <div class="row esp-input">
+                            <form action="{}" method="post" class="col-sm-12">
+                                {% csrf_token %}
+                                <input type="hidden" name="id" value="{}">
+                                <input type="hidden" name="nombre" value="{}">
+                                <input type="submit" value="Crear CheckList" class="accion btn btn-success col-sm-12">
+                            </form>
+                            </div>
+                        </th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{%endblock%}

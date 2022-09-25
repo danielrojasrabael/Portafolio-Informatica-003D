@@ -80,6 +80,11 @@ caption{
     --bs-btn-hover-color: rgb(230, 230, 230);
 }
 
+    /*Checkbox slider*/
+#bootstrap-overrides .form-check-input:checked{
+    background-color: rgb(99, 20, 168);
+    border-color: rgb(99, 20, 168);
+}
 /* Sidebar */
 
 .sidebar{

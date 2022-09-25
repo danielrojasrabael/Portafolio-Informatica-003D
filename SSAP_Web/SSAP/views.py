@@ -269,3 +269,8 @@ def verClientes(request):
 @esProfesional
 def checklists(request):
     return render(request,"SSAP/checklists.html")
+
+@logueado
+@esProfesional
+def crearChecklist(request):
+    return render(request,"SSAP/crearchecklist.html")

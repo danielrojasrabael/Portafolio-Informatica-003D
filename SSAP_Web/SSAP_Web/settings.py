@@ -78,25 +78,14 @@ WSGI_APPLICATION = 'SSAP_Web.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
-        'NAME': '127.0.0.1:1521/XE',
+        'NAME': '127.0.0.1:1522/ORCL1',
         'USER': 'SSAP',
         'PASSWORD': '123456',
         'TEST': {
             'USER': 'default_test',
             'TBLSPACE': 'default_test_tbls',
             'TBLSPACE_TMP': 'default_test_tbls_tmp',
-        },
-    },
-    'tests': {
-        'ENGINE': 'django.db.backends.oracle',
-        'NAME': '127.0.0.1:1521/XE',
-        'USER': 'SSAP_TEST',
-        'PASSWORD': '123456',
-        'TEST': {
-            'USER': 'default_test',
-            'TBLSPACE': 'default_test_tbls',
-            'TBLSPACE_TMP': 'default_test_tbls_tmp',
-        },
+        }
     }
 }
 
@@ -143,10 +132,6 @@ REST_FRAMEWORK = {
 # python .\manage.py createcachetable
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-        'LOCATION': 'CACHE',
-    },
-    'tests': {
         'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
         'LOCATION': 'CACHE',
     }

@@ -6,8 +6,8 @@ import cx_Oracle
 
 # Variables
 
-conn = cx_Oracle.connect(user="SSAP", password="123456", dsn="localhost:1522/ORCL1")
-conn.autocommit = True
+conexion = cx_Oracle.connect(user="SSAP", password="123456", dsn="localhost:1522/ORCL1")
+conexion.autocommit = True
 
 # Modelos
 #   Gestión de Usuario
@@ -18,11 +18,11 @@ class Usuario(models.Model):
     id_comuna = models.CharField(max_length=999)
     direccion = models.CharField(max_length=999)
     estado = models.IntegerField()
-    def guardar(self):
+    def guardar(self, conn=conexion):
         cur = conn.cursor()
         cur.callproc("INSERTARUSUARIO", [self.contraseña, self.tipo, self.id_comuna, self.direccion])
         cur.close()
-    def todos(orden_id=False):
+    def todos(orden_id=False, conn=conexion):
         cur = conn.cursor()
         datos = conn.cursor()
         cur.callproc("SELECCIONARUSUARIOS", [datos, orden_id])
@@ -33,7 +33,7 @@ class Usuario(models.Model):
         cur.close()
         datos.close()
         return lista
-    def filtro_id(id=None):
+    def filtro_id(id=None, conn=conexion):
         cur = conn.cursor()
         datos = conn.cursor()
         usuario = None
@@ -43,15 +43,15 @@ class Usuario(models.Model):
         cur.close()
         datos.close()
         return usuario
-    def deshabilitar(self):
+    def deshabilitar(self, conn=conexion):
         cur = conn.cursor()
         cur.callproc("ACTUALIZARUSUARIO", [self.id_usuario,self.contraseña, self.tipo, self.id_comuna, self.direccion, 0])
         cur.close()
-    def habilitar(self):
+    def habilitar(self, conn=conexion):
         cur = conn.cursor()
         cur.callproc("ACTUALIZARUSUARIO", [self.id_usuario,self.contraseña, self.tipo, self.id_comuna, self.direccion, 1])
         cur.close()
-    def actualizar(self):
+    def actualizar(self, conn=conexion):
         cur = conn.cursor()
         cur.callproc("ACTUALIZARUSUARIO", [self.id_usuario,self.contraseña, self.tipo, self.id_comuna, self.direccion, self.estado])
         cur.close()
@@ -64,11 +64,11 @@ class Cliente(models.Model):
     nombre_empresa = models.CharField(max_length=999)
     rubro_empresa = models.CharField(max_length=999)
     cant_trabajadores = models.IntegerField()
-    def guardar(self):
+    def guardar(self, conn=conexion):
         cur = conn.cursor()
         cur.callproc("INSERTARCLIENTE", [self.id_usuario, self.rut, self.nombre_empresa, self.rubro_empresa, self.cant_trabajadores])
         cur.close()
-    def todos():
+    def todos(conn=conexion):
         cur = conn.cursor()
         datos = conn.cursor()
         cur.callproc("SELECCIONARCLIENTES", [datos])
@@ -79,7 +79,7 @@ class Cliente(models.Model):
         cur.close()
         datos.close()
         return lista
-    def filtro_rut(rut=None):
+    def filtro_rut(rut=None, conn=conexion):
         cur = conn.cursor()
         datos = conn.cursor()
         cliente = None
@@ -89,7 +89,7 @@ class Cliente(models.Model):
         cur.close()
         datos.close()
         return cliente
-    def filtro_id(id=None):
+    def filtro_id(id=None, conn=conexion):
         cur = conn.cursor()
         datos = conn.cursor()
         cliente = None
@@ -99,7 +99,7 @@ class Cliente(models.Model):
         cur.close()
         datos.close()
         return cliente
-    def actualizar(self):
+    def actualizar(self, conn=conexion):
         cur = conn.cursor()
         cur.callproc("ACTUALIZARCLIENTE", [self.id_usuario, self.rut, self.nombre_empresa, self.rubro_empresa, self.cant_trabajadores])
         cur.close()
@@ -110,11 +110,11 @@ class Administrador(models.Model):
     id_usuario = models.IntegerField()
     rut = models.CharField(max_length=999)
     nombre = models.CharField(max_length=999)
-    def guardar(self):
+    def guardar(self, conn=conexion):
         cur = conn.cursor()
         cur.callproc("INSERTARADMINISTRADOR", [self.id_usuario,self.rut,self.nombre])
         cur.close()
-    def todos():
+    def todos(conn=conexion):
         cur = conn.cursor()
         datos = conn.cursor()
         cur.callproc("SELECCIONARADMINISTRADORES", [datos])
@@ -125,7 +125,7 @@ class Administrador(models.Model):
         cur.close()
         datos.close()
         return lista
-    def filtro_rut(rut=None):
+    def filtro_rut(rut=None, conn=conexion):
         cur = conn.cursor()
         datos = conn.cursor()
         administrador = None
@@ -135,7 +135,7 @@ class Administrador(models.Model):
         cur.close()
         datos.close()
         return administrador
-    def filtro_id(id=None):
+    def filtro_id(id=None, conn=conexion):
         cur = conn.cursor()
         datos = conn.cursor()
         administrador = None
@@ -145,7 +145,7 @@ class Administrador(models.Model):
         cur.close()
         datos.close()
         return administrador
-    def actualizar(self):
+    def actualizar(self, conn=conexion):
         cur = conn.cursor()
         cur.callproc("ACTUALIZARADMINISTRADOR", [self.id_usuario, self.rut, self.nombre])
         cur.close()
@@ -156,11 +156,11 @@ class Profesional(models.Model):
     id_usuario = models.IntegerField()
     rut = models.CharField(max_length=999)
     nombre = models.CharField(max_length=999)
-    def guardar(self):
+    def guardar(self, conn=conexion):
         cur = conn.cursor()
         cur.callproc("INSERTARPROFESIONAL", [self.id_usuario,self.rut,self.nombre])
         cur.close()
-    def todos():
+    def todos(conn=conexion):
         cur = conn.cursor()
         datos = conn.cursor()
         cur.callproc("SELECCIONARPROFESIONALES", [datos])
@@ -171,7 +171,7 @@ class Profesional(models.Model):
         cur.close()
         datos.close()
         return lista
-    def filtro_rut(rut=None):
+    def filtro_rut(rut=None, conn=conexion):
         cur = conn.cursor()
         datos = conn.cursor()
         profesional = None
@@ -181,7 +181,7 @@ class Profesional(models.Model):
         cur.close()
         datos.close()
         return profesional
-    def filtro_id(id=None):
+    def filtro_id(id=None, conn=conexion):
         cur = conn.cursor()
         datos = conn.cursor()
         profesional = None
@@ -191,7 +191,7 @@ class Profesional(models.Model):
         cur.close()
         datos.close()
         return profesional
-    def actualizar(self):
+    def actualizar(self, conn=conexion):
         cur = conn.cursor()
         cur.callproc("ACTUALIZARPROFESIONAL", [self.id_usuario, self.rut, self.nombre])
         cur.close()
@@ -207,7 +207,7 @@ class Contrato(models.Model):
     ultimo_pago = models.DateField()
     CLIENTE_rut = models.CharField(max_length=999)
     PROFESIONAL_rut = models.CharField(max_length=999)
-    def guardar(self):
+    def guardar(self, conn=conexion):
         cur = conn.cursor()
         cur.callproc("INSERTARCONTRATO", [self.costo_base, self.fecha_firma, self.CLIENTE_rut, self.PROFESIONAL_rut])
         cur.close()
@@ -220,7 +220,7 @@ class Notificacion(models.Model):
     descripcion = models.TextField()
     fecha = models.DateTimeField()
     CLIENTE_rut = models.CharField(max_length=999)
-    def todos(rut=None):
+    def todos(rut=None, conn=conexion):
         cur = conn.cursor()
         datos = conn.cursor()
         cur.callproc("SELECCIONARNOTIFICACIONES", [datos,rut])
@@ -231,7 +231,7 @@ class Notificacion(models.Model):
         cur.close()
         datos.close()
         return lista
-    def eliminar(id=None, rut=None):
+    def eliminar(id=None, rut=None, conn=conexion):
         cur = conn.cursor()
         cur.callproc("ELIMINARNOTIFICACION", [id,rut])
         cur.close()

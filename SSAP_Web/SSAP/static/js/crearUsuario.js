@@ -38,6 +38,9 @@ $(document).ready(function(){
                 minlength: 4,
                 equalTo: "#id_password1",
             },
+            comuna:{
+                required: true
+            },
             direccion:{
                 required: true
             },
@@ -85,6 +88,9 @@ $(document).ready(function(){
                 required: "Campo Requerido",
                 minlength: "4 carácteres mínimo",
                 equalTo: "Ambas contraseñas deben ser iguales",
+            },
+            comuna:{
+                required: "Campo Requerido"
             },
             direccion:{
                 required: "Campo Requerido"

@@ -6,7 +6,7 @@ import cx_Oracle
 
 # Variables
 
-conexion = cx_Oracle.connect(user="SSAP", password="123456", dsn="localhost:1521/XE")
+conexion = cx_Oracle.connect(user="SSAP", password="123456", dsn="localhost:1522/ORCL1")
 conexion.autocommit = True
 
 # Modelos
@@ -197,6 +197,23 @@ class Profesional(models.Model):
         cur.close()
     class Meta:
         managed = False
+
+class Ubicacion(models.Model):
+    id_comuna = models.IntegerField()
+    nombre_comuna = models.CharField(max_length=999)
+    nombre_ciudad = models.CharField(max_length=999)
+    nombre_region = models.CharField(max_length=999)
+    def todos(conn=conexion):
+        cur = conn.cursor()
+        datos = conn.cursor()
+        cur.callproc("SELECCIONARUBICACION", [datos])
+        lista = []
+        for i in datos:
+            ubicacion = Ubicacion(id_comuna=i[0],nombre_comuna=i[1],nombre_ciudad=i[2],nombre_region=i[3])
+            lista.append(ubicacion)
+        cur.close()
+        datos.close()
+        return lista
 
 #   Funciones de Cliente
 

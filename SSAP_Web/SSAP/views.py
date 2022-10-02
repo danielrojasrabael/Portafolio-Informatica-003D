@@ -147,19 +147,37 @@ def habUsuario(request):
 @esAdmin
 def crearusuario(request):
     profesionales = Profesional.todos()
+    # Proceso para llenar el combobox de comuna
+    opciones = ""
+    ciudad = ""
+    region = ""
+    for ubicacion in Ubicacion.todos():
+        if ubicacion.nombre_region != region:
+            region = ubicacion.nombre_region
+            opciones = opciones + "<option disabled>{}</option>".format(ubicacion.nombre_region)
+        if ubicacion.nombre_ciudad != ciudad:
+            ciudad = ubicacion.nombre_ciudad
+            opciones = opciones + "<option disabled>&nbsp{}</option>".format(ubicacion.nombre_ciudad)
+        opciones = opciones + "<option value={}>&nbsp&nbsp&nbsp{}</option>".format(ubicacion.id_comuna, ubicacion.nombre_comuna)
+    
+    #Proceso para crear el Usuario
     if request.method=='POST':
         filtroRutC = Cliente.filtro_rut(rut=request.POST['username'])
         filtroRutP = Profesional.filtro_rut(rut=request.POST['username'])
         filtroRutA = Administrador.filtro_rut(rut=request.POST['username'])
         tipos = ['CLIENTE', 'PROFESIONAL','ADMINISTRADOR']
+        comunas = ["{}".format(c.id_comuna) for c in Ubicacion.todos()]
         if request.POST['tipo'] not in tipos:
             messages.success(request,'Error: Tipo de usuario no admitido')
+            return redirect('/crearusuario')
+        if request.POST['comuna'] not in comunas:
+            messages.success(request,'Error: ID de comuna no admitida')
             return redirect('/crearusuario')
         if filtroRutC is None and filtroRutP is None and filtroRutA is None:
             nuevoUsr = Usuario(
                 contraseña=request.POST['password1'],
                 tipo = request.POST['tipo'],
-                id_comuna = 1,
+                id_comuna = request.POST['comuna'],
                 direccion = request.POST['direccion']
             )
             nuevoUsr.guardar()
@@ -204,7 +222,7 @@ def crearusuario(request):
         else:
             messages.success(request,'Registro Incorrecto: Rut duplicado')
             return redirect('/crearusuario')
-    return render(request, "SSAP\crearusuario.html", {'profesionales':profesionales})
+    return render(request, "SSAP\crearusuario.html", {'profesionales':profesionales, 'ubicaciones':opciones})
 
 @logueado
 @esAdmin

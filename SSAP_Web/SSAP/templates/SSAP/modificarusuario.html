@@ -24,6 +24,11 @@
                     <label for="password2">Repetir Contraseña: </label>
                     <input type="password" name="password2" placeholder="***********" id="id_password2"><br>
 
+                    <label for="comuna">Comuna: </label>
+                    <select name="comuna">
+                        {{comunas | safe}}
+                    </select><br>
+
                     <label for="direccion">Direccion:</label>
                     <input type="text" name="direccion" placeholder="Calle Falsa 1" value="{{usuario.direccion}}"></input><br>
 

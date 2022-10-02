@@ -232,9 +232,29 @@ def modificarUsuario(request):
         cliente = Cliente.filtro_id(id=usuario.id_usuario)
         profesional = Profesional.filtro_id(id=usuario.id_usuario)
         administrador = Administrador.filtro_id(id=usuario.id_usuario)
-        return render(request,"SSAP\modificarusuario.html", {'usuario':usuario, 'cliente':cliente, 'profesional':profesional,'administrador':administrador})
+        # Proceso para llenar el combobox de comuna
+        opciones = ""
+        ciudad = ""
+        region = ""
+        for ubicacion in Ubicacion.todos():
+            if ubicacion.nombre_region != region:
+                region = ubicacion.nombre_region
+                opciones = opciones + "<option disabled>{}</option>".format(ubicacion.nombre_region)
+            if ubicacion.nombre_ciudad != ciudad:
+                ciudad = ubicacion.nombre_ciudad
+                opciones = opciones + "<option disabled>&nbsp{}</option>".format(ubicacion.nombre_ciudad)
+            if usuario.id_comuna == ubicacion.id_comuna:  
+                opciones = opciones + "<option value={} selected>&nbsp&nbsp&nbsp{}</option>".format(ubicacion.id_comuna, ubicacion.nombre_comuna)
+            else:
+                opciones = opciones + "<option value={}>&nbsp&nbsp&nbsp{}</option>".format(ubicacion.id_comuna, ubicacion.nombre_comuna)
+        return render(request,"SSAP\modificarusuario.html", {'usuario':usuario, 'cliente':cliente, 'profesional':profesional,'administrador':administrador, 'comunas':opciones})
     elif request.method=='POST' and 'rutViejo' in request.POST:
+        comunas = ["{}".format(c.id_comuna) for c in Ubicacion.todos()]
+        if request.POST['comuna'] not in comunas:
+            messages.success(request,'Error: ID de comuna no admitida')
+            return redirect('gestionusuario')
         usuario = Usuario.filtro_id(id=request.POST['id_usr'])
+        usuario.id_comuna = request.POST['comuna']
         usuario.contraseña = request.POST['password1']
         usuario.direccion = request.POST['direccion']
         if(usuario.tipo=='CLIENTE'):

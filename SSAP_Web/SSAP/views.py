@@ -1,4 +1,5 @@
 #Imports
+from datetime import datetime
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
@@ -19,7 +20,7 @@ def func_login(request, usuario,subtipo):
 
 # Decoradores
 def logueado(function):
-    def _function(request):
+    def _function(request, **kwargs):
         usuarioSesion = request.session.get('usuario')
         if usuarioSesion is None:
             return redirect('login')
@@ -29,31 +30,31 @@ def logueado(function):
             request.session.__delitem__('usuario')
             messages.success(request,"Usuario deshabilitado")
             return redirect('login')
-        return function(request)
+        return function(request, **kwargs)
     return _function
 
 def esAdmin(function):
-    def _function(request):
+    def _function(request, **kwargs):
         usuarioSesion = request.session.get('usuario')
         if usuarioSesion.tipo != 'ADMINISTRADOR':
             return redirect('login')
-        return function(request)
+        return function(request, **kwargs)
     return _function
 
 def esCliente(function):
-    def _function(request):
+    def _function(request, **kwargs):
         usuarioSesion = request.session.get('usuario')
         if usuarioSesion.tipo != 'CLIENTE':
             return redirect('login')
-        return function(request)
+        return function(request, **kwargs)
     return _function
 
 def esProfesional(function):
-    def _function(request):
+    def _function(request, **kwargs):
         usuarioSesion = request.session.get('usuario')
         if usuarioSesion.tipo != 'PROFESIONAL':
             return redirect('login')
-        return function(request)
+        return function(request, **kwargs)
     return _function
 
 # Pruebas Wilo
@@ -119,19 +120,33 @@ def gestionUsuarios(request):
 
 @logueado
 @esAdmin
-def controlPagos(request):
-    if request.method=='POST' and 'id' in request.POST:
-        cliente = Cliente.filtro_id(request.POST['id'])
-        contrato = Contrato.filtro_rutcliente(rut=cliente.rut)
-        mensualidades = Mensualidad.todos_idcontrato(id=contrato.id_contrato)
-        estado = "Al día"
-        for m in mensualidades:
-            if m.estado == False:
-                estado = "Pendiente"
-                if m.esta_atrasado():
-                    estado = "Atrasado"
-        return render(request,"SSAP\controlpagos.html", {'cliente':cliente, 'mensualidades':mensualidades, 'estado':estado})
-    return redirect('gestionusuario')
+def controlPagos(request, rut):
+    cliente = Cliente.filtro_rut(rut)
+    if cliente is None:
+        return redirect('gestionusuario')
+    contrato = Contrato.filtro_rutcliente(rut=cliente.rut)
+    mensualidades = Mensualidad.todos_idcontrato(id=contrato.id_contrato)
+    estado = "Al día"
+    for m in mensualidades:
+        if m.estado == False:
+            estado = "Pendiente"
+            if m.esta_atrasado():
+                estado = "Atrasado"
+    return render(request,"SSAP\controlpagos.html", {'cliente':cliente, 'mensualidades':mensualidades, 'estado':estado})
+
+@logueado
+@esAdmin
+def reportarAtraso(request):
+    if request.method=='POST':
+        notificacion = Notificacion(
+            titulo = "Atraso en Pagos",
+            descripcion = "Se le notifica que existe un pago atrasado del día {} y que puede que pronto se deshabilite su cuenta si no se realiza el pago correspondiente.".format(request.POST['fecha_limite']),
+            fecha = datetime.now(),
+            CLIENTE_rut = request.POST['rut_cliente']
+        )
+        notificacion.guardar()
+        return redirect('/controlpagos/'+request.POST['rut_cliente'])
+    return redirect('index')
 
 @logueado
 @esAdmin

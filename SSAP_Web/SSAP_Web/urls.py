@@ -27,7 +27,8 @@ urlpatterns = [
     path('gestionusuario/', views.gestionUsuarios, name="gestionusuario"),
     path('desusuario', views.desUsuario, name="desusuario"),
     path('habusuario', views.habUsuario, name="habusuario"),
-    path('controlpagos/', views.controlPagos, name="controlpagos"),
+    path('controlpagos/<rut>', views.controlPagos, name="controlpagos"),
+    path('repatraso/', views.reportarAtraso, name="repatraso/"),
     path('crearusuario/', views.crearusuario, name="crearusuario"),
     path('modificarusuario/', views.modificarUsuario, name="modificarusuario"),
     #   ------------------------ Cliente ------------------------

@@ -272,6 +272,10 @@ class Notificacion(models.Model):
     descripcion = models.TextField()
     fecha = models.DateTimeField()
     CLIENTE_rut = models.CharField(max_length=999)
+    def guardar(self, conn=conexion):
+        cur = conn.cursor()
+        cur.callproc("INSERTARNOTIFICACION", [self.titulo,self.descripcion,self.fecha,self.CLIENTE_rut])
+        cur.close()
     def todos(rut=None, conn=conexion):
         cur = conn.cursor()
         datos = conn.cursor()

@@ -52,13 +52,14 @@
 
                             <th scope="col">
                                 <div class="row esp-input">
-                                    <form action="{}" method="post" class="col-sm-12">
+                                    <form action="{% url 'repatraso/' %}" method="post" class="col-sm-12">
                                         {% csrf_token %}
-                                        <input type="hidden" name="fecha" value="{{m.fecha_limite}}">
                                         {%if m.estado%}
                                             <input type="submit" value="Reportar Atraso" class="accion btn btn-danger col-sm-12" disabled>
                                         {%else%}
                                             {%if m.esta_atrasado%}
+                                                <input type="hidden" value="{{cliente.rut}}" name="rut_cliente">
+                                                <input type="hidden" value="{{m.fecha_limite | date:'d/m/Y'}}" name="fecha_limite">
                                                 <input type="submit" value="Reportar Atraso" class="accion btn btn-danger col-sm-12">
                                             {%else%}
                                                 <input type="submit" value="Reportar Atraso" class="accion btn btn-danger col-sm-12" disabled>

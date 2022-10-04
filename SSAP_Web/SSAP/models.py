@@ -240,6 +240,17 @@ class Contrato(models.Model):
         cur.close()
         datos.close()
         return contrato
+    def seleccionar_rutprofesional(rut=None, conn=conexion):
+        cur = conn.cursor()
+        datos = conn.cursor()
+        contratos = []
+        cur.callproc("CONTRATOS_PORRUTPROFESIONAL", [datos,rut])
+        for i in datos:
+            contrato = Contrato(id_contrato=i[0], costo_base=i[1],fecha_firma=i[2],ultimo_pago=i[3],CLIENTE_rut=i[4],PROFESIONAL_rut=i[5])
+            contratos.append(contrato)
+        cur.close()
+        datos.close()
+        return contratos
     class Meta:
         managed = False
 

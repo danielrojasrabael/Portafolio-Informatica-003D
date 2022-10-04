@@ -336,7 +336,13 @@ def elimNotif(request):
 @logueado
 @esProfesional
 def verClientes(request):
-    return render(request,"SSAP/verclientes.html")
+    profesional = request.session.get('subtipo')
+    items = ""
+    for c in Contrato.seleccionar_rutprofesional(profesional.rut):
+        cliente = Cliente.filtro_rut(c.CLIENTE_rut)
+        usuario = Usuario.filtro_id(cliente.id_usuario)
+        items = items+"<tr><th>{}</th><th>{}</th><th>{}</th></tr>".format(cliente.rut, cliente.nombre_empresa, usuario.direccion)
+    return render(request,"SSAP/verclientes.html",{'clientes':items})
 
 @logueado
 @esProfesional

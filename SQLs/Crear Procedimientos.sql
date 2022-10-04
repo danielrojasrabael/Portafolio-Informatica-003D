@@ -261,6 +261,19 @@ begin
 end;
 /
 
+create or replace PROCEDURE contrato_porRutCliente (registro out SYS_REFCURSOR, rutCli in VARCHAR2)
+as
+begin
+    open registro for select ID_CONTRATO, COSTO_BASE, FECHA_FIRMA, ULTIMO_PAGO, RUT_CLIENTE, RUT_PROFESIONAL  from contrato where RUT_CLIENTE = rutCli;
+end;
+/
+
+create or replace PROCEDURE contratos_porRutProfesional (registro out SYS_REFCURSOR, rutPro in VARCHAR2)
+as
+begin
+    open registro for select ID_CONTRATO, COSTO_BASE, FECHA_FIRMA, ULTIMO_PAGO, RUT_CLIENTE, RUT_PROFESIONAL  from contrato where RUT_PROFESIONAL = rutPro;
+end;
+/
 ------------------------------------------
 -- Pagos
 ------------------------------------------

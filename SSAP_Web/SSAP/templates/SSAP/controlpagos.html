@@ -8,12 +8,12 @@
         <div class="panel-blanco-redondo row esp-input contenedor">
 
             <div style="text-align: center;" class="pantalla col-sm-6 relleno">
-                <h2>RUT: 34.567.789-1</h2>
-                <h2>Cliente: Duoc UC</h2>
+                <h2>RUT: {{cliente.rut}}</h2>
+                <h2>Cliente: {{cliente.nombre_empresa}}</h2>
             </div>
 
             <div style="text-align: center;" class="pantalla col-sm-6 relleno">
-                <h2>Estado: <kbd>Atrasado</kbd></h2>
+                <h2>Estado: <kbd>{{estado}}</kbd></h2>
             </div>
 
         </div>
@@ -34,25 +34,41 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="col">23/02/2022</th>
-                        <th scope="col">N/A</th>
-                        <th scope="col">N/A</th>
-                        <th scope="col">Atrasado</th>
-                        <th scope="col">N/A</th>
+                    {%for m in mensualidades%}
+                        <tr>
+                            <th scope="col">{{m.fecha_limite | date:"d/m/Y"}}</th>
+                            <th scope="col">N/A</th>
+                            <th scope="col">${{m.costo}}</th>
+                            {%if m.estado%}
+                                <th scope="col">Pagado</th>
+                            {%else%}
+                                {%if m.esta_atrasado%}
+                                    <th scope="col">Atrasado</th>
+                                {%else%}
+                                    <th scope="col">Pendiente</th>
+                                {%endif%}
+                            {%endif%}
+                            <th scope="col">N/A</th>
 
-                        <th scope="col">
-                            <div class="row esp-input">
-                                <form action="{}" method="post" class="col-sm-12">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="id" value="{}">
-                                    <input type="hidden" name="nombre" value="{}">
-                                    <input type="submit" value="Reportar Atraso" class="accion btn btn-danger col-sm-12">
-                                </form>
-                            </div>
-                        </th>
-                    </tr>
-
+                            <th scope="col">
+                                <div class="row esp-input">
+                                    <form action="{}" method="post" class="col-sm-12">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="fecha" value="{{m.fecha_limite}}">
+                                        {%if m.estado%}
+                                            <input type="submit" value="Reportar Atraso" class="accion btn btn-danger col-sm-12" disabled>
+                                        {%else%}
+                                            {%if m.esta_atrasado%}
+                                                <input type="submit" value="Reportar Atraso" class="accion btn btn-danger col-sm-12">
+                                            {%else%}
+                                                <input type="submit" value="Reportar Atraso" class="accion btn btn-danger col-sm-12" disabled>
+                                            {%endif%}
+                                        {%endif%}
+                                    </form>
+                                </div>
+                            </th>
+                        </tr>
+                    {%endfor%}
                 </tbody>
             </table>
         </div>

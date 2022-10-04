@@ -1,7 +1,7 @@
 # Imports
 
-from http import client
 from django.db import models
+from datetime import date
 import cx_Oracle
 
 # Variables
@@ -214,6 +214,8 @@ class Ubicacion(models.Model):
         cur.close()
         datos.close()
         return lista
+    class Meta:
+        managed = False
 
 #   Funciones de Cliente
 
@@ -228,8 +230,41 @@ class Contrato(models.Model):
         cur = conn.cursor()
         cur.callproc("INSERTARCONTRATO", [self.costo_base, self.fecha_firma, self.CLIENTE_rut, self.PROFESIONAL_rut])
         cur.close()
+    def filtro_rutcliente(rut=None, conn=conexion):
+        cur = conn.cursor()
+        datos = conn.cursor()
+        contrato = None
+        cur.callproc("CONTRATO_PORRUTCLIENTE", [datos,rut])
+        for i in datos:
+            contrato = Contrato(id_contrato=i[0], costo_base=i[1],fecha_firma=i[2],ultimo_pago=i[3],CLIENTE_rut=i[4],PROFESIONAL_rut=i[5])
+        cur.close()
+        datos.close()
+        return contrato
     class Meta:
         managed = False
+
+class Mensualidad(models.Model):
+    id_mensualidad = models.IntegerField()
+    fecha_limite = models.DateField()
+    estado = models.IntegerField()
+    costo = models.IntegerField()
+    id_contrato = models.IntegerField()
+    def todos_idcontrato(id,conn=conexion):
+        cur = conn.cursor()
+        datos = conn.cursor()
+        lista = []
+        cur.callproc("PAGO_PORIDCONTRATO", [datos,id])
+        for i in datos:
+            mensualidad = Mensualidad(id_mensualidad=i[0],fecha_limite=i[1],estado=i[2],costo=i[3],id_contrato=i[4])
+            lista.append(mensualidad)
+        cur.close()
+        datos.close()
+        return lista
+    def esta_atrasado(self):
+        return date.today() > self.fecha_limite.date()
+    class Meta:
+        managed = False
+
 
 class Notificacion(models.Model):
     id_notificacion = models.IntegerField()

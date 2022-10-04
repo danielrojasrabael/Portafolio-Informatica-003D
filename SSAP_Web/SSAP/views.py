@@ -8,9 +8,6 @@ from SSAP.models import *
 #Login/Logout
 from django.contrib.auth import authenticate
 
-#Usuarios
-from django.contrib.auth.models import User
-
 # Funciones
 def func_logout(request):
     request.session.__delitem__('usuario')
@@ -123,7 +120,18 @@ def gestionUsuarios(request):
 @logueado
 @esAdmin
 def controlPagos(request):
-    return render(request,"SSAP\controlpagos.html")
+    if request.method=='POST' and 'id' in request.POST:
+        cliente = Cliente.filtro_id(request.POST['id'])
+        contrato = Contrato.filtro_rutcliente(rut=cliente.rut)
+        mensualidades = Mensualidad.todos_idcontrato(id=contrato.id_contrato)
+        estado = "Al día"
+        for m in mensualidades:
+            if m.estado == False:
+                estado = "Pendiente"
+                if m.esta_atrasado():
+                    estado = "Atrasado"
+        return render(request,"SSAP\controlpagos.html", {'cliente':cliente, 'mensualidades':mensualidades, 'estado':estado})
+    return redirect('gestionusuario')
 
 @logueado
 @esAdmin

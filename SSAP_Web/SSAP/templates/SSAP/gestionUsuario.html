@@ -73,7 +73,7 @@
                                                 <div class="row esp-input">
                                                     <form action="{% url 'controlpagos'%}" method="post" class="col-sm-12">
                                                         {% csrf_token %}
-                                                        <input type="hidden" name="id" value="{}">
+                                                        <input type="hidden" name="id" value="{{u.id_usuario}}">
                                                         <input type="submit" value="Control Pagos" class="accion btn btn-warning col-sm-12">
                                                     </form>
                                                 </div>

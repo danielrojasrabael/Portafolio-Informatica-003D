@@ -55,7 +55,7 @@
                             {%if not m.boleta%}
                                 <th scope="col">N/A</th>
                             {%else%}
-                                <th scope="col"><a href="{{m.boleta}}">Link</a></th>
+                                <th scope="col"><a href="{% url 'boleta_adm' m.boleta%}">Link</a></th>
                             {%endif%}
                             <th scope="col">
                                 <div class="row esp-input">

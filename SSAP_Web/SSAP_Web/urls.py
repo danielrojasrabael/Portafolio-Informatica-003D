@@ -31,6 +31,7 @@ urlpatterns = [
     path('repatraso/', views.reportarAtraso, name="repatraso/"),
     path('crearusuario/', views.crearusuario, name="crearusuario"),
     path('modificarusuario/', views.modificarUsuario, name="modificarusuario"),
+    path('boleta_adm/<nombre>',views.boleta_adm, name='boleta_adm'),
     #   ------------------------ Cliente ------------------------
     path('notificaciones/', views.notificaciones, name="notificaciones"),
     path('elimnotif/', views.elimNotif, name="elimnotif"),

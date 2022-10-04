@@ -2,6 +2,7 @@
 from datetime import datetime
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.http import FileResponse
 
 #Modelos
 from SSAP.models import *
@@ -109,6 +110,7 @@ def pagLogout(request):
 
 #   ------------------------ Administrador ------------------------
 
+# Control de usuarios
 @logueado
 @esAdmin
 def gestionUsuarios(request):
@@ -117,37 +119,6 @@ def gestionUsuarios(request):
     profesionales = Profesional.todos()
     administradores = Administrador.todos()
     return render(request,"SSAP\gestionUsuario.html", {'usr': usuarios, 'cli':clientes, 'pro':profesionales, 'adm':administradores})
-
-@logueado
-@esAdmin
-def controlPagos(request, rut):
-    cliente = Cliente.filtro_rut(rut)
-    if cliente is None:
-        return redirect('gestionusuario')
-    contrato = Contrato.filtro_rutcliente(rut=cliente.rut)
-    mensualidades = Mensualidad.todos_idcontrato(id=contrato.id_contrato)
-    estado = "Al día"
-    for m in mensualidades:
-        if m.estado == False:
-            estado = "Pendiente"
-            if m.esta_atrasado():
-                estado = "Atrasado"
-                break
-    return render(request,"SSAP\controlpagos.html", {'cliente':cliente, 'mensualidades':mensualidades, 'estado':estado})
-
-@logueado
-@esAdmin
-def reportarAtraso(request):
-    if request.method=='POST':
-        notificacion = Notificacion(
-            titulo = "Atraso en Pagos",
-            descripcion = "Se le notifica que existe un pago atrasado del día {} y que puede que pronto se deshabilite su cuenta si no se realiza el pago correspondiente.".format(request.POST['fecha_limite']),
-            fecha = datetime.now(),
-            CLIENTE_rut = request.POST['rut_cliente']
-        )
-        notificacion.guardar()
-        return redirect('/controlpagos/'+request.POST['rut_cliente'])
-    return redirect('index')
 
 @logueado
 @esAdmin
@@ -303,6 +274,46 @@ def modificarUsuario(request):
             messages.success(request,'Administrador Modificado')
     return redirect('gestionusuario')
 
+# Control de pagos
+@logueado
+@esAdmin
+def controlPagos(request, rut):
+    cliente = Cliente.filtro_rut(rut)
+    if cliente is None:
+        return redirect('gestionusuario')
+    contrato = Contrato.filtro_rutcliente(rut=cliente.rut)
+    mensualidades = Mensualidad.todos_idcontrato(id=contrato.id_contrato)
+    estado = "Al día"
+    for m in mensualidades:
+        if m.estado == False:
+            estado = "Pendiente"
+            if m.esta_atrasado():
+                estado = "Atrasado"
+                break
+    return render(request,"SSAP\controlpagos.html", {'cliente':cliente, 'mensualidades':mensualidades, 'estado':estado})
+
+@logueado
+@esAdmin
+def reportarAtraso(request):
+    if request.method=='POST':
+        notificacion = Notificacion(
+            titulo = "Atraso en Pagos",
+            descripcion = "Se le notifica que existe un pago atrasado del día {} y que puede que pronto se deshabilite su cuenta si no se realiza el pago correspondiente.".format(request.POST['fecha_limite']),
+            fecha = datetime.now(),
+            CLIENTE_rut = request.POST['rut_cliente']
+        )
+        notificacion.guardar()
+        return redirect('/controlpagos/'+request.POST['rut_cliente'])
+    return redirect('index')
+
+@logueado
+@esAdmin
+def boleta_adm(request, nombre):
+    archivo = 'MEDIA/BOLETAS/'+nombre
+    try:
+        return FileResponse(open(archivo,'rb'), content_type='application/pdf')
+    except:
+        return redirect('index')
 #   ------------------------ Cliente ------------------------
 
 @logueado

@@ -138,3 +138,5 @@ CACHES = {
 }
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 AUTHENTICATION_BACKENDS = ['SSAP.backends.autenticar',]
+MEDIA_ROOT = BASE_DIR/'MEDIA'
+MEDIA_URL = '/MEDIA/'

@@ -4,9 +4,9 @@
 *.pyc
 __pycache__
 db.sqlite3
-MEDIA/BOLETAS/*
-MEDIA/REPORTES_FINALES/*
-MEDIA/REPORTES_USUARIOS/*
+MEDIA/BOLETAS/*.pdf
+MEDIA/REPORTES_FINALES/*.pdf
+MEDIA/REPORTES_USUARIOS/*.pdf
 
 # Backup files # 
 *.bak 

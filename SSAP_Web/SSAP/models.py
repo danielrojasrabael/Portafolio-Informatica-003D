@@ -249,13 +249,15 @@ class Mensualidad(models.Model):
     estado = models.IntegerField()
     costo = models.IntegerField()
     id_contrato = models.IntegerField()
+    fecha_pago = models.DateField()
+    boleta = models.CharField(max_length=999)
     def todos_idcontrato(id,conn=conexion):
         cur = conn.cursor()
         datos = conn.cursor()
         lista = []
         cur.callproc("PAGO_PORIDCONTRATO", [datos,id])
         for i in datos:
-            mensualidad = Mensualidad(id_mensualidad=i[0],fecha_limite=i[1],estado=i[2],costo=i[3],id_contrato=i[4])
+            mensualidad = Mensualidad(id_mensualidad=i[0],fecha_limite=i[1],estado=i[2],costo=i[3],id_contrato=i[4], fecha_pago=i[5], boleta=i[6])
             lista.append(mensualidad)
         cur.close()
         datos.close()

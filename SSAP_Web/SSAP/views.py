@@ -132,6 +132,7 @@ def controlPagos(request, rut):
             estado = "Pendiente"
             if m.esta_atrasado():
                 estado = "Atrasado"
+                break
     return render(request,"SSAP\controlpagos.html", {'cliente':cliente, 'mensualidades':mensualidades, 'estado':estado})
 
 @logueado

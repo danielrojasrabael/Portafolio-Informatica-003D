@@ -37,7 +37,11 @@
                     {%for m in mensualidades%}
                         <tr>
                             <th scope="col">{{m.fecha_limite | date:"d/m/Y"}}</th>
-                            <th scope="col">N/A</th>
+                            {%if not m.fecha_pago %}  
+                                <th scope="col">N/A</th>
+                            {%else%}
+                                <th scope="col">{{m.fecha_pago | date:"d/m/Y"}}</th>
+                            {%endif%}
                             <th scope="col">${{m.costo}}</th>
                             {%if m.estado%}
                                 <th scope="col">Pagado</th>
@@ -48,8 +52,11 @@
                                     <th scope="col">Pendiente</th>
                                 {%endif%}
                             {%endif%}
-                            <th scope="col">N/A</th>
-
+                            {%if not m.boleta%}
+                                <th scope="col">N/A</th>
+                            {%else%}
+                                <th scope="col"><a href="{{m.boleta}}">Link</a></th>
+                            {%endif%}
                             <th scope="col">
                                 <div class="row esp-input">
                                     <form action="{% url 'repatraso/' %}" method="post" class="col-sm-12">

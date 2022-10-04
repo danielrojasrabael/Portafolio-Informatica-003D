@@ -114,7 +114,8 @@
 	"ESTADO" NUMBER(10,0), 
 	"COSTO" NUMBER(20,0), 
 	"ID_CONTRATO" NUMBER(13,0)
-   ); 
+   );
+   ALTER TABLE "PAGO_MENSUALIDAD" ADD("FECHA_PAGO" DATE, "BOLETA" VARCHAR2(255));
 --------------------------------------------------------
 --  DDL for Table PROFESIONALES
 --------------------------------------------------------

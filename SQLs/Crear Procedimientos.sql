@@ -260,3 +260,14 @@ begin
     open registro for SELECT co.id_comuna, co.nombre "nombre_comuna", ci.nombre "nombre_ciudad", re.nombre "nombre_region" FROM comuna co JOIN ciudad ci ON ci.id_ciudad = co.id_ciudad JOIN region re ON ci.id_region = re.id_region;
 end;
 /
+
+------------------------------------------
+-- Pagos
+------------------------------------------
+
+CREATE OR REPLACE PROCEDURE pago_PorIdContrato (registro out SYS_REFCURSOR, idCtr in VARCHAR2)
+as
+begin
+    open registro for select ID_MENSUALIDAD, FECHA_LIMITE, ESTADO, COSTO, ID_CONTRATO, FECHA_PAGO, BOLETA from pago_mensualidad where ID_CONTRATO = idCtr order by fecha_limite desc;
+end;
+/

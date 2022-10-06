@@ -295,6 +295,13 @@ begin
 end;
 /
 
+CREATE OR REPLACE PROCEDURE actualizarChecklist(elementos_v in CLOB, idCtr in NUMBER)
+as
+begin
+    UPDATE CHECKLIST SET ELEMENTOS = elementos_v WHERE ID_CONTRATO = idCtr;
+end;
+/
+
 CREATE OR REPLACE PROCEDURE checklist_PorIdContrato (registro out SYS_REFCURSOR, idCtr in VARCHAR2)
 as
 begin

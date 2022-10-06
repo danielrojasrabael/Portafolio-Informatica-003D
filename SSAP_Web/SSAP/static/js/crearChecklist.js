@@ -1,17 +1,17 @@
 $(document).ready(function(){
-    $(".crearItem").validate({
+    $("#formCrear").validate({
         errorclass: "invalido",
         rules:{
-            item:{
+            item_checklist:{
                 required: true,
-                maxlength: 30
-            }
+                maxlength: 30 
+            },
         },
         messages:{
-            item:{
+            item_checklist:{
                 required: "Campo requerido",
                 maxlength: "Máximo 30 caracteres"
             }
-        }
+        },
     });
 });

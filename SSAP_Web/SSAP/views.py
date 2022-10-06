@@ -393,4 +393,16 @@ def crearChecklist(request, rut):
         items = []
     if not usuario.estado or contrato.PROFESIONAL_rut != profesional.rut:
         return redirect('index')
+
+    #Crear o Eliminar item de checklist
+    if request.method=='POST' and 'item_checklist' in request.POST:
+        items.append(request.POST['item_checklist'])
+        checklist.elementos = ','.join(items)
+        checklist.actualizar()
+        return redirect(''+cliente.rut)
+    if request.method=='POST' and 'id_item' in request.POST and request.POST['id_item'] in items:
+        items.remove(request.POST['id_item'])
+        checklist.elementos = ','.join(items)
+        checklist.actualizar()
+        return redirect(''+cliente.rut)
     return render(request,"SSAP/crearchecklist.html",{'checklist':items, 'cliente':cliente})

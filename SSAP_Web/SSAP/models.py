@@ -262,6 +262,10 @@ class Checklist(models.Model):
         cur = conn.cursor()
         cur.callproc("INSERTARCHECKLIST", [self.id_contrato])
         cur.close()
+    def actualizar(self, conn=conexion):
+        cur = conn.cursor()
+        cur.callproc("ACTUALIZARCHECKLIST", [self.elementos,self.id_contrato])
+        cur.close()
     def filtro_idcontrato(id=None, conn=conexion):
         cur = conn.cursor()
         datos = conn.cursor()

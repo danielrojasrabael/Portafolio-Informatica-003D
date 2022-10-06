@@ -217,7 +217,7 @@ class Ubicacion(models.Model):
     class Meta:
         managed = False
 
-#   Funciones de Cliente
+# Funciones Profesional Cliente
 
 class Contrato(models.Model):
     id_contrato = models.IntegerField()
@@ -253,6 +253,27 @@ class Contrato(models.Model):
         return contratos
     class Meta:
         managed = False
+
+class Checklist(models.Model):
+    id_checklist = models.IntegerField()
+    elementos = models.TextField()
+    id_contrato = models.IntegerField()
+    def guardar(self, conn=conexion):
+        cur = conn.cursor()
+        cur.callproc("INSERTARCHECKLIST", [self.id_contrato])
+        cur.close()
+    def filtro_idcontrato(id=None, conn=conexion):
+        cur = conn.cursor()
+        datos = conn.cursor()
+        checklist = None
+        cur.callproc("CHECKLIST_PORIDCONTRATO", [datos,id])
+        for i in datos:
+            checklist = Checklist(id_checklist=i[0],elementos=i[1],id_contrato=i[2])
+        cur.close()
+        datos.close()
+        return checklist
+
+#   Funciones de Cliente
 
 class Mensualidad(models.Model):
     id_mensualidad = models.IntegerField()

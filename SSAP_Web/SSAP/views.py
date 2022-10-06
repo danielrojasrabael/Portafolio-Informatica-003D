@@ -194,6 +194,8 @@ def crearusuario(request):
                     PROFESIONAL_rut = request.POST['profesionalCliente']
                 )
                 nuevoContrato.guardar()
+                idContrato = Contrato.filtro_rutcliente(request.POST['username']).id_contrato
+                Checklist(id_contrato = idContrato).guardar()
                 messages.success(request,'Cliente Creado')
                 return redirect('/crearusuario')
             elif(request.POST['tipo']=='PROFESIONAL'):
@@ -341,13 +343,37 @@ def verClientes(request):
     for c in Contrato.seleccionar_rutprofesional(profesional.rut):
         cliente = Cliente.filtro_rut(c.CLIENTE_rut)
         usuario = Usuario.filtro_id(cliente.id_usuario)
-        items = items+"<tr><th>{}</th><th>{}</th><th>{}</th></tr>".format(cliente.rut, cliente.nombre_empresa, usuario.direccion)
+        if usuario.estado:
+            items = items+"<tr><th>{}</th><th>{}</th><th>{}</th></tr>".format(cliente.rut, cliente.nombre_empresa, usuario.direccion)
     return render(request,"SSAP/verclientes.html",{'clientes':items})
 
 @logueado
 @esProfesional
 def checklists(request):
-    return render(request,"SSAP/checklists.html")
+    profesional = request.session.get('subtipo')
+    contratos = Contrato.seleccionar_rutprofesional(profesional.rut)
+    items = ""
+    for contrato in contratos:
+        cliente = Cliente.filtro_rut(contrato.CLIENTE_rut)
+        estado_cli = Usuario.filtro_id(cliente.id_usuario).estado
+        elementos = Checklist.filtro_idcontrato(contrato.id_contrato).elementos
+        if estado_cli:
+            items = items+"<tr><th>{}</th>".format(cliente.nombre_empresa)
+            if elementos:
+                items = items+"<th>Con CheckList</th>"
+                items = items+'''<th>
+                                <div class="row esp-input">
+                                    <a href="{}" class="col-sm-12"><button class="accion btn btn-primary col-sm-12">Modificar CheckList</button></a>
+                                </div>
+                            </th></tr>'''.format(contrato.id_contrato)
+            else:
+                items = items+"<th>Sin Checklist</th>"
+                items = items+'''<th>
+                                <div class="row esp-input">
+                                    <a href="{}" class="col-sm-12"><button class="accion btn btn-success col-sm-12">Crear CheckList</button></a>
+                                </div>
+                            </th></tr>'''.format(contrato.id_contrato)
+    return render(request,"SSAP/checklists.html", {'items':items})
 
 @logueado
 @esProfesional

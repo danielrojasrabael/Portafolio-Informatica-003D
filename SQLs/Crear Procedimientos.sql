@@ -245,7 +245,6 @@ end;
 create or replace PROCEDURE insertarCapacitacion (nom in VARCHAR2,ubi in VARCHAR2, estado in VARCHAR2, fecha in DATE, id_cont in NUMBER, id_com in NUMBER)
 as
 begin
-
     insert into capacitacion (nombre,ubicacion,estado,fecha,id_contrato,id_comuna) VALUES (nom,ubi,estado,fecha,id_cont,id_com);
 end;
 /
@@ -274,6 +273,7 @@ begin
     open registro for select ID_CONTRATO, COSTO_BASE, FECHA_FIRMA, ULTIMO_PAGO, RUT_CLIENTE, RUT_PROFESIONAL  from contrato where RUT_PROFESIONAL = rutPro;
 end;
 /
+
 ------------------------------------------
 -- Pagos
 ------------------------------------------
@@ -282,5 +282,22 @@ CREATE OR REPLACE PROCEDURE pago_PorIdContrato (registro out SYS_REFCURSOR, idCt
 as
 begin
     open registro for select ID_MENSUALIDAD, FECHA_LIMITE, ESTADO, COSTO, ID_CONTRATO, FECHA_PAGO, BOLETA from pago_mensualidad where ID_CONTRATO = idCtr order by fecha_limite desc;
+end;
+/
+
+------------------------------------------
+-- Checklist
+------------------------------------------
+CREATE OR REPLACE PROCEDURE insertarChecklist (idCtr in NUMBER)
+as
+begin
+    insert into checklist (ID_CONTRATO) VALUES (idCtr);
+end;
+/
+
+CREATE OR REPLACE PROCEDURE checklist_PorIdContrato (registro out SYS_REFCURSOR, idCtr in VARCHAR2)
+as
+begin
+    open registro for select ID_CHECKLIST, ELEMENTOS, ID_CONTRATO from checklist where ID_CONTRATO = idCtr;
 end;
 /

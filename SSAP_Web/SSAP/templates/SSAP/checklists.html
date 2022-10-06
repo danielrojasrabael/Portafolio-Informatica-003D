@@ -20,35 +20,7 @@
 
                 </thead>
                 <tbody>
-                    <tr>
-                        <th>Duoc UC</th>
-                        <th>Con CheckList</th>
-                        <th>
-                            <div class="row esp-input">
-                            <form action="{}" method="post" class="col-sm-12">
-                                {% csrf_token %}
-                                <input type="hidden" name="id" value="{}">
-                                <input type="hidden" name="nombre" value="{}">
-                                <input type="submit" value="Modificar CheckList" class="accion btn btn-primary col-sm-12">
-                            </form>
-                            </div>
-                        </th>
-                    </tr>
-
-                    <tr>
-                        <th>Cliente 2</th>
-                        <th>Sin CheckList</th>
-                        <th>
-                            <div class="row esp-input">
-                            <form action="{% url 'crearchecklist'%}" method="post" class="col-sm-12">
-                                {% csrf_token %}
-                                <input type="hidden" name="id" value="{}">
-                                <input type="hidden" name="nombre" value="{}">
-                                <input type="submit" value="Crear CheckList" class="accion btn btn-success col-sm-12">
-                            </form>
-                            </div>
-                        </th>
-                    </tr>
+                    {{items | safe}}
                 </tbody>
             </table>
         </div>

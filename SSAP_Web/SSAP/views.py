@@ -1,5 +1,7 @@
 #Imports
 from datetime import datetime
+from http import client
+from tabnanny import check
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import FileResponse
@@ -363,19 +365,32 @@ def checklists(request):
                 items = items+"<th>Con CheckList</th>"
                 items = items+'''<th>
                                 <div class="row esp-input">
-                                    <a href="{}" class="col-sm-12"><button class="accion btn btn-primary col-sm-12">Modificar CheckList</button></a>
+                                    <a href="/crearchecklist/{}" class="col-sm-12"><button class="accion btn btn-primary col-sm-12">Modificar CheckList</button></a>
                                 </div>
-                            </th></tr>'''.format(contrato.id_contrato)
+                            </th></tr>'''.format(cliente.rut)
             else:
                 items = items+"<th>Sin Checklist</th>"
                 items = items+'''<th>
                                 <div class="row esp-input">
-                                    <a href="{}" class="col-sm-12"><button class="accion btn btn-success col-sm-12">Crear CheckList</button></a>
+                                    <a href="/crearchecklist/{}" class="col-sm-12"><button class="accion btn btn-success col-sm-12">Crear CheckList</button></a>
                                 </div>
-                            </th></tr>'''.format(contrato.id_contrato)
+                            </th></tr>'''.format(cliente.rut)
     return render(request,"SSAP/checklists.html", {'items':items})
 
 @logueado
 @esProfesional
-def crearChecklist(request):
-    return render(request,"SSAP/crearchecklist.html")
+def crearChecklist(request, rut):
+    # Cargar datos para la página y verificaciones (Cliente, Checklist)
+    profesional = request.session.get('subtipo')
+    cliente = Cliente.filtro_rut(rut=rut)
+    if cliente is None:
+        return redirect('index')
+    usuario = Usuario.filtro_id(cliente.id_usuario)
+    contrato = Contrato.filtro_rutcliente(rut=rut)
+    checklist = Checklist.filtro_idcontrato(id=contrato.id_contrato)
+    items = str(checklist.elementos).split(",")
+    if checklist.elementos is None:
+        items = []
+    if not usuario.estado or contrato.PROFESIONAL_rut != profesional.rut:
+        return redirect('index')
+    return render(request,"SSAP/crearchecklist.html",{'checklist':items, 'cliente':cliente})

@@ -1,6 +1,7 @@
 {%extends 'SSAP/base.html'%}
 {% load static %}
 {%block titulo%}SSAP | Gestión de Usuarios{%endblock%}
+{%block head%}<script src="{%static 'js/crearChecklist.js'%}"></script>{%endblock%}
 {%block contenido%}
 <div class="fondo-home">
 
@@ -10,60 +11,48 @@
 
             <div class="pantalla col-sm-12">
                 <div class="row esp-input">
-                    <h2>RUT: 34.567.789-1</h2>
+                    <h2>RUT: {{cliente.rut}}</h2>
                 </div>
                 <div class="row esp-input">
-                    <h2>Cliente: Duoc UC</h2>
+                    <h2>Cliente: {{cliente.nombre_empresa}}</h2>
                 </div>
             </div>
         </div>
 
         <div class="panel-blanco-redondo">
             <table class="table table-responsive table-light table-striped align-middle">
+                {%for item in checklist%}
                 <tr>
                     <th>
                         <div class="form-check form-switch float-start">
-                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                            <label class="form-check-label" for="flexSwitchCheckDefault">Seguiridad en Maquinaria</label>
-                            
+                            <!--<input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">-->
+                            <label class="form-check-label">{{item}}</label>
                         </div>
                         <div class="float-end">
                             <button type="button" class="btn btn-secondary btn-sm">Eliminar</button>
                         </div>
                     </th>
                 </tr>
+                {%endfor%}
+                <form name="crearItem" class="crearItem" method="post">
                 <tr>
                     <th>
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                            <label class="form-check-label" for="flexSwitchCheckDefault">Herramientas Sin oxido</label>
+                        <div class="form-check form-switch float-start">
+                            <!--<input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">-->
+                            <input class="form-control form-control-lg" type="text" name="item"></input>
+                        </div>
+                        <div class="float-end">
+                            <button type="button" class="btn btn-success btn-sm">Guardar</button>
+                            <button type="button" class="btn btn-secondary btn-sm">Eliminar</button>
                         </div>
                     </th>
                 </tr>
-                <tr>
-                    <th>
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                            <label class="form-check-label" for="flexSwitchCheckDefault">Homero Sinso</label>
-                        </div>
-                    </th>
-                </tr>
+                </form>
             </table>
             <div class="row esp-input col-sm-12">
                 <button type="button" class="btn btn-primary btn-lg">+</button>
             </div>
-
-            <div class="row esp-input col-sm-12">
-                <div class="float-start">
-                    <button type="button" class="btn btn-secondary btn-sm">Eliminar</button>
-                </div>
-                <div class="float-end">
-                    <button type="button" class="btn btn-secondary btn-sm">Eliminar</button>
-                </div>
-            </div>
-
         </div>
-
     </div>
 </div>
 {%endblock%}

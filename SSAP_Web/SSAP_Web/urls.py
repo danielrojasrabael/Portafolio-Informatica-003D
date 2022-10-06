@@ -38,7 +38,7 @@ urlpatterns = [
     #   ------------------------ Profesional ------------------------
     path('verclientes/', views.verClientes, name="verclientes"),
     path('checklists/', views.checklists, name="checklists"),
-    path('crearchecklist/', views.crearChecklist, name="crearchecklist"),
+    path('crearchecklist/<rut>', views.crearChecklist, name="crearchecklist"),
     #   ------------------------ Miscelaneo ------------------------
     path('pruebas/', views.pruebas, name='pruebas'),
 ]

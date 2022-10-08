@@ -6,7 +6,7 @@ import cx_Oracle
 
 # Variables
 
-conexion = cx_Oracle.connect(user="SSAP", password="123456", dsn="localhost:1522/ORCL1")
+conexion = cx_Oracle.connect(user="SSAP", password="123456", dsn="localhost:1521/XE")
 conexion.autocommit = True
 
 # Modelos

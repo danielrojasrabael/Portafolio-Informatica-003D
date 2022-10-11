@@ -6,7 +6,9 @@
 <div class="fondo-home">
 
     <div class="contenedor">
+        <div class="espacio">
 
+<<<<<<< HEAD
         <div class="panel-blanco-redondo row esp-input">
 
             <div class="pantalla col-sm-12">
@@ -16,12 +18,29 @@
                 <div class="row esp-input">
                     <h2>Cliente: {{cliente.nombre_empresa}}</h2>
                 </div>
+=======
+            <div class="row esp-input col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">Cliente</h5>
+                      <h1>Duoc UC</h1>
+                      <h2>RUT: <kbd>34.567.789-1</kbd></h2>
+                    </div>
+                  </div>
+>>>>>>> Templates
             </div>
-        </div>
 
-        <div class="panel-blanco-redondo">
+                
             <table class="table table-responsive table-light table-striped align-middle">
+<<<<<<< HEAD
                 {%for item in checklist%}
+=======
+                <thead>
+                    <caption class="asies">
+                        <button type="button" class="btn btn-primary btn-lg col-sm-12">+</button>
+                    </caption>
+                </thead>
+>>>>>>> Templates
                 <tr>
                     <th>
                         <form id="formEliminar" method="post" action="">
@@ -39,6 +58,7 @@
                 {%endfor%}
                 <tr>
                     <th>
+<<<<<<< HEAD
                         <form id="formCrear" method="post" action="">
                             {% csrf_token %}
                             <div class="float-start">
@@ -51,6 +71,39 @@
                     </th>
                 </tr>
             </table>
+=======
+                        <div class="form-check form-switch float-start">
+                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                            <label class="form-check-label" for="flexSwitchCheckDefault">Herramientas Sin oxido</label>
+                        </div>
+                        <div class="float-end">
+                            <button type="button" class="btn btn-secondary btn-sm">Eliminar</button>
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <div class="form-check form-switch float-start">
+                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                            <label class="form-check-label" for="flexSwitchCheckDefault">Homero Sinso</label>
+                        </div>
+                        <div class="float-end">
+                            <button type="button" class="btn btn-secondary btn-sm">Eliminar</button>
+                        </div>
+                    </th>
+                </tr>
+            </table>
+
+            <div class="row esp-input col-sm-12">
+                <div class="col-sm-6">
+                    <button type="button" class="btn btn-back btn-lg col-sm-12">Cancelar</button>
+                </div>
+                <div class="col-sm-6">
+                    <button type="button" class="btn btn-primary btn-lg col-sm-12">Guardar</button>
+                </div>
+            </div>
+
+>>>>>>> Templates
         </div>
     </div>
 </div>

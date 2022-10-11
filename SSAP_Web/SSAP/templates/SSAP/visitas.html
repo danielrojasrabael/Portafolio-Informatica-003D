@@ -1,0 +1,117 @@
+{%extends 'SSAP/base.html'%}
+{% load static %}
+{%block titulo%}SSAP | Visitas{%endblock%}
+{%block contenido%}
+
+<div class="fondo-home">
+
+    <div class="contenedor">
+
+        <div class="espacio">
+            <table class="table table-responsive table-light table-striped align-middle medio-tx">
+                <thead>
+                    <tr>
+                        <td colspan="5"><h3 class="text-muted">Historial Visitas</h3></td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Cliente</th>
+                        <th scope="col">Ubicación</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="5"><h4><kbd>Periodo 01/2023</kbd></h4></td>
+                    </tr>
+
+                    <tr>
+                        <th>Douc UC</th>
+                        <th>N/A</th>
+                        <th>Por Programar</th>
+                        <th>N/A</th>
+                        <th>
+                            <div class="row esp-input">
+                                <form action="{% url 'programarvisita'%}" method="post" class="col-sm-12">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="id" value="">
+                                    <input type="hidden" name="nombre" value="">
+                                    <input type="submit" value="Programar Visita" class="accion btn btn-warning col-sm-12">
+                                </form>
+                            </div>
+                        </th>
+                    </tr>
+
+                    <tr>
+                        <th>Douc UC</th>
+                        <th>Antonio Varas 666</th>
+                        <th>Programada</th>
+                        <th>01/01/2023</th>
+                        <th>
+                            <div class="row esp-input">
+                                <form action="" method="post" class="col-sm-12">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="id" value="">
+                                    <input type="hidden" name="nombre" value="">
+                                    <input type="submit" value="Iniciar Visita" class="accion btn btn-success col-sm-12">
+                                </form>
+                            </div>
+                            <div class="row esp-input">
+                                <form action="" method="post" class="col-sm-12">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="id" value="">
+                                    <input type="hidden" name="nombre" value="">
+                                    <input type="submit" value="Modificar Visita" class="accion btn btn-primary col-sm-12">
+                                </form>
+                            </div>
+                        </th>
+                    </tr>
+
+                    <tr>
+                        <td colspan="5"><h4><kbd>Periodo 12/2022</kbd></h4></td>
+                    </tr>
+
+                    <tr>
+                        <th>Douc UC</th>
+                        <th>Antonio Varas 666</th>
+                        <th>Resuelta</th>
+                        <th>22/12/2022</th>
+                        <th>
+                            <div class="row esp-input">
+                                <form action="" method="post" class="col-sm-12">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="id" value="">
+                                    <input type="hidden" name="nombre" value="">
+                                    <input type="submit" value="Revisar Reporte" class="accion btn btn-primary col-sm-12">
+                                </form>
+                            </div>
+                        </th>
+                    </tr>
+
+                    <tr>
+                        <th>Douc UC</th>
+                        <th>Antonio Varas 666</th>
+                        <th>Resuelta</th>
+                        <th>01/12/2022</th>
+                        <th>
+                            <div class="row esp-input">
+                                <form action="" method="post" class="col-sm-12">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="id" value="">
+                                    <input type="hidden" name="nombre" value="">
+                                    <input type="submit" value="Revisar Reporte" class="accion btn btn-primary col-sm-12">
+                                </form>
+                            </div>
+                        </th>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+{%endblock%}

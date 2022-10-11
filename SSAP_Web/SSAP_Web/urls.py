@@ -38,14 +38,10 @@ urlpatterns = [
     #   ------------------------ Profesional ------------------------
     path('verclientes/', views.verClientes, name="verclientes"),
     path('checklists/', views.checklists, name="checklists"),
-<<<<<<< HEAD
     path('crearchecklist/<rut>', views.crearChecklist, name="crearchecklist"),
-=======
-    path('crearchecklist/', views.crearChecklist, name="crearchecklist"),
     path('modificarchecklist/', views.modificarChecklist, name="modificarchecklist"),
     path('visitas/', views.visitas, name="visitas"),
     path('programarvisita/', views.programarVisita, name="programarvisita"),
->>>>>>> Templates
     #   ------------------------ Miscelaneo ------------------------
     path('pruebas/', views.pruebas, name='pruebas'),
 ]

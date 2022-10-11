@@ -379,7 +379,6 @@ def checklists(request):
 
 @logueado
 @esProfesional
-<<<<<<< HEAD
 def crearChecklist(request, rut):
     # Cargar datos para la página y verificaciones (Cliente, Checklist)
     profesional = request.session.get('subtipo')
@@ -407,9 +406,6 @@ def crearChecklist(request, rut):
         checklist.actualizar()
         return redirect(''+cliente.rut)
     return render(request,"SSAP/crearchecklist.html",{'checklist':items, 'cliente':cliente})
-=======
-def crearChecklist(request):
-    return render(request,"SSAP/crearchecklist.html")
 
 @logueado
 @esProfesional
@@ -425,4 +421,3 @@ def visitas(request):
 @esProfesional
 def programarVisita(request):
     return render(request,"SSAP/programarvisita.html")
->>>>>>> Templates

@@ -7,14 +7,21 @@
 
         <div class="contenedor">
     
-            <div class="panel-blanco-redondo">
+            <div class="espacio">
                 
-                <table class="table table-responsive table-light table-striped align-middle">
-                    <thead>
-                        
+                {% for mensaje in messages %}
+                    <br>
+                    <div class="alert alert-primary alert-dismissible fade show col-sm-12" role="alert">
+                        <strong>{{mensaje}}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
+                {% endfor %}
+
+                <table class="table table-responsive table-light table-striped align-middle medio-tx">
+                    <thead>                        
                         <tr>
                             <caption>
-                                Usuarios Registrados
+                                <h3 class="text-muted medio-tx">Usuarios Registrados</h3>
                             </caption>
 
                             <caption>
@@ -165,9 +172,6 @@
                     {%endfor%}
                     </tbody>
                 </table>
-                {% for mensaje in messages %}
-                    {{mensaje}}<br>
-                {% endfor %}
             </div>
         </div>
     </div>

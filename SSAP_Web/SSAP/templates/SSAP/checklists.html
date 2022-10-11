@@ -6,11 +6,13 @@
 
     <div class="contenedor">
 
-        <div class="panel-blanco-redondo">
+        <div class="espacio">
             
             <table class="table table-responsive table-light table-striped align-middle">
                 <thead>
-                    <caption>Lista de Clientes</caption>
+                    <caption>
+                        <h3 class="text-muted medio-tx">Lista de Clientes</h3>
+                    </caption>
                     
                     <tr>
                         <th scope="col">Cliente</th>
@@ -25,7 +27,7 @@
                         <th>Con CheckList</th>
                         <th>
                             <div class="row esp-input">
-                            <form action="{}" method="post" class="col-sm-12">
+                            <form action="{% url 'modificarchecklist'%}" method="post" class="col-sm-12">
                                 {% csrf_token %}
                                 <input type="hidden" name="id" value="{}">
                                 <input type="hidden" name="nombre" value="{}">

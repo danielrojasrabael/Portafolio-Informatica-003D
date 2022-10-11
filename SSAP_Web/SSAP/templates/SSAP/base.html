@@ -63,6 +63,7 @@
                     {%elif request.session.usuario.tipo == 'PROFESIONAL'%}
                     <li><a href="{%url 'verclientes'%}"><button class="btn btn-sidebar" type="button">Ver Clientes</button></a></li>
                     <li><a href="{%url 'checklists'%}"><button class="btn btn-sidebar" type="button">Check Lists</button></a></li>
+                    <li><a href="{%url 'visitas'%}"><button class="btn btn-sidebar" type="button">Visitas</button></a></li>
                     {%elif request.session.usuario.tipo == 'ADMINISTRADOR' %}   
                     <li><a href="{%url 'gestionusuario'%}"><button class="btn btn-sidebar" type="button">Gestionar Usuarios</button></a></li>
                     {%endif%}

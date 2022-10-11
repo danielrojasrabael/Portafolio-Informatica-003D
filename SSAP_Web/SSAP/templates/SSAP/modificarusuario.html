@@ -3,65 +3,119 @@
 {%block titulo%}SSAP | Modificar Usuario{%endblock%}
 {%block head%}<script src="{%static 'js/crearUsuario.js'%}"></script>{%endblock%}
 {%block contenido%}
-<div class="fondo-falso">
+<div class="fondo-home">
 
     <div class="contenedor">
 
         <div class="panel-blanco-redondo">
             
-            <div style="text-align: center;">
+            {% for mensaje in messages %}
+                    <br>
+                    <div class="alert alert-primary alert-dismissible fade show col-sm-12" role="alert">
+                        <strong>{{mensaje}}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
+                {% endfor %}
+            
+            <div style="text-align: center; width: 90%;">
                 <h2>Modificar Usuario</h2>
                 <form id="formCrear" action="" method="post">
                     {%csrf_token%}
                     <input type="hidden" name="id_usr" value="{{usuario.id_usuario}}">
                     <input type="hidden" name= "rutViejo" value="{{cliente.rut}}{{profesional.rut}}{{administrador.rut}}">
-                    <label for="username">Rut:</label>
-                    <input type="text" name="username" placeholder="12.345.678-9" value="{{cliente.rut}}{{profesional.rut}}{{administrador.rut}}" disabled></input><br>
 
-                    <label for="password1">Contraseña: </label>
-                    <input type="password" name="password1" placeholder="***********" id="id_password1"><br>
+                    <div class="row esp-input">
+                        <label for="username" class="col-sm-4 col-form-label col-form-label-lg">Rut:</label>
+                        <div class="col-sm-8">
+                            <input class="form-control form-control-lg" type="text" name="username" placeholder="12.345.678-9" value="{{cliente.rut}}{{profesional.rut}}{{administrador.rut}}" disabled></input>
+                        </div>
+                    </div>
 
-                    <label for="password2">Repetir Contraseña: </label>
-                    <input type="password" name="password2" placeholder="***********" id="id_password2"><br>
+                    <div class="row esp-input">
+                        <label for="password1" class="col-sm-4 col-form-label col-form-label-lg">Contraseña: </label>
+                        <div class="col-sm-8">
+                            <input class="form-control form-control-lg" type="password" name="password1" placeholder="***********" id="id_password1">
+                        </div>
+                    </div>
 
-                    <label for="comuna">Comuna: </label>
-                    <select name="comuna">
-                        {{comunas | safe}}
-                    </select><br>
+                    <div class="row esp-input">
+                        <label for="password2" class="col-sm-4 col-form-label col-form-label-lg">Repetir Contraseña: </label>
+                        <div class="col-sm-8">
+                            <input class="form-control form-control-lg" type="password" name="password2" placeholder="***********" id="id_password2">
+                        </div>
+                    </div>
 
-                    <label for="direccion">Direccion:</label>
-                    <input type="text" name="direccion" placeholder="Calle Falsa 1" value="{{usuario.direccion}}"></input><br>
+                    <div class="row esp-input">
+                        <label for="comuna" class="col-sm-4 col-form-label col-form-label-lg">Comuna: </label>
+                        <div class="col-sm-8">
+                            <select class="form-select form-select-lg" name="comuna">
+                                {{comunas | safe}}
+                            </select>
+                        </div>
+                    </div>
 
-                    <label for="tipo">Tipo Usuario:</label>
-                    <select name="tipo" id="tipo" disabled>
-                        <option value="{{usuario.tipo}}">{{usuario.tipo}}</option>
-                    </select>
+                    <div class="row esp-input">
+                        <label for="direccion" class="col-sm-4 col-form-label col-form-label-lg">Direccion:</label>
+                        <div class="col-sm-8">
+                            <input class="form-control form-control-lg" type="text" name="direccion" placeholder="Calle Falsa 1" value="{{usuario.direccion}}"></input>
+                        </div>
+                    </div>
+
+                    <div class="row esp-input">
+                        <label for="tipo" class="col-sm-4 col-form-label col-form-label-lg">Tipo Usuario:</label>
+                        <div class="col-sm-8">
+                            <select class="form-select form-select-lg" name="tipo" id="tipo" disabled>
+                                <option value="{{usuario.tipo}}">{{usuario.tipo}}</option>
+                            </select>
+                        </div>
+                    </div>
                     {%if usuario.tipo == 'CLIENTE'%}
                         <div id="cliente">
-                            <label for="nombre_empresa" id="nombre_empresa_l">Nombre Empresa:</label>
-                            <input type="text" name="nombre_empresa" id="nombre_empresa_f" placeholder="Empresa Falsa" value="{{cliente.nombre_empresa}}"></input><br>
-                            <label for="rubro" id="rubro_l">Rubro:</label>
-                            <input type="text" name="rubro" id="rubro" id="rubro_f" placeholder="Mineria" value="{{cliente.rubro_empresa}}"></input><br>
-                            <label for="cant_trabajadores" id="cant_trabajadores_l">Cantidad Trabajadores:</label>
-                            <input type="text" name="cant_trabajadores" id="cant_trabajadores_f" placeholder="2" value="{{cliente.cant_trabajadores}}"></input><br>
+                            <div class="row esp-input">
+                                <label for="nombre_empresa" id="nombre_empresa_l" class="col-sm-4 col-form-label col-form-label-lg">Nombre Empresa:</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control form-control-lg" type="text" name="nombre_empresa" id="nombre_empresa_f" placeholder="Empresa Falsa" value="{{cliente.nombre_empresa}}"></input>
+                                </div>
+                            </div>
+                            <div class="row esp-input">
+                                <label for="rubro" id="rubro_l" class="col-sm-4 col-form-label col-form-label-lg">Rubro:</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control form-control-lg" type="text" name="rubro" id="rubro" id="rubro_f" placeholder="Mineria" value="{{cliente.rubro_empresa}}"></input>
+                                </div>
+                            </div>
+                            <div class="row esp-input">
+                                <label for="cant_trabajadores" id="cant_trabajadores_l" class="col-sm-4 col-form-label col-form-label-lg">Cantidad Trabajadores:</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control form-control-lg" type="text" name="cant_trabajadores" id="cant_trabajadores_f" placeholder="2" value="{{cliente.cant_trabajadores}}"></input>
+                                </div>
+                            </div>
                         </div>
                     {%elif usuario.tipo == 'PROFESIONAL'%}
                         <div id="profesional">
-                            <label for="nombre_profesional" id="nombre_profesional_l">Nombre:</label>
-                            <input type="text" name="nombre_profesional" id="nombre_profesional_f" placeholder="Persona Falsa" value="{{profesional.nombre}}"></input><br>
+                            <div class="row esp-input">
+                                <label for="nombre_profesional" id="nombre_profesional_l" class="col-sm-4 col-form-label col-form-label-lg">Nombre:</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control form-control-lg" type="text" name="nombre_profesional" id="nombre_profesional_f" placeholder="Persona Falsa" value="{{profesional.nombre}}"></input>
+                                </div>
+                            </div>
                         </div>
                     {%elif usuario.tipo == 'ADMINISTRADOR' %}
                         <div id="administrador">
-                            <label for="nombre_administrador" id="nombre_administrador_l">Nombre:</label>
-                            <input type="text" name="nombre_administrador" id="nombre_administrador_f" placeholder="Persona Falsa" value="{{administrador.nombre}}"></input><br>
+                            <div class="row esp-input">
+                                <label for="nombre_administrador" id="nombre_administrador_l" class="col-sm-4 col-form-label col-form-label-lg">Nombre:</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control form-control-lg" type="text" name="nombre_administrador" id="nombre_administrador_f" placeholder="Persona Falsa" value="{{administrador.nombre}}"></input>
+                                </div>
+                            </div>
                         </div>
                     {%endif%}
-                    <input type="submit" value="Modificar Usuario"></input>
+                    <div class="row esp-input">
+                        <input type="submit" value="Modificar Usuario" class="btn btn-primary btn-lg"></input>
+                    </div>
                 </form>
-                <br><a href="{%url 'gestionusuario'%}"><button>Volver</button></a><br>
-                {% for mensaje in messages %}
-                    {{mensaje}}<br>
-                {% endfor %}
+                <div class="row esp-input">
+                    <a class="btn btn-danger btn-lg" href="{%url 'gestionusuario'%}">Volver</a>
+                </div>
             </div>
         </div>
     </div>

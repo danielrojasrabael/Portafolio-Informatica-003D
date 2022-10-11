@@ -312,3 +312,18 @@ def checklists(request):
 @esProfesional
 def crearChecklist(request):
     return render(request,"SSAP/crearchecklist.html")
+
+@logueado
+@esProfesional
+def modificarChecklist(request):
+    return render(request,"SSAP/crearchecklist.html")
+
+@logueado
+@esProfesional
+def visitas(request):
+    return render(request,"SSAP/visitas.html")
+
+@logueado
+@esProfesional
+def programarVisita(request):
+    return render(request,"SSAP/programarvisita.html")

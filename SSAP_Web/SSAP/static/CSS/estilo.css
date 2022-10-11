@@ -37,8 +37,17 @@ body h6{
 
 caption{
     caption-side: top;
+    background-color: #f8f9fa;
+    padding-left: 1vh;
+    padding-right: 1vh;
 }
 
+.asies{
+    caption-side: bottom;
+    background-color: #f8f9fa;
+    padding-left: 1vh;
+    padding-right: 1vh;
+}
 /* Extensión de BootStrap */
 
     /* Botones */
@@ -52,6 +61,18 @@ caption{
     --bs-btn-active-bg: rgb(99, 20, 168);
     --bs-btn-disabled-bg: rgb(193, 161, 220);
     --bs-btn-disabled-border-color: rgb(193, 161, 220);
+}
+
+#bootstrap-overrides .btn-back{
+    --bs-btn-bg: rgb(255, 255, 255);
+    --bs-btn-border-color: rgb(255, 255, 255);
+    --bs-btn-hover-bg: rgb(218, 218, 218);
+    --bs-btn-hover-border-color: rgb(218, 218, 218);
+    --bs-btn-active-border-color: rgb(255, 255, 255);
+    --bs-btn-active-bg: rgb(255, 255, 255);
+    --bs-btn-disabled-bg: rgb(218, 218, 218);
+    --bs-btn-disabled-border-color: rgb(218, 218, 218);
+    --bs-btn-color: rgb(99, 20, 168);
 }
 
 #bootstrap-overrides .btn-logo{
@@ -263,6 +284,15 @@ footer{
     width: 80%;
 }
 
+.espacio{
+    padding-top: 1vh;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+    width: 80%;
+}
+
 .contenedor{
     display: flex;
     flex-wrap: wrap;
@@ -280,4 +310,8 @@ footer{
 
 .esp-input{
     padding-bottom: 1vh;
+}
+
+.medio-tx{
+    text-align: center;
 }

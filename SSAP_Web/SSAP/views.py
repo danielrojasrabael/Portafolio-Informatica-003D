@@ -410,7 +410,15 @@ def crearChecklist(request, rut):
 @logueado
 @esProfesional
 def visitas(request):
-    return render(request,"SSAP/visitas.html")
+    profesional = request.session.get('subtipo')
+    ids = []
+    visitas = []
+    for contrato in Contrato.seleccionar_rutprofesional(profesional.rut):
+        ids.append(contrato.id_contrato)
+    for visita in Visita.todos():
+        if visita.CONTRATO_id in ids:
+            visitas.append(visita)
+    return render(request,"SSAP/visitas.html", {'visitas':visitas})
 
 @logueado
 @esProfesional

@@ -343,9 +343,19 @@ class Visita(models.Model):
     periodo = models.DateField()
     CONTRATO_id = models.IntegerField()
     COMUNA_id_comuna = models.IntegerField()
+    nombre_cliente = models.CharField(max_length=999)
     def modificar(self, conn=conexion):
         return
-    def todos(id, conn=conexion):
-        return
+    def todos(conn=conexion):
+        cur = conn.cursor()
+        datos = conn.cursor()
+        cur.callproc("SELECCIONARVISITAS", [datos])
+        lista = []
+        for i in datos:
+            visita = Visita(id_visita=i[0], fecha=i[1], estado=i[2],ubicacion=i[3], reporte_final = i[4], periodo=i[5], CONTRATO_id=i[6],COMUNA_id_comuna=i[7], nombre_cliente=i[8])
+            lista.append(visita)
+        cur.close()
+        datos.close()
+        return lista
     class Meta:
         managed = False

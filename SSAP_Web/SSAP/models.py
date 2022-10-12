@@ -6,7 +6,7 @@ import cx_Oracle
 
 # Variables
 
-conexion = cx_Oracle.connect(user="SSAP", password="123456", dsn="localhost:1521/XE")
+conexion = cx_Oracle.connect(user="SSAP", password="123456", dsn="localhost:1522/ORCL1")
 conexion.autocommit = True
 
 # Modelos
@@ -329,5 +329,23 @@ class Notificacion(models.Model):
         cur = conn.cursor()
         cur.callproc("ELIMINARNOTIFICACION", [id,rut])
         cur.close()
+    class Meta:
+        managed = False
+
+#   Funciones Profesionales
+
+class Visita(models.Model):
+    id_visita = models.IntegerField()
+    fecha = models.DateField()
+    estado = models.IntegerField()
+    ubicacion = models.CharField(max_length=999)
+    reporte_final = models.CharField(max_length=999)
+    periodo = models.DateField()
+    CONTRATO_id = models.IntegerField()
+    COMUNA_id_comuna = models.IntegerField()
+    def modificar(self, conn=conexion):
+        return
+    def todos(id, conn=conexion):
+        return
     class Meta:
         managed = False

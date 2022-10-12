@@ -409,11 +409,6 @@ def crearChecklist(request, rut):
 
 @logueado
 @esProfesional
-def modificarChecklist(request):
-    return render(request,"SSAP/crearchecklist.html")
-
-@logueado
-@esProfesional
 def visitas(request):
     return render(request,"SSAP/visitas.html")
 

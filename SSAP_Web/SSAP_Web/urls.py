@@ -39,7 +39,6 @@ urlpatterns = [
     path('verclientes/', views.verClientes, name="verclientes"),
     path('checklists/', views.checklists, name="checklists"),
     path('crearchecklist/<rut>', views.crearChecklist, name="crearchecklist"),
-    path('modificarchecklist/', views.modificarChecklist, name="modificarchecklist"),
     path('visitas/', views.visitas, name="visitas"),
     path('programarvisita/', views.programarVisita, name="programarvisita"),
     path('modificarvisita/', views.modificarVisita, name="modificarvisita"),

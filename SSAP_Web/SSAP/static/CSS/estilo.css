@@ -106,6 +106,15 @@ caption{
     background-color: rgb(99, 20, 168);
     border-color: rgb(99, 20, 168);
 }
+#bootstrap-overrides .form-switch .form-check-input{
+    width: 3em;
+}
+#bootstrap-overrides .form-check-input{
+    margin-right: 1em;
+    margin-left: -2em;
+    height: 1.7em;
+}
+
 /* Sidebar */
 
 .sidebar{

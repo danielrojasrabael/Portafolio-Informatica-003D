@@ -51,7 +51,7 @@
                         <th>01/01/2023</th>
                         <th>
                             <div class="row esp-input">
-                                <form action="" method="post" class="col-sm-12">
+                                <form action="{%url 'iniciarvisita'%}" method="post" class="col-sm-12">
                                     {% csrf_token %}
                                     <input type="hidden" name="id" value="">
                                     <input type="hidden" name="nombre" value="">

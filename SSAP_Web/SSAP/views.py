@@ -421,3 +421,8 @@ def visitas(request):
 @esProfesional
 def programarVisita(request):
     return render(request,"SSAP/programarvisita.html")
+
+@logueado
+@esProfesional
+def modificarVisita(request):
+    return render(request,"SSAP/modificarvisita.html")

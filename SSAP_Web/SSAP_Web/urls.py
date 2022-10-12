@@ -42,6 +42,7 @@ urlpatterns = [
     path('modificarchecklist/', views.modificarChecklist, name="modificarchecklist"),
     path('visitas/', views.visitas, name="visitas"),
     path('programarvisita/', views.programarVisita, name="programarvisita"),
+    path('modificarvisita/', views.modificarVisita, name="modificarvisita"),
     #   ------------------------ Miscelaneo ------------------------
     path('pruebas/', views.pruebas, name='pruebas'),
 ]

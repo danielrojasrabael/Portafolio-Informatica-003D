@@ -5,6 +5,7 @@ from tabnanny import check
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import FileResponse
+import calendar
 
 #Modelos
 from SSAP.models import *
@@ -20,6 +21,24 @@ def func_logout(request):
 def func_login(request, usuario,subtipo):
     request.session['usuario'] = usuario
     request.session['subtipo'] = subtipo
+
+def func_comunas(id_com=None):
+    # Proceso para llenar el combobox de comuna
+    opciones = ""
+    ciudad = ""
+    region = ""
+    for ubicacion in Ubicacion.todos():
+        if ubicacion.nombre_region != region:
+            region = ubicacion.nombre_region
+            opciones = opciones + "<option disabled>{}</option>".format(ubicacion.nombre_region)
+        if ubicacion.nombre_ciudad != ciudad:
+            ciudad = ubicacion.nombre_ciudad
+            opciones = opciones + "<option disabled>&nbsp{}</option>".format(ubicacion.nombre_ciudad)
+        if id_com == ubicacion.id_comuna:  
+            opciones = opciones + "<option value={} selected>&nbsp&nbsp&nbsp{}</option>".format(ubicacion.id_comuna, ubicacion.nombre_comuna)
+        else:
+            opciones = opciones + "<option value={}>&nbsp&nbsp&nbsp{}</option>".format(ubicacion.id_comuna, ubicacion.nombre_comuna)
+    return opciones
 
 # Decoradores
 def logueado(function):
@@ -145,18 +164,8 @@ def habUsuario(request):
 def crearusuario(request):
     profesionales = Profesional.todos()
     # Proceso para llenar el combobox de comuna
-    opciones = ""
-    ciudad = ""
-    region = ""
-    for ubicacion in Ubicacion.todos():
-        if ubicacion.nombre_region != region:
-            region = ubicacion.nombre_region
-            opciones = opciones + "<option disabled>{}</option>".format(ubicacion.nombre_region)
-        if ubicacion.nombre_ciudad != ciudad:
-            ciudad = ubicacion.nombre_ciudad
-            opciones = opciones + "<option disabled>&nbsp{}</option>".format(ubicacion.nombre_ciudad)
-        opciones = opciones + "<option value={}>&nbsp&nbsp&nbsp{}</option>".format(ubicacion.id_comuna, ubicacion.nombre_comuna)
-    
+    opciones = func_comunas()
+
     #Proceso para crear el Usuario
     if request.method=='POST':
         filtroRutC = Cliente.filtro_rut(rut=request.POST['username'])
@@ -231,21 +240,7 @@ def modificarUsuario(request):
         cliente = Cliente.filtro_id(id=usuario.id_usuario)
         profesional = Profesional.filtro_id(id=usuario.id_usuario)
         administrador = Administrador.filtro_id(id=usuario.id_usuario)
-        # Proceso para llenar el combobox de comuna
-        opciones = ""
-        ciudad = ""
-        region = ""
-        for ubicacion in Ubicacion.todos():
-            if ubicacion.nombre_region != region:
-                region = ubicacion.nombre_region
-                opciones = opciones + "<option disabled>{}</option>".format(ubicacion.nombre_region)
-            if ubicacion.nombre_ciudad != ciudad:
-                ciudad = ubicacion.nombre_ciudad
-                opciones = opciones + "<option disabled>&nbsp{}</option>".format(ubicacion.nombre_ciudad)
-            if usuario.id_comuna == ubicacion.id_comuna:  
-                opciones = opciones + "<option value={} selected>&nbsp&nbsp&nbsp{}</option>".format(ubicacion.id_comuna, ubicacion.nombre_comuna)
-            else:
-                opciones = opciones + "<option value={}>&nbsp&nbsp&nbsp{}</option>".format(ubicacion.id_comuna, ubicacion.nombre_comuna)
+        opciones = func_comunas(usuario.id_comuna)
         return render(request,"SSAP\modificarusuario.html", {'usuario':usuario, 'cliente':cliente, 'profesional':profesional,'administrador':administrador, 'comunas':opciones})
     elif request.method=='POST' and 'rutViejo' in request.POST:
         comunas = ["{}".format(c.id_comuna) for c in Ubicacion.todos()]
@@ -422,8 +417,38 @@ def visitas(request):
 
 @logueado
 @esProfesional
-def programarVisita(request):
-    return render(request,"SSAP/programarvisita.html")
+def programarVisita(request, id):
+    profesional = request.session.get('subtipo')
+    contrato = None
+    visita = Visita.filtro_id(id)
+    if visita is None:
+        return redirect('visitas')
+    for ctr in Contrato.seleccionar_rutprofesional(profesional.rut):
+        if visita.CONTRATO_id == ctr.id_contrato:
+            contrato = ctr
+            break
+    if contrato is not None:
+        cliente = Cliente.filtro_rut(contrato.CLIENTE_rut)
+    else:
+        return redirect('visitas')
+    comunas = func_comunas(visita.COMUNA_id_comuna)
+    #Proceso para guardar la visita
+    if request.method == 'POST':
+        visita.COMUNA_id_comuna = request.POST["comuna"]
+        visita.ubicacion = request.POST["ubicacion"]
+        visita.fecha = datetime.strptime(request.POST["fecha"],'%Y-%m-%d')
+        ultimo_dia= "{}/{}/{}".format(visita.periodo.year,visita.periodo.month,calendar.monthrange(visita.periodo.year, visita.periodo.month)[1])
+        comunas = ["{}".format(c.id_comuna) for c in Ubicacion.todos()]
+        if visita.fecha < visita.periodo or visita.fecha > datetime.strptime(ultimo_dia, '%Y/%m/%d'):
+            messages.success(request, "Error: Visita fuera de rango")
+            return redirect('visitas')
+        if visita.COMUNA_id_comuna not in comunas:
+            messages.success(request, "Error: Id de comuna fuera de rango")
+            return redirect('visitas')
+        visita.modificar()
+        messages.success(request, "Visita programada")
+        return redirect('visitas')
+    return render(request,"SSAP/programarvisita.html",{'visita':visita, 'cliente':cliente, 'comunas':comunas})
 
 @logueado
 @esProfesional

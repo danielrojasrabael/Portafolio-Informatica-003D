@@ -276,6 +276,8 @@ class Checklist(models.Model):
         cur.close()
         datos.close()
         return checklist
+    class Meta:
+        managed = False
 
 #   Funciones de Cliente
 
@@ -344,8 +346,20 @@ class Visita(models.Model):
     CONTRATO_id = models.IntegerField()
     COMUNA_id_comuna = models.IntegerField()
     nombre_cliente = models.CharField(max_length=999)
+    def filtro_id(id=None, conn=conexion):
+        cur = conn.cursor()
+        datos = conn.cursor()
+        visita = None
+        cur.callproc("VISITA_PORID", [datos,id])
+        for i in datos:
+            visita = Visita(id_visita=i[0], fecha=i[1], estado=i[2],ubicacion=i[3], reporte_final = i[4], periodo=i[5], CONTRATO_id=i[6],COMUNA_id_comuna=i[7], nombre_cliente=i[8])
+        cur.close()
+        datos.close()
+        return visita
     def modificar(self, conn=conexion):
-        return
+        cur = conn.cursor()
+        cur.callproc("ACTUALIZARVISITA", [self.fecha,self.estado,self.ubicacion,self.reporte_final,self.periodo,self.COMUNA_id_comuna,self.id_visita])
+        cur.close()
     def todos(conn=conexion):
         cur = conn.cursor()
         datos = conn.cursor()

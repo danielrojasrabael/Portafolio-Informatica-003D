@@ -6,7 +6,6 @@
 <div class="fondo-home">
 
     <div class="contenedor">
-
         <div class="espacio">
             <table class="table table-responsive table-light table-striped align-middle medio-tx">
                 <thead>
@@ -42,12 +41,7 @@
                             <th>N/A</th>
                             <th>
                                 <div class="row esp-input">
-                                    <form action="{% url 'programarvisita'%}" method="post" class="col-sm-12">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="id" value="">
-                                        <input type="hidden" name="nombre" value="">
-                                        <input type="submit" value="Programar Visita" class="accion btn btn-warning col-sm-12">
-                                    </form>
+                                    <a href="{% url 'programarvisita' id=visita.id_visita%}"><button class="accion btn btn-warning col-sm-12">Programar Visita</button></a>
                                 </div>
                             </th>
                         {%elif not visita.estado%}
@@ -63,12 +57,7 @@
                                     </form>
                                 </div>
                                 <div class="row esp-input">
-                                    <form action="{%url 'modificarvisita'%}" method="post" class="col-sm-12">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="id" value="">
-                                        <input type="hidden" name="nombre" value="">
-                                        <input type="submit" value="Modificar Visita" class="accion btn btn-primary col-sm-12">
-                                    </form>
+                                    <a href="{% url 'programarvisita' id=visita.id_visita%}"><button class="accion btn btn-primary col-sm-12">Modificar Visita</button></a>
                                 </div>
                             </th>
                         {%else%}
@@ -89,8 +78,10 @@
                     {%endfor%}
                 </tbody>
             </table>
+            {%for mensaje in messages%}
+                {{mensaje}}
+            {%endfor%}
         </div>
-
     </div>
 </div>
 

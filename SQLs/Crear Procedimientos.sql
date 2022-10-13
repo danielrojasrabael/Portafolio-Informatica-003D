@@ -312,6 +312,18 @@ end;
 ------------------------------------------
 -- Visita
 ------------------------------------------
+CREATE OR REPLACE PROCEDURE visita_PorId (registro out SYS_REFCURSOR,idVi in NUMBER)
+as
+begin
+    OPEN registro for SELECT vi.ID_VISITA, vi.FECHA, vi.ESTADO, vi.UBICACION, vi.REPORTE_FINAL, vi.PERIODO, vi.ID_CONTRATO, vi.ID_COMUNA, cli.nombre_empresa FROM VISITA vi 
+    INNER JOIN CONTRATO c
+    ON c.id_contrato = vi.id_contrato
+    INNER JOIN CLIENTES cli
+    ON c.rut_cliente = cli.rut_cliente
+    WHERE vi.ID_VISITA = idVi;
+end;
+/
+
 CREATE OR REPLACE PROCEDURE seleccionarVisitas (registro out SYS_REFCURSOR)
 as
 begin
@@ -327,7 +339,7 @@ end;
 CREATE OR REPLACE PROCEDURE actualizarVisita (fecha_v in DATE, estado_v in NUMBER, ubicacion_v in VARCHAR2, reporte_final_v in VARCHAR2, periodo_v in DATE, idComuna_v in NUMBER, idVi in NUMBER)
 as
 begin
-     UPDATE VISITA SET FECHA = fecha_v, ESTADO=estado_v, UBICACION = estado_v, REPORTE_FINAL = reporte_final_v, PERIODO = periodo_v,ID_COMUNA = idComuna_v WHERE ID_VISITA = idVi;
+     UPDATE VISITA SET FECHA = fecha_v, ESTADO=estado_v, UBICACION = ubicacion_v, REPORTE_FINAL = reporte_final_v, PERIODO = periodo_v,ID_COMUNA = idComuna_v WHERE ID_VISITA = idVi;
 end;
 /
 

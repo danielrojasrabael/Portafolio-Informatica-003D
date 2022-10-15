@@ -42,7 +42,8 @@ $(document).ready(function(){
                 required: true
             },
             direccion:{
-                required: true
+                required: true,
+                maxlength: 50
             },
             tipo:{
                 required: true
@@ -93,7 +94,8 @@ $(document).ready(function(){
                 required: "Campo Requerido"
             },
             direccion:{
-                required: "Campo Requerido"
+                required: "Campo Requerido",
+                maxlength: "Máximo 50 caracteres"
             },
             tipo:{
                 required: "Campo Requerido"

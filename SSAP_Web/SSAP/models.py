@@ -6,7 +6,7 @@ import cx_Oracle
 
 # Variables
 
-conexion = cx_Oracle.connect(user="SSAP", password="123456", dsn="localhost:1521/XE")
+conexion = cx_Oracle.connect(user="SSAP", password="123456", dsn="localhost:1522/ORCL1")
 conexion.autocommit = True
 
 # Modelos
@@ -276,6 +276,8 @@ class Checklist(models.Model):
         cur.close()
         datos.close()
         return checklist
+    class Meta:
+        managed = False
 
 #   Funciones de Cliente
 
@@ -329,5 +331,45 @@ class Notificacion(models.Model):
         cur = conn.cursor()
         cur.callproc("ELIMINARNOTIFICACION", [id,rut])
         cur.close()
+    class Meta:
+        managed = False
+
+#   Funciones Profesionales
+
+class Visita(models.Model):
+    id_visita = models.IntegerField()
+    fecha = models.DateField()
+    estado = models.IntegerField()
+    ubicacion = models.CharField(max_length=999)
+    reporte_final = models.CharField(max_length=999)
+    periodo = models.DateField()
+    CONTRATO_id = models.IntegerField()
+    COMUNA_id_comuna = models.IntegerField()
+    nombre_cliente = models.CharField(max_length=999)
+    def filtro_id(id=None, conn=conexion):
+        cur = conn.cursor()
+        datos = conn.cursor()
+        visita = None
+        cur.callproc("VISITA_PORID", [datos,id])
+        for i in datos:
+            visita = Visita(id_visita=i[0], fecha=i[1], estado=i[2],ubicacion=i[3], reporte_final = i[4], periodo=i[5], CONTRATO_id=i[6],COMUNA_id_comuna=i[7], nombre_cliente=i[8])
+        cur.close()
+        datos.close()
+        return visita
+    def modificar(self, conn=conexion):
+        cur = conn.cursor()
+        cur.callproc("ACTUALIZARVISITA", [self.fecha,self.estado,self.ubicacion,self.reporte_final,self.periodo,self.COMUNA_id_comuna,self.id_visita])
+        cur.close()
+    def todos(conn=conexion):
+        cur = conn.cursor()
+        datos = conn.cursor()
+        cur.callproc("SELECCIONARVISITAS", [datos])
+        lista = []
+        for i in datos:
+            visita = Visita(id_visita=i[0], fecha=i[1], estado=i[2],ubicacion=i[3], reporte_final = i[4], periodo=i[5], CONTRATO_id=i[6],COMUNA_id_comuna=i[7], nombre_cliente=i[8])
+            lista.append(visita)
+        cur.close()
+        datos.close()
+        return lista
     class Meta:
         managed = False

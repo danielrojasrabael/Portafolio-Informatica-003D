@@ -4,75 +4,51 @@
 {%block contenido%}
 
 <div class="fondo-home">
-
+    <form id="formConfirmar" method="post" action="">
+    {% csrf_token %}
     <div class="contenedor">
-
         <div class="espacio">
-
             <div class="row esp-input col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <h3 class="card-title">Periodo: 01/03</h3>
-                        <h2>RUT: <kbd>34.567.789-1</kbd></h2>
-                        <h1>Duoc UC</h1>
+                        <h3 class="card-title">Periodo: {{visita.periodo | date:'m/Y'}}</h3>
+                        <h2>RUT: <kbd>{{cliente.rut}}</kbd></h2>
+                        <h1>{{cliente.nombre_empresa}}</h1>
                     </div>
                 </div>
             </div>
-
             <table class="table table-responsive table-light table-striped">
                 <tbody>
-
-                    <tr>
-                        <td>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="mySwitch" name="darkmode">
-                                <label class="form-check-label" for="mySwitch"><h4>Seguridad en Maquinaria</h4></label>
-                              </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="mySwitch" name="darkmode">
-                                <label class="form-check-label" for="mySwitch"><h4>Herramientas Sin oxido</h4></label>
-                              </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="mySwitch" name="darkmode" checked>
-                                <label class="form-check-label" for="mySwitch"><h4>Homero Sinso</h4></label>
-                              </div>
-                        </td>
-                    </tr>
-                    
+                    {%for item in checklist%}
+                        <tr>
+                            <td>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="mySwitch" name="{{item}}" value="{{item}}">
+                                    <label class="form-check-label" for="mySwitch"><h4>{{item}}</h4></label>
+                                </div>
+                            </td>
+                        </tr>
+                    {%endfor%}
                 </tbody>
             </table>
-        
-
             <div class="row esp-input col-sm-12">
                 <div class="card">
                     <div class="card-body">
                         <label for="comment"><h3>Mejoras:</h3></label>
-                        <textarea class="form-control" rows="5" id="comment" name="text"></textarea>
+                        <textarea class="form-control" rows="5" id="comment" name="mejora"></textarea>
                     </div>
                 </div>
             </div>
-
             <div class="row esp-input col-sm-12">
                 <div class="col-sm-6">
-                    <button type="button" class="btn btn-back btn-lg col-sm-12">Cancelar</button>
+                    <a href="{% url 'visitas' %}"><button type="button" class="btn btn-back btn-lg col-sm-12">Cancelar</button></a>
                 </div>
                 <div class="col-sm-6">
-                    <button type="button" class="btn btn-primary btn-lg col-sm-12">Responder Checklist</button>
+                    <input type="submit" class="btn btn-primary btn-lg col-sm-12" value="Responder Checklist">
                 </div>
             </div>
-
         </div>
-        
     </div>
+    </form>
 </div>
 {%endblock%}

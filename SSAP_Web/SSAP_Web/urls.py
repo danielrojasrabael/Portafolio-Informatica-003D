@@ -39,11 +39,10 @@ urlpatterns = [
     path('verclientes/', views.verClientes, name="verclientes"),
     path('checklists/', views.checklists, name="checklists"),
     path('crearchecklist/<rut>', views.crearChecklist, name="crearchecklist"),
-    path('modificarchecklist/', views.modificarChecklist, name="modificarchecklist"),
     path('visitas/', views.visitas, name="visitas"),
-    path('programarvisita/', views.programarVisita, name="programarvisita"),
-    path('modificarvisita/', views.modificarVisita, name="modificarvisita"),
-    path('iniciarvisita/', views.iniciarVisita, name="iniciarvisita"),
+    path('programarvisita/<id>', views.programarVisita, name="programarvisita"),
+    path('iniciarvisita/<id>', views.iniciarVisita, name="iniciarvisita"),
+    path('visita_profesional/<nombre>',views.visita_profesional,name="visita_profesional"),
     #   ------------------------ Miscelaneo ------------------------
     path('pruebas/', views.pruebas, name='pruebas'),
 ]

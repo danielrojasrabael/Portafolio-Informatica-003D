@@ -7,6 +7,7 @@ db.sqlite3
 MEDIA/BOLETAS/*.pdf
 MEDIA/REPORTES_FINALES/*.pdf
 MEDIA/REPORTES_USUARIOS/*.pdf
+MEDIA/CHECKLISTS/*.pdf
 
 # Backup files # 
 *.bak 

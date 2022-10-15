@@ -1,16 +1,22 @@
 #Imports
 from datetime import datetime
-from http import client
-from tabnanny import check
+from time import strftime
+from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import FileResponse
+import calendar
 
 #Modelos
 from SSAP.models import *
 
 #Login/Logout
 from django.contrib.auth import authenticate
+
+#PDFs
+from django.template.loader import get_template
+from weasyprint import HTML, CSS
+import os
 
 # Funciones
 def func_logout(request):
@@ -20,6 +26,32 @@ def func_logout(request):
 def func_login(request, usuario,subtipo):
     request.session['usuario'] = usuario
     request.session['subtipo'] = subtipo
+
+def func_comunas(id_com=None):
+    # Proceso para llenar el combobox de comuna
+    opciones = ""
+    ciudad = ""
+    region = ""
+    for ubicacion in Ubicacion.todos():
+        if ubicacion.nombre_region != region:
+            region = ubicacion.nombre_region
+            opciones = opciones + "<option disabled>{}</option>".format(ubicacion.nombre_region)
+        if ubicacion.nombre_ciudad != ciudad:
+            ciudad = ubicacion.nombre_ciudad
+            opciones = opciones + "<option disabled>&nbsp{}</option>".format(ubicacion.nombre_ciudad)
+        if id_com == ubicacion.id_comuna:  
+            opciones = opciones + "<option value={} selected>&nbsp&nbsp&nbsp{}</option>".format(ubicacion.id_comuna, ubicacion.nombre_comuna)
+        else:
+            opciones = opciones + "<option value={}>&nbsp&nbsp&nbsp{}</option>".format(ubicacion.id_comuna, ubicacion.nombre_comuna)
+    return opciones
+
+def func_generar_pdf(template_src, contexto, nom_archivo):
+    template = get_template(template_src)
+    html_tmpl = template.render(contexto)
+    archivo = os.path.join(settings.BASE_DIR, nom_archivo)
+    css_pag = os.path.join(settings.BASE_DIR, 'SSAP/static/css/estilo_pdf.css')
+
+    HTML(string=html_tmpl).write_pdf(target=archivo, stylesheets=[CSS(css_pag)])
 
 # Decoradores
 def logueado(function):
@@ -145,18 +177,8 @@ def habUsuario(request):
 def crearusuario(request):
     profesionales = Profesional.todos()
     # Proceso para llenar el combobox de comuna
-    opciones = ""
-    ciudad = ""
-    region = ""
-    for ubicacion in Ubicacion.todos():
-        if ubicacion.nombre_region != region:
-            region = ubicacion.nombre_region
-            opciones = opciones + "<option disabled>{}</option>".format(ubicacion.nombre_region)
-        if ubicacion.nombre_ciudad != ciudad:
-            ciudad = ubicacion.nombre_ciudad
-            opciones = opciones + "<option disabled>&nbsp{}</option>".format(ubicacion.nombre_ciudad)
-        opciones = opciones + "<option value={}>&nbsp&nbsp&nbsp{}</option>".format(ubicacion.id_comuna, ubicacion.nombre_comuna)
-    
+    opciones = func_comunas()
+
     #Proceso para crear el Usuario
     if request.method=='POST':
         filtroRutC = Cliente.filtro_rut(rut=request.POST['username'])
@@ -231,21 +253,7 @@ def modificarUsuario(request):
         cliente = Cliente.filtro_id(id=usuario.id_usuario)
         profesional = Profesional.filtro_id(id=usuario.id_usuario)
         administrador = Administrador.filtro_id(id=usuario.id_usuario)
-        # Proceso para llenar el combobox de comuna
-        opciones = ""
-        ciudad = ""
-        region = ""
-        for ubicacion in Ubicacion.todos():
-            if ubicacion.nombre_region != region:
-                region = ubicacion.nombre_region
-                opciones = opciones + "<option disabled>{}</option>".format(ubicacion.nombre_region)
-            if ubicacion.nombre_ciudad != ciudad:
-                ciudad = ubicacion.nombre_ciudad
-                opciones = opciones + "<option disabled>&nbsp{}</option>".format(ubicacion.nombre_ciudad)
-            if usuario.id_comuna == ubicacion.id_comuna:  
-                opciones = opciones + "<option value={} selected>&nbsp&nbsp&nbsp{}</option>".format(ubicacion.id_comuna, ubicacion.nombre_comuna)
-            else:
-                opciones = opciones + "<option value={}>&nbsp&nbsp&nbsp{}</option>".format(ubicacion.id_comuna, ubicacion.nombre_comuna)
+        opciones = func_comunas(usuario.id_comuna)
         return render(request,"SSAP\modificarusuario.html", {'usuario':usuario, 'cliente':cliente, 'profesional':profesional,'administrador':administrador, 'comunas':opciones})
     elif request.method=='POST' and 'rutViejo' in request.POST:
         comunas = ["{}".format(c.id_comuna) for c in Ubicacion.todos()]
@@ -409,25 +417,103 @@ def crearChecklist(request, rut):
 
 @logueado
 @esProfesional
-def modificarChecklist(request):
-    return render(request,"SSAP/crearchecklist.html")
-
-@logueado
-@esProfesional
 def visitas(request):
-    return render(request,"SSAP/visitas.html")
+    profesional = request.session.get('subtipo')
+    ids = []
+    visitas = []
+    comunas = Ubicacion.todos()
+    for contrato in Contrato.seleccionar_rutprofesional(profesional.rut):
+        ids.append(contrato.id_contrato)
+    for visita in Visita.todos():
+        if visita.CONTRATO_id in ids:
+            visitas.append(visita)
+    return render(request,"SSAP/visitas.html", {'visitas':visitas, 'comunas':comunas})
 
 @logueado
 @esProfesional
-def programarVisita(request):
-    return render(request,"SSAP/programarvisita.html")
+def programarVisita(request, id):
+    profesional = request.session.get('subtipo')
+    contrato = None
+    visita = Visita.filtro_id(id)
+    if visita is None:
+        return redirect('visitas')
+    for ctr in Contrato.seleccionar_rutprofesional(profesional.rut):
+        if visita.CONTRATO_id == ctr.id_contrato:
+            contrato = ctr
+            break
+    if contrato is not None and visita.estado == False:
+        cliente = Cliente.filtro_rut(contrato.CLIENTE_rut)
+    else:
+        return redirect('visitas')
+    comunas = func_comunas(visita.COMUNA_id_comuna)
+    #Proceso para guardar la visita
+    if request.method == 'POST':
+        visita.COMUNA_id_comuna = request.POST["comuna"]
+        visita.ubicacion = request.POST["ubicacion"]
+        visita.fecha = datetime.strptime(request.POST["fecha"],'%Y-%m-%d')
+        ultimo_dia= "{}/{}/{}".format(visita.periodo.year,visita.periodo.month,calendar.monthrange(visita.periodo.year, visita.periodo.month)[1])
+        comunas = ["{}".format(c.id_comuna) for c in Ubicacion.todos()]
+        if visita.fecha < visita.periodo or visita.fecha > datetime.strptime(ultimo_dia, '%Y/%m/%d'):
+            messages.success(request, "Error: Visita fuera de rango")
+            return redirect('visitas')
+        if visita.COMUNA_id_comuna not in comunas:
+            messages.success(request, "Error: Id de comuna fuera de rango")
+            return redirect('visitas')
+        visita.modificar()
+        messages.success(request, "Visita programada")
+        return redirect('visitas')
+    return render(request,"SSAP/programarvisita.html",{'visita':visita, 'cliente':cliente, 'comunas':comunas})
 
 @logueado
 @esProfesional
-def modificarVisita(request):
-    return render(request,"SSAP/modificarvisita.html")
+def iniciarVisita(request, id):
+    profesional = request.session.get('subtipo')
+    contrato = None
+    visita = Visita.filtro_id(id)
+    if visita is None:
+        return redirect('visitas')
+    for ctr in Contrato.seleccionar_rutprofesional(profesional.rut):
+        if visita.CONTRATO_id == ctr.id_contrato:
+            contrato = ctr
+            break
+    if contrato is not None and visita.estado == False:
+        cliente = Cliente.filtro_rut(contrato.CLIENTE_rut)
+        checklist = Checklist.filtro_idcontrato(contrato.id_contrato)
+        items = str(checklist.elementos).split(",")
+        if checklist.elementos is None:
+            messages.success(request,"Error: El cliente {} necesita al menos un elemento en su checklist".format(cliente.nombre_empresa))
+            return redirect('visitas')
+    else:
+        return redirect('visitas')
+    
+    #Al responder la visita
+    if request.method=="POST":
+        #Obtener datos
+        aprobados = []
+        for item in items:
+            try:
+                if request.POST[item] in items:
+                    aprobados.append(request.POST[item])
+            except:
+                None
+        mejora = request.POST["mejora"]
+
+        #Generar PDF
+        nombre_pdf = cliente.rut+str(datetime.now().strftime("%d%m%Y"))+str(visita.id_visita)+".pdf"
+        visita.reporte_final = nombre_pdf
+        visita.estado = 1
+        visita.modificar()
+        ruta_pdf = "MEDIA/CHECKLISTS/"+nombre_pdf
+        func_generar_pdf("SSAP/visitapdf.html",{'visita':visita,'cliente':cliente, 'checklist':items, 'aprobados':aprobados, 'mejora':mejora}, ruta_pdf)
+        messages.success(request, "Visita "+str(visita.fecha.strftime("%d/%m/%Y"))+" realizada")
+        return redirect('visitas')
+    return render(request,"SSAP/iniciarvisita.html",{'visita':visita,'cliente':cliente, 'checklist':items})
 
 @logueado
 @esProfesional
-def iniciarVisita(request):
-    return render(request,"SSAP/iniciarvisita.html")
+def visita_profesional(request, nombre):
+    archivo = 'MEDIA/CHECKLISTS/'+nombre
+    try:
+        return FileResponse(open(archivo,'rb'), content_type='application/pdf')
+    except:
+        return redirect('index')

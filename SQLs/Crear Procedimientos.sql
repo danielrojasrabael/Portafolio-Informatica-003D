@@ -308,3 +308,105 @@ begin
     open registro for select ID_CHECKLIST, ELEMENTOS, ID_CONTRATO from checklist where ID_CONTRATO = idCtr;
 end;
 /
+
+------------------------------------------
+-- Visita
+------------------------------------------
+CREATE OR REPLACE PROCEDURE visita_PorId (registro out SYS_REFCURSOR,idVi in NUMBER)
+as
+begin
+    OPEN registro for SELECT vi.ID_VISITA, vi.FECHA, vi.ESTADO, vi.UBICACION, vi.REPORTE_FINAL, vi.PERIODO, vi.ID_CONTRATO, vi.ID_COMUNA, cli.nombre_empresa FROM VISITA vi 
+    INNER JOIN CONTRATO c
+    ON c.id_contrato = vi.id_contrato
+    INNER JOIN CLIENTES cli
+    ON c.rut_cliente = cli.rut_cliente
+    WHERE vi.ID_VISITA = idVi;
+end;
+/
+
+CREATE OR REPLACE PROCEDURE seleccionarVisitas (registro out SYS_REFCURSOR)
+as
+begin
+    OPEN registro for SELECT vi.ID_VISITA, vi.FECHA, vi.ESTADO, vi.UBICACION, vi.REPORTE_FINAL, vi.PERIODO, vi.ID_CONTRATO, vi.ID_COMUNA, cli.nombre_empresa FROM VISITA vi 
+    INNER JOIN CONTRATO c
+    ON c.id_contrato = vi.id_contrato
+    INNER JOIN CLIENTES cli
+    ON c.rut_cliente = cli.rut_cliente
+    ORDER BY vi.PERIODO desc;
+end;
+/
+
+CREATE OR REPLACE PROCEDURE actualizarVisita (fecha_v in DATE, estado_v in NUMBER, ubicacion_v in VARCHAR2, reporte_final_v in VARCHAR2, periodo_v in DATE, idComuna_v in NUMBER, idVi in NUMBER)
+as
+begin
+     UPDATE VISITA SET FECHA = fecha_v, ESTADO=estado_v, UBICACION = ubicacion_v, REPORTE_FINAL = reporte_final_v, PERIODO = periodo_v,ID_COMUNA = idComuna_v WHERE ID_VISITA = idVi;
+end;
+/
+
+------------------------------------------
+-- Actividades
+------------------------------------------
+create or replace procedure actividadProfContrato (registro out SYS_REFCURSOR, rutProf in VARCHAR2)
+as
+begin
+    open registro for select 
+    c.id_contrato ,
+    c.rut_profesional,
+    p.nombre AS ENCARGADO
+    from contrato c
+    join profesionales p on c.rut_profesional = p.rut_prof
+    where c.rut_profesional = rutProf;
+end;
+/
+
+create or replace procedure actividadProfAsesoria (registro out SYS_REFCURSOR, rutProf in VARCHAR2)
+as
+begin
+    open registro for select 
+    a.ID_ASESORIA AS ASESORIA,
+    a.FECHA_PUBLICACION AS FECHA_CREACION,
+    p.nombre AS NOMBRE_ENCARGADO,
+    p.rut_prof AS RUT_ENCARGADO
+    from ASESORIA a
+    join SOLICITUD s on a.id_solicitud = s.id_solicitud
+    join CONTRATO c on s.id_contrato = c.id_contrato
+    join PROFESIONALES p on c.rut_profesional = p.rut_prof
+    where p.rut_prof = rutProf;
+end;
+/
+
+create or replace procedure actividadProfCapacitacion (registro out SYS_REFCURSOR, rutProf in VARCHAR2)
+as
+begin
+    open registro for select 
+    c.nombre as NOMBRE_CAPACITACION,
+    c.fecha AS FECHA_CAPACITACION,
+    c.ubicacion as UBICACION,
+    co.nombre AS COMUNA,
+    p.nombre as NOMBRE_ENCARGADO,
+    p.rut_prof as RUT_ENCARGADO
+    from CAPACITACION c
+    join CONTRATO cn on c.id_contrato = cn.id_contrato
+    join COMUNA co on c.id_comuna = co.id_comuna
+    join PROFESIONALES p on cn.rut_profesional = p.rut_prof
+    where p.rut_prof = rutProf;
+    
+end;
+/
+
+create or replace procedure actividadProfVisita (registro out SYS_REFCURSOR, rutProf in VARCHAR2)
+as
+begin
+    open registro for select
+    vi.fecha as FECHA,
+    vi.ubicacion as UBICACION,
+    co.nombre as COMUNA,
+    prof.nombre as NOMBRE_PRO
+    from VISITA vi
+    join CONTRATO cn on vi.id_contrato = cn.id_contrato
+    join COMUNA co on vi.id_comuna = co.id_comuna
+    join PROFESIONALES prof on cn.rut_profesional = prof.rut_prof
+    WHERE vi.fecha IS NOT NULL
+    AND prof.rut_prof = rutProf;
+end;
+/

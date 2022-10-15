@@ -1,0 +1,28 @@
+<body>
+    <div>
+        <div>
+            <h1><center>Análisis de Empresa</center></h1>
+            <h2>{{cliente.nombre_empresa}}</h2>
+            <h2>Fecha Respuesta: {% now 'd/m/Y'%}</h2>
+            <h2>RUT: {{cliente.rut}}</h2>
+        </div>
+        <hr>
+        <div>
+            <h3>Resultados del Análisis:</h3>
+            <ul>
+            {%for item in checklist%}
+                {%if item in aprobados%}
+                    <li class="check_success">{{item}}</li>
+                {%else%}
+                    <li class="check_fail">{{item}}</li>
+                {%endif%}               
+            {%endfor%}
+            </ul>
+        </div>
+        <hr>
+        <div class="mejora">
+            <h3>Mejoras:</h3>
+            {{mejora}}
+        </div>
+    </div>
+</body>

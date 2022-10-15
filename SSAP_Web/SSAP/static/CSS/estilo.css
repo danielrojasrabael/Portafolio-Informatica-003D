@@ -48,6 +48,14 @@ caption{
     padding-left: 1vh;
     padding-right: 1vh;
 }
+
+/* Dark Mode*/
+
+h1 .darkmode{
+    background-color: rgb(32,32,44);
+    color: white;
+}
+
 /* Extensión de BootStrap */
 
     /* Botones */
@@ -258,6 +266,14 @@ nav{
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+}
+
+.fondo-global{
+     background-color: rgb(232, 232, 238);
+}
+
+.oscuro{
+    background-color: rgb(32,32,44);
 }
 
 .fondo-home{

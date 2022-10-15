@@ -49,12 +49,7 @@
                             <th>{{visita.fecha | date:'d/m/Y'}}</th>
                             <th>
                                 <div class="row esp-input">
-                                    <form action="{%url 'iniciarvisita'%}" method="post" class="col-sm-12">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="id" value="">
-                                        <input type="hidden" name="nombre" value="">
-                                        <input type="submit" value="Iniciar Visita" class="accion btn btn-success col-sm-12">
-                                    </form>
+                                    <a href="{% url 'iniciarvisita' id=visita.id_visita%}"><button class="accion btn btn-success col-sm-12">Iniciar Visita</button></a>
                                 </div>
                                 <div class="row esp-input">
                                     <a href="{% url 'programarvisita' id=visita.id_visita%}"><button class="accion btn btn-primary col-sm-12">Modificar Visita</button></a>
@@ -65,12 +60,7 @@
                             <th>{{visita.fecha | date:'d/m/Y'}}</th>
                             <th>
                                 <div class="row esp-input">
-                                    <form action="" method="post" class="col-sm-12">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="id" value="">
-                                        <input type="hidden" name="nombre" value="">
-                                        <input type="submit" value="Revisar Reporte" class="accion btn btn-primary col-sm-12">
-                                    </form>
+                                    <a href="{% url 'visita_profesional' nombre=visita.reporte_final%}"><button class="accion btn btn-primary col-sm-12">Revisar Reporte</button></a>
                                 </div>
                             </th>
                         {%endif%}

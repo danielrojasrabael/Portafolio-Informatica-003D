@@ -1,7 +1,7 @@
 #Imports
 from datetime import datetime
-from http import client
-from tabnanny import check
+from time import strftime
+from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import FileResponse
@@ -12,6 +12,11 @@ from SSAP.models import *
 
 #Login/Logout
 from django.contrib.auth import authenticate
+
+#PDFs
+from django.template.loader import get_template
+from weasyprint import HTML, CSS
+import os
 
 # Funciones
 def func_logout(request):
@@ -39,6 +44,14 @@ def func_comunas(id_com=None):
         else:
             opciones = opciones + "<option value={}>&nbsp&nbsp&nbsp{}</option>".format(ubicacion.id_comuna, ubicacion.nombre_comuna)
     return opciones
+
+def func_generar_pdf(template_src, contexto, nom_archivo):
+    template = get_template(template_src)
+    html_tmpl = template.render(contexto)
+    archivo = os.path.join(settings.BASE_DIR, nom_archivo)
+    css_pag = os.path.join(settings.BASE_DIR, 'SSAP/static/css/estilo_pdf.css')
+
+    HTML(string=html_tmpl).write_pdf(target=archivo, stylesheets=[CSS(css_pag)])
 
 # Decoradores
 def logueado(function):
@@ -408,12 +421,13 @@ def visitas(request):
     profesional = request.session.get('subtipo')
     ids = []
     visitas = []
+    comunas = Ubicacion.todos()
     for contrato in Contrato.seleccionar_rutprofesional(profesional.rut):
         ids.append(contrato.id_contrato)
     for visita in Visita.todos():
         if visita.CONTRATO_id in ids:
             visitas.append(visita)
-    return render(request,"SSAP/visitas.html", {'visitas':visitas})
+    return render(request,"SSAP/visitas.html", {'visitas':visitas, 'comunas':comunas})
 
 @logueado
 @esProfesional
@@ -427,7 +441,7 @@ def programarVisita(request, id):
         if visita.CONTRATO_id == ctr.id_contrato:
             contrato = ctr
             break
-    if contrato is not None:
+    if contrato is not None and visita.estado == False:
         cliente = Cliente.filtro_rut(contrato.CLIENTE_rut)
     else:
         return redirect('visitas')
@@ -452,10 +466,54 @@ def programarVisita(request, id):
 
 @logueado
 @esProfesional
-def modificarVisita(request):
-    return render(request,"SSAP/modificarvisita.html")
+def iniciarVisita(request, id):
+    profesional = request.session.get('subtipo')
+    contrato = None
+    visita = Visita.filtro_id(id)
+    if visita is None:
+        return redirect('visitas')
+    for ctr in Contrato.seleccionar_rutprofesional(profesional.rut):
+        if visita.CONTRATO_id == ctr.id_contrato:
+            contrato = ctr
+            break
+    if contrato is not None and visita.estado == False:
+        cliente = Cliente.filtro_rut(contrato.CLIENTE_rut)
+        checklist = Checklist.filtro_idcontrato(contrato.id_contrato)
+        items = str(checklist.elementos).split(",")
+        if checklist.elementos is None:
+            messages.success(request,"Error: El cliente {} necesita al menos un elemento en su checklist".format(cliente.nombre_empresa))
+            return redirect('visitas')
+    else:
+        return redirect('visitas')
+    
+    #Al responder la visita
+    if request.method=="POST":
+        #Obtener datos
+        aprobados = []
+        for item in items:
+            try:
+                if request.POST[item] in items:
+                    aprobados.append(request.POST[item])
+            except:
+                None
+        mejora = request.POST["mejora"]
+
+        #Generar PDF
+        nombre_pdf = cliente.rut+str(datetime.now().strftime("%d%m%Y"))+str(visita.id_visita)+".pdf"
+        visita.reporte_final = nombre_pdf
+        visita.estado = 1
+        visita.modificar()
+        ruta_pdf = "MEDIA/CHECKLISTS/"+nombre_pdf
+        func_generar_pdf("SSAP/visitapdf.html",{'visita':visita,'cliente':cliente, 'checklist':items, 'aprobados':aprobados, 'mejora':mejora}, ruta_pdf)
+        messages.success(request, "Visita "+str(visita.fecha.strftime("%d/%m/%Y"))+" realizada")
+        return redirect('visitas')
+    return render(request,"SSAP/iniciarvisita.html",{'visita':visita,'cliente':cliente, 'checklist':items})
 
 @logueado
 @esProfesional
-def iniciarVisita(request):
-    return render(request,"SSAP/iniciarvisita.html")
+def visita_profesional(request, nombre):
+    archivo = 'MEDIA/CHECKLISTS/'+nombre
+    try:
+        return FileResponse(open(archivo,'rb'), content_type='application/pdf')
+    except:
+        return redirect('index')

@@ -1,7 +1,7 @@
 from django.test import SimpleTestCase
 from SSAP.models import *
 
-conexion = cx_Oracle.connect(user="SSAP_TEST", password="123456", dsn="localhost:1522/ORCL1")
+conexion = cx_Oracle.connect(user="SSAP_TEST", password="123456", dsn="localhost:1521/XE")
 
 # -- CU 1 --
 

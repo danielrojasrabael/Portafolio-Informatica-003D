@@ -2,24 +2,30 @@
 {%load static%}
 {%block titulo%}SSAP | Menú Principal{%endblock%}
 {%block contenido%}
-<div class="fondo-falso">
-    
-    <div class="contenedor">
+<div class="fondo-global oscuro">
+    <div class="fondo-falso">
         
-        <div class="panel-blanco-redondo">
+        <div class="contenedor">
             
-            <div style="text-align: center;">
-                {%if request.session.usuario.tipo == 'CLIENTE'%}
-                    <h1>{{tipoUsuario.nombre_empresa}} Bienvenido a SSAP</h1><br>
-                    <h3>Tipo Usuario: Cliente</h3>
-                {%elif request.session.usuario.tipo == 'PROFESIONAL'%}
-                    <h1>{{tipoUsuario.nombre}} Bienvenido a SSAP</h1><br>
-                    <h3>Tipo Usuario: Profesional</h3>
-                {%elif request.session.usuario.tipo == 'ADMINISTRADOR' %}
-                    <h1>{{tipoUsuario.nombre}} Bienvenido a SSAP</h1><br>
-                    <h3>Tipo Usuario: Administrador</h3><br>
-                {%endif%}
+            <div class="card">
+                <div class="card-body">
+                
+                    <div style="text-align: center;">
+                        {%if request.session.usuario.tipo == 'CLIENTE'%}
+                            <h1 class="tx-gradiente-am">{{tipoUsuario.nombre_empresa}} Bienvenido a SSAP</h1><br>
+                            <h3 class="tx-gradiente-am">Tipo Usuario: Cliente</h3>
+                        {%elif request.session.usuario.tipo == 'PROFESIONAL'%}
+                            <h1 class="tx-gradiente-av">{{tipoUsuario.nombre}} Bienvenido a SSAP</h1><br>
+                            <h3 class="tx-gradiente-av">Tipo Usuario: Profesional</h3>
+                        {%elif request.session.usuario.tipo == 'ADMINISTRADOR' %}
+                            <h1 class="tx-gradiente-aa">{{tipoUsuario.nombre}} Bienvenido a SSAP</h1><br>
+                            <h3 class="tx-gradiente-aa">Tipo Usuario: Administrador</h3>
+                        {%endif%}
+                    </div>
+
+                </div>
             </div>
+
         </div>
     </div>
 </div>

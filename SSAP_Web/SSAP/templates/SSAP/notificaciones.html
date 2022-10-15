@@ -2,15 +2,40 @@
 {%load static%}
 {%block titulo%}SSAP | Notificaciones{%endblock%}
 {%block contenido%}
-<div style="text-align: center;">
-    <h2>Notificaciones</h2>
-    {%for n in notificaciones%}
-        <hr style="width: 50%;">
-        <div>
-            <b>{{n.titulo}} | {{n.fecha | date:"d/m/Y H:i"}}</b><br>
-            <p>{{n.descripcion}}</p>
-            <form action="{% url 'elimnotif' %}" method="post">{% csrf_token %}<input type="hidden" name="id" value="{{n.id_notificacion}}"><input type="submit" value="Borrar"></form>
+<div class="fondo-home">
+    <div class="contenedor">
+        <div class="espacio">
+
+            <div style="text-align: center;">
+
+                <div class="row esp-input">
+                    <div class="card">
+                        <div class="card-body">
+                          <h1 class="card-title futura">NOTIFICACIONES</h1>
+                        </div>
+                    </div>
+                </div>
+
+                {%for n in notificaciones%}
+                    <div class="row esp-input">
+                        <div class="toast show">
+                            <div class="toast-header" style="justify-content: space-between;">
+                                <b>{{n.titulo}} | {{n.fecha | date:"d/m/Y H:i"}}</b>
+                                <form action="{% url 'elimnotif' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="id" value="{{n.id_notificacion}}">
+                                    <input type="submit" class="btn btn-primary btn-close" value="">
+
+                                </form>
+                            </div>
+                            <div class="toast-body" style="text-align: start;">
+                                <p>{{n.descripcion}}</p>
+                            </div>
+                        </div>
+                    </div>
+                {%endfor%}
+            </div>
         </div>
-    {%endfor%}
+    </div>
 </div>
 {%endblock%}

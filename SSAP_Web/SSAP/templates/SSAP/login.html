@@ -7,8 +7,16 @@
     <div class="fondo-falso">
 
         <div class="contenedor">
-
+            
             <div class="panel-blanco-redondo">
+
+                {% for mensaje in messages %}
+                    <div class="alert alert-danger alert-dismissible fade show col-sm-12" role="alert">
+                        <strong>{{mensaje}}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+                
                 
                 <div style="text-align: center;" class="pantalla col-sm-6 relleno">
                     <h2 class="tx-gradiente-p">Ingresar a SSAP</h2>
@@ -19,15 +27,15 @@
                         {%csrf_token%}
 
                         <div class="row esp-input">
-                            <label for="rut" class="col-sm-4 col-form-label col-form-label-lg">Rut:</label>
-                            <div class="col-sm-8">
+                            <label for="rut" class="col-sm-5 col-form-label col-form-label-lg"><strong>Rut:</strong></label>
+                            <div class="col-sm-7">
                                 <input class="form-control form-control-lg" type="text" name="rut" placeholder="12.345.678-9"></input>
                             </div>
                         </div>
 
                         <div class="row esp-input">
-                            <label for="password" class="col-sm-4 col-form-label col-form-label-lg">Contraseña:</label>
-                            <div class="col-sm-8">
+                            <label for="password" class="col-sm-5 col-form-label col-form-label-lg"><strong>Contraseña:</strong></label>
+                            <div class="col-sm-7">
                                 <input class="form-control form-control-lg" type="password" name="password" placeholder="********"></input>
                             </div>
                         </div>
@@ -35,10 +43,7 @@
                         <div class="row esp-input">
                             <input type="submit" value="Ingresar al Sistema" class=" col-sm-12 contenedor btn btn-primary btn-lg"></input>
                         </div>
-                    </form>
-                    {% for mensaje in messages %}
-                        {{mensaje}}<br>
-                    {% endfor %}
+                    </form>                    
                 </div>
 
             </div>

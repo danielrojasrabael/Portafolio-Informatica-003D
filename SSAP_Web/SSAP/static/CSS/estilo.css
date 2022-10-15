@@ -150,8 +150,14 @@ h1 .darkmode{
 
 #bootstrap-overrides .card{
     --bs-card-title-spacer-y: 0;
+    --bs-toast-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    box-shadow: var(--bs-toast-box-shadow);
 }
 
+#bootstrap-overrides .table{
+    --bs-toast-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    box-shadow: var(--bs-toast-box-shadow);
+}
 
     /*Checkbox slider*/
 #bootstrap-overrides .form-check-input:checked{
@@ -373,6 +379,8 @@ footer{
     background-clip: border-box;
     border: var(--bs-card-border-width) solid var(--bs-card-border-color);
     border-radius: var(--bs-card-border-radius);
+    --bs-toast-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    box-shadow: var(--bs-toast-box-shadow);
     width: 80%;
 }
 

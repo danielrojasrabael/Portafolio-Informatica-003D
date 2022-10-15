@@ -180,6 +180,8 @@ h1 .darkmode{
     height: 100%;
     background-color: rgb(237, 236, 238);
     color: rgb(99, 20, 168);
+    --bs-toast-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    box-shadow: var(--bs-toast-box-shadow);
 }
 
 .sidebar li, .sidebar button{
@@ -194,6 +196,8 @@ nav{
     align-items: center;
     background-color: rgb(237, 236, 238);
     min-height: 8vh;
+    --bs-toast-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    box-shadow: var(--bs-toast-box-shadow);
 }
 
 .nav-links{

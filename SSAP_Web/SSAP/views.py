@@ -326,6 +326,11 @@ def boleta_adm(request, nombre):
         return FileResponse(open(archivo,'rb'), content_type='application/pdf')
     except:
         return redirect('index')
+
+@logueado
+@esAdmin
+def verActividades(request):
+    return render(request, 'SSAP/veractividades.html')
 #   ------------------------ Cliente ------------------------
 
 @logueado

@@ -1,0 +1,51 @@
+{%extends 'SSAP/base.html'%}
+{% load static %}
+{%block titulo%}SSAP | Ver Actividades{%endblock%}
+{%block contenido%}
+<div class="fondo-global">
+    <div class="fondo-home">
+
+        <div class="contenedor">
+
+            <div class="espacio">
+                
+                <table class="table table-responsive table-light table-striped align-middle">
+                    <thead>
+                        <caption>
+                            <h3 class="tx-gradiente-p medio-tx">Tabla de Actividades</h3>
+                        </caption>
+                        
+                        <tr>
+                            <th scope="col">Profesional</th>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Ubicacion</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Homero Sinso</th>
+                            <th>Visita</th>
+                            <th>14/01/2023</th>
+                            <th>Mi Casa 123, Renca</th>
+                        </tr>
+                        <tr>
+                            <th>Homero Sinso</th>
+                            <th>Capacitación</th>
+                            <th>12/01/2023</th>
+                            <th>Antonio Varas 666, Providencia</th>
+                        </tr>
+                        <tr>
+                            <th>Jorge de Guzman</th>
+                            <th>Visita</th>
+                            <th>21/01/2023</th>
+                            <th>Lugar Random 34, Cerro Navia</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

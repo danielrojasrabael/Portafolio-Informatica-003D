@@ -2,77 +2,77 @@
 {% load static %}
 {%block titulo%}SSAP | Visitas{%endblock%}
 {%block contenido%}
+<div class="fondo-global">
+    <div class="fondo-home">
 
-<div class="fondo-home">
-
-    <div class="contenedor">
-        <div class="espacio">
-            <table class="table table-responsive table-light table-striped align-middle medio-tx">
-                <thead>
-                    <tr>
-                        <td colspan="5"><h3 class="text-muted">Historial Visitas</h3></td>
-                    </tr>
-                    <tr>
-                        <th scope="col">Cliente</th>
-                        <th scope="col">Ubicación</th>
-                        <th scope="col">Estado</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Acciones</th>
-                    </tr>
-
-                </thead>
-                <tbody>
-                    {%for visita in visitas%}
-                    {%ifchanged visita.periodo%}
+        <div class="contenedor">
+            <div class="espacio">
+                <table class="table table-responsive table-light table-striped align-middle medio-tx">
+                    <thead>
                         <tr>
-                            <td colspan="5"><h4><kbd>Periodo {{visita.periodo | date:'m/Y'}}</kbd></h4></td>
+                            <td colspan="5"><h3 class="tx-gradiente-p">Historial Visitas</h3></td>
                         </tr>
-                    {%endifchanged%}
-                    <tr>
-                        <th>{{visita.nombre_cliente}}</th>
-                        {%if visita.ubicacion%}
-                            <th>{{visita.ubicacion}}</th>
-                        {%else%}
-                            <th>N/A</th>
-                        {%endif%}
+                        <tr>
+                            <th scope="col">Cliente</th>
+                            <th scope="col">Ubicación</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
 
-                        {%if not visita.fecha%}
-                            <th>Por Programar</th>
-                            <th>N/A</th>
-                            <th>
-                                <div class="row esp-input">
-                                    <a href="{% url 'programarvisita' id=visita.id_visita%}"><button class="accion btn btn-warning col-sm-12">Programar Visita</button></a>
-                                </div>
-                            </th>
-                        {%elif not visita.estado%}
-                            <th>Programada</th>
-                            <th>{{visita.fecha | date:'d/m/Y'}}</th>
-                            <th>
-                                <div class="row esp-input">
-                                    <a href="{% url 'iniciarvisita' id=visita.id_visita%}"><button class="accion btn btn-success col-sm-12">Iniciar Visita</button></a>
-                                </div>
-                                <div class="row esp-input">
-                                    <a href="{% url 'programarvisita' id=visita.id_visita%}"><button class="accion btn btn-primary col-sm-12">Modificar Visita</button></a>
-                                </div>
-                            </th>
-                        {%else%}
-                            <th>Resuelta</th>
-                            <th>{{visita.fecha | date:'d/m/Y'}}</th>
-                            <th>
-                                <div class="row esp-input">
-                                    <a href="{% url 'visita_profesional' nombre=visita.reporte_final%}"><button class="accion btn btn-primary col-sm-12">Revisar Reporte</button></a>
-                                </div>
-                            </th>
-                        {%endif%}
-                    </tr>
-                    {%endfor%}
-                </tbody>
-            </table>
-            {%for mensaje in messages%}
-                {{mensaje}}
-            {%endfor%}
+                    </thead>
+                    <tbody>
+                        {%for visita in visitas%}
+                        {%ifchanged visita.periodo%}
+                            <tr>
+                                <td colspan="5"><h4><kbd>Periodo {{visita.periodo | date:'m/Y'}}</kbd></h4></td>
+                            </tr>
+                        {%endifchanged%}
+                        <tr>
+                            <th>{{visita.nombre_cliente}}</th>
+                            {%if visita.ubicacion%}
+                                <th>{{visita.ubicacion}}</th>
+                            {%else%}
+                                <th>N/A</th>
+                            {%endif%}
+
+                            {%if not visita.fecha%}
+                                <th>Por Programar</th>
+                                <th>N/A</th>
+                                <th>
+                                    <div class="row esp-input">
+                                        <a href="{% url 'programarvisita' id=visita.id_visita%}"><button class="accion btn btn-warning col-sm-12">Programar Visita</button></a>
+                                    </div>
+                                </th>
+                            {%elif not visita.estado%}
+                                <th>Programada</th>
+                                <th>{{visita.fecha | date:'d/m/Y'}}</th>
+                                <th>
+                                    <div class="row esp-input">
+                                        <a href="{% url 'iniciarvisita' id=visita.id_visita%}"><button class="accion btn btn-success col-sm-12">Iniciar Visita</button></a>
+                                    </div>
+                                    <div class="row esp-input">
+                                        <a href="{% url 'programarvisita' id=visita.id_visita%}"><button class="accion btn btn-primary col-sm-12">Modificar Visita</button></a>
+                                    </div>
+                                </th>
+                            {%else%}
+                                <th>Resuelta</th>
+                                <th>{{visita.fecha | date:'d/m/Y'}}</th>
+                                <th>
+                                    <div class="row esp-input">
+                                        <a href="{% url 'visita_profesional' nombre=visita.reporte_final%}"><button class="accion btn btn-primary col-sm-12">Revisar Reporte</button></a>
+                                    </div>
+                                </th>
+                            {%endif%}
+                        </tr>
+                        {%endfor%}
+                    </tbody>
+                </table>
+                {%for mensaje in messages%}
+                    {{mensaje}}
+                {%endfor%}
+            </div>
         </div>
     </div>
 </div>
-
 {%endblock%}

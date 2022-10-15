@@ -2,53 +2,54 @@
 {% load static %}
 {%block titulo%}SSAP | Visitas{%endblock%}
 {%block contenido%}
-
-<div class="fondo-home">
-    <form id="formConfirmar" method="post" action="">
-    {% csrf_token %}
-    <div class="contenedor">
-        <div class="espacio">
-            <div class="row esp-input col-sm-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title">Periodo: {{visita.periodo | date:'m/Y'}}</h3>
-                        <h2>RUT: <kbd>{{cliente.rut}}</kbd></h2>
-                        <h1>{{cliente.nombre_empresa}}</h1>
+<div class="fondo-global">
+    <div class="fondo-home">
+        <form id="formConfirmar" method="post" action="">
+        {% csrf_token %}
+        <div class="contenedor">
+            <div class="espacio">
+                <div class="row esp-input col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Periodo: {{visita.periodo | date:'m/Y'}}</h3>
+                            <h2>RUT: <kbd>{{cliente.rut}}</kbd></h2>
+                            <h1>{{cliente.nombre_empresa}}</h1>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <table class="table table-responsive table-light table-striped">
-                <tbody>
-                    {%for item in checklist%}
-                        <tr>
-                            <td>
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="mySwitch" name="{{item}}" value="{{item}}">
-                                    <label class="form-check-label" for="mySwitch"><h4>{{item}}</h4></label>
-                                </div>
-                            </td>
-                        </tr>
-                    {%endfor%}
-                </tbody>
-            </table>
-            <div class="row esp-input col-sm-12">
-                <div class="card">
-                    <div class="card-body">
-                        <label for="comment"><h3>Mejoras:</h3></label>
-                        <textarea class="form-control" rows="5" id="comment" name="mejora"></textarea>
+                <table class="table table-responsive table-light table-striped">
+                    <tbody>
+                        {%for item in checklist%}
+                            <tr>
+                                <td>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="mySwitch" name="{{item}}" value="{{item}}">
+                                        <label class="form-check-label" for="mySwitch"><h4>{{item}}</h4></label>
+                                    </div>
+                                </td>
+                            </tr>
+                        {%endfor%}
+                    </tbody>
+                </table>
+                <div class="row esp-input col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <label for="comment"><h3>Mejoras:</h3></label>
+                            <textarea class="form-control" rows="5" id="comment" name="mejora"></textarea>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row esp-input col-sm-12">
-                <div class="col-sm-6">
-                    <a href="{% url 'visitas' %}"><button type="button" class="btn btn-back btn-lg col-sm-12">Cancelar</button></a>
-                </div>
-                <div class="col-sm-6">
-                    <input type="submit" class="btn btn-primary btn-lg col-sm-12" value="Responder Checklist">
+                <div class="row esp-input col-sm-12">
+                    <div class="col-sm-6">
+                        <a href="{% url 'visitas' %}"><button type="button" class="btn btn-back btn-lg col-sm-12">Cancelar</button></a>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="submit" class="btn btn-primary btn-lg col-sm-12" value="Responder Checklist">
+                    </div>
                 </div>
             </div>
         </div>
+        </form>
     </div>
-    </form>
 </div>
 {%endblock%}

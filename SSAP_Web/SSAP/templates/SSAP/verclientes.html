@@ -2,32 +2,32 @@
 {% load static %}
 {%block titulo%}SSAP | Ver Clientes{%endblock%}
 {%block contenido%}
+<div class="fondo-global">
+    <div class="fondo-home">
 
-<div class="fondo-home">
+        <div class="contenedor">
 
-    <div class="contenedor">
+            <div class="espacio">
+                
+                <table class="table table-responsive table-light table-striped align-middle">
+                    <thead>
+                        <caption>
+                            <h3 class="tx-gradiente-p medio-tx">Clientes</h3>
+                        </caption>
+                        
+                        <tr>
+                            <th scope="col">Rut</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Dirección</th>
+                        </tr>
 
-        <div class="espacio">
-            
-            <table class="table table-responsive table-light table-striped align-middle">
-                <thead>
-                    <caption>
-                        <h3 class="text-muted medio-tx">Clientes</h3>
-                    </caption>
-                    
-                    <tr>
-                        <th scope="col">Rut</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Dirección</th>
-                    </tr>
-
-                </thead>
-                <tbody>
-                    {{clientes | safe}}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {{clientes | safe}}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
-
 {%endblock%}

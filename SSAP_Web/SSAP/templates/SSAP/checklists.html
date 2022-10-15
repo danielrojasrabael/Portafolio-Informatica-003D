@@ -2,29 +2,31 @@
 {% load static %}
 {%block titulo%}SSAP | Gestión de Usuarios{%endblock%}
 {%block contenido%}
-<div class="fondo-home">
+<div class="fondo-global">
+    <div class="fondo-home">
 
-    <div class="contenedor">
+        <div class="contenedor">
 
-        <div class="espacio">
-            
-            <table class="table table-responsive table-light table-striped align-middle">
-                <thead>
-                    <caption>
-                        <h3 class="text-muted medio-tx">Lista de Clientes</h3>
-                    </caption>
-                    
-                    <tr>
-                        <th scope="col">Cliente</th>
-                        <th scope="col">Estado CheckList</th>
-                        <th scope="col">Acciones</th>
-                    </tr>
+            <div class="espacio">
+                
+                <table class="table table-responsive table-light table-striped align-middle">
+                    <thead>
+                        <caption>
+                            <h3 class="tx-gradiente-p medio-tx">Lista de Clientes</h3>
+                        </caption>
+                        
+                        <tr>
+                            <th scope="col">Cliente</th>
+                            <th scope="col">Estado CheckList</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
 
-                </thead>
-                <tbody>
-                    {{items | safe}}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {{items | safe}}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

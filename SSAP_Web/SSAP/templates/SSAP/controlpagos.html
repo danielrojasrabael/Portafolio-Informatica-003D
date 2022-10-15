@@ -2,85 +2,87 @@
 {% load static %}
 {%block titulo%}SSAP | Control de Pagos{%endblock%}
 {%block contenido%}
-<div class="fondo-home">
+<div class="fondo-global">
+    <div class="fondo-home">
 
-    <div class="contenedor">
-        <div class="espacio">
+        <div class="contenedor">
+            <div class="espacio">
 
-            <div class="row esp-input col-sm-12">
-                <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title">Cliente</h5>
-                      <h1>{{cliente.nombre_empresa}}</h1>
-                      <h2>RUT: <kbd>{{cliente.rut}}</kbd></h2>
-                      <h2>Estado: <kbd>{{estado}}</kbd></h2>
+                <div class="row esp-input col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                        <h5 class="card-title">Cliente</h5>
+                        <h1>{{cliente.nombre_empresa}}</h1>
+                        <h2>RUT: <kbd>{{cliente.rut}}</kbd></h2>
+                        <h2>Estado: <kbd>{{estado}}</kbd></h2>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <table class="table table-responsive table-light table-striped align-middle">
-                <thead>
-                    <tr>
-                        
-                        <caption>
-                            <h3 class="text-muted medio-tx">Tabla de Pagos</h3>
-                        </caption>
-
-                        <th scope="col">Fecha Límite</th>
-                        <th scope="col">Fecha Pago</th>
-                        <th scope="col">Monto</th>
-                        <th scope="col">Estado</th>
-                        <th scope="col">Boleta</th>
-                        <th scope="col">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {%for m in mensualidades%}
+                <table class="table table-responsive table-light table-striped align-middle">
+                    <thead>
                         <tr>
-                            <th scope="col">{{m.fecha_limite | date:"d/m/Y"}}</th>
-                            {%if not m.fecha_pago %}  
-                                <th scope="col">N/A</th>
-                            {%else%}
-                                <th scope="col">{{m.fecha_pago | date:"d/m/Y"}}</th>
-                            {%endif%}
-                            <th scope="col">${{m.costo}}</th>
-                            {%if m.estado%}
-                                <th scope="col">Pagado</th>
-                            {%else%}
-                                {%if m.esta_atrasado%}
-                                    <th scope="col">Atrasado</th>
-                                {%else%}
-                                    <th scope="col">Pendiente</th>
-                                {%endif%}
-                            {%endif%}
-                            {%if not m.boleta%}
-                                <th scope="col">N/A</th>
-                            {%else%}
-                                <th scope="col"><a href="{% url 'boleta_adm' m.boleta%}">Link</a></th>
-                            {%endif%}
-                            <th scope="col">
-                                <div class="row esp-input">
-                                    <form action="{% url 'repatraso/' %}" method="post" class="col-sm-12">
-                                        {% csrf_token %}
-                                        {%if m.estado%}
-                                            <input type="submit" value="Reportar Atraso" class="accion btn btn-danger col-sm-12" disabled>
-                                        {%else%}
-                                            {%if m.esta_atrasado%}
-                                                <input type="hidden" value="{{cliente.rut}}" name="rut_cliente">
-                                                <input type="hidden" value="{{m.fecha_limite | date:'d/m/Y'}}" name="fecha_limite">
-                                                <input type="submit" value="Reportar Atraso" class="accion btn btn-danger col-sm-12">
-                                            {%else%}
-                                                <input type="submit" value="Reportar Atraso" class="accion btn btn-danger col-sm-12" disabled>
-                                            {%endif%}
-                                        {%endif%}
-                                    </form>
-                                </div>
-                            </th>
-                        </tr>
-                    {%endfor%}
-                </tbody>
-            </table>
-        </div>
-    </div>
+                            
+                            <caption>
+                                <h3 class="tx-gradiente-p medio-tx">Tabla de Pagos</h3>
+                            </caption>
 
+                            <th scope="col">Fecha Límite</th>
+                            <th scope="col">Fecha Pago</th>
+                            <th scope="col">Monto</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Boleta</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%for m in mensualidades%}
+                            <tr>
+                                <th scope="col">{{m.fecha_limite | date:"d/m/Y"}}</th>
+                                {%if not m.fecha_pago %}  
+                                    <th scope="col">N/A</th>
+                                {%else%}
+                                    <th scope="col">{{m.fecha_pago | date:"d/m/Y"}}</th>
+                                {%endif%}
+                                <th scope="col">${{m.costo}}</th>
+                                {%if m.estado%}
+                                    <th scope="col">Pagado</th>
+                                {%else%}
+                                    {%if m.esta_atrasado%}
+                                        <th scope="col">Atrasado</th>
+                                    {%else%}
+                                        <th scope="col">Pendiente</th>
+                                    {%endif%}
+                                {%endif%}
+                                {%if not m.boleta%}
+                                    <th scope="col">N/A</th>
+                                {%else%}
+                                    <th scope="col"><a href="{% url 'boleta_adm' m.boleta%}">Link</a></th>
+                                {%endif%}
+                                <th scope="col">
+                                    <div class="row esp-input">
+                                        <form action="{% url 'repatraso/' %}" method="post" class="col-sm-12">
+                                            {% csrf_token %}
+                                            {%if m.estado%}
+                                                <input type="submit" value="Reportar Atraso" class="accion btn btn-danger col-sm-12" disabled>
+                                            {%else%}
+                                                {%if m.esta_atrasado%}
+                                                    <input type="hidden" value="{{cliente.rut}}" name="rut_cliente">
+                                                    <input type="hidden" value="{{m.fecha_limite | date:'d/m/Y'}}" name="fecha_limite">
+                                                    <input type="submit" value="Reportar Atraso" class="accion btn btn-danger col-sm-12">
+                                                {%else%}
+                                                    <input type="submit" value="Reportar Atraso" class="accion btn btn-danger col-sm-12" disabled>
+                                                {%endif%}
+                                            {%endif%}
+                                        </form>
+                                    </div>
+                                </th>
+                            </tr>
+                        {%endfor%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
 </div>
 {%endblock%}

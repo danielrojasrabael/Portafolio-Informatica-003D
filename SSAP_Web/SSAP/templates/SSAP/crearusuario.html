@@ -3,140 +3,142 @@
 {%block titulo%}SSAP | Crear Usuario{%endblock%}
 {%block head%}<script src="{%static 'js/crearUsuario.js'%}"></script>{%endblock%}
 {%block contenido%}
-<div class="fondo-home">
+<div class="fondo-global">
+    <div class="fondo-home">
 
-    <div class="contenedor">
+        <div class="contenedor">
 
-        <div class="panel-blanco-redondo">
-            
-            <div style="text-align: center; width: 90%;">
-                <h2 class="esp-input">Crear Usuario</h2>
+            <div class="panel-blanco-redondo">
                 
-                <form id="formCrear" action="" method="post">
-                    {%csrf_token%}
-                    <div class="row esp-input">
-                        <label for="username" class="col-sm-4 col-form-label col-form-label-lg">Rut:</label>
-                        <div class="col-sm-8">
-                            <input class="form-control form-control-lg" type="text" name="username" placeholder="12.345.678-9"></input>
-                        </div>
-                    </div>
+                <div style="text-align: center; width: 90%;">
+                    <h2 class="esp-input">Crear Usuario</h2>
                     
-                    <div class="row esp-input">
-                        <label for="password1" class="col-sm-4 col-form-label col-form-label-lg">Contraseña:</label>
-                        <div class="col-sm-8">
-                            <input class="form-control form-control-lg" type="password" placeholder="********" name="password1" id="id_password1"></input>
+                    <form id="formCrear" action="" method="post">
+                        {%csrf_token%}
+                        <div class="row esp-input">
+                            <label for="username" class="col-sm-4 col-form-label col-form-label-lg">Rut:</label>
+                            <div class="col-sm-8">
+                                <input class="form-control form-control-lg" type="text" name="username" placeholder="12.345.678-9"></input>
+                            </div>
                         </div>
-                    </div>                    
-
-                    <div class="row esp-input">
-                        <label for="password2" class="col-sm-4 col-form-label col-form-label-lg">Repetir Contraseña:</label>
-                        <div class="col-sm-8">
-                            <input class="form-control form-control-lg" type="password" placeholder="********" name="password2" id="id_password2"></input>
-                        </div>
-                    </div>
-
-                    <div class="row esp-input">
-                        <label for="comuna" class="col-sm-4 col-form-label col-form-label-lg">Comuna: </label>
-                        <div class="col-sm-8">
-                            <select class="form-select form-select-lg"  name="comuna">
-                                {{ubicaciones | safe}}
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="row esp-input">
-                        <label for="direccion" class="col-sm-4 col-form-label col-form-label-lg">Direccion:</label>
-                        <div class="col-sm-8">
-                            <input class="form-control form-control-lg" type="text" name="direccion" placeholder="Calle Falsa 1"></input>
-                        </div>
-                    </div>
-
-                    <div class="row esp-input">
-                        <label for="tipo" class="col-sm-4 col-form-label col-form-label-lg">Tipo Usuario:</label>
-                        <div class="col-sm-8">
-                            <select class="form-select form-select-lg" name="tipo" id="tipo" onchange="cambioTipo()">
-                                <option value="CLIENTE">CLIENTE</option>
-                                <option value="PROFESIONAL">PROFESIONAL</option>
-                                <option value="ADMINISTRADOR">ADMINISTRADOR</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div id="cliente">
+                        
+                        <div class="row esp-input">
+                            <label for="password1" class="col-sm-4 col-form-label col-form-label-lg">Contraseña:</label>
+                            <div class="col-sm-8">
+                                <input class="form-control form-control-lg" type="password" placeholder="********" name="password1" id="id_password1"></input>
+                            </div>
+                        </div>                    
 
                         <div class="row esp-input">
-                            <label for="nombre_empresa" class="col-sm-4 col-form-label col-form-label-lg">Nombre Empresa:</label>
+                            <label for="password2" class="col-sm-4 col-form-label col-form-label-lg">Repetir Contraseña:</label>
                             <div class="col-sm-8">
-                                <input class="form-control form-control-lg" type="text" name="nombre_empresa" id="nombre_empresa_f" placeholder="Empresa Falsa"></input>
+                                <input class="form-control form-control-lg" type="password" placeholder="********" name="password2" id="id_password2"></input>
                             </div>
                         </div>
 
                         <div class="row esp-input">
-                            <label for="rubro" class="col-sm-4 col-form-label col-form-label-lg">Rubro:</label>
+                            <label for="comuna" class="col-sm-4 col-form-label col-form-label-lg">Comuna: </label>
                             <div class="col-sm-8">
-                                <input class="form-control form-control-lg" type="text" name="rubro" id="rubro" id="rubro_f" placeholder="Mineria"></input>
-                            </div>
-                        </div>
-
-                        <div class="row esp-input">
-                            <label for="cant_trabajadores" class="col-sm-4 col-form-label col-form-label-lg">Cantidad Trabajadores:</label>
-                            <div class="col-sm-8">
-                                <input class="form-control form-control-lg" type="text" name="cant_trabajadores" id="cant_trabajadores_f" placeholder="2"></input>
-                            </div>
-                        </div>
-
-                        <hr>
-
-                        <h3>Definicion de contrato</h3>
-                        <div class="row esp-input">
-                            <label for="costo_base" class="col-sm-4 col-form-label col-form-label-lg">Costo Base (CLP$):</label>
-                            <div class="col-sm-8">
-                                <input class="form-control form-control-lg" type="text" name="costo_base" placeholder="200000"><br>
-                            </div>
-                        </div>
-
-                        <div class="row esp-input">
-                            <label for="fecha_firma" class="col-sm-4 col-form-label col-form-label-lg">Fecha Firma:</label>
-                            <div class="col-sm-8">
-                                <input class="form-control form-control-lg" type="date" name="fecha_firma"><br>
-                            </div>
-                        </div>
-                        <div class="row esp-input">
-                            <label for="profesionalCliente" class="col-sm-4 col-form-label col-form-label-lg">Profesional Encargado: </label>
-                            <div class="col-sm-8">
-                                <select class="form-select form-select-lg"  name="profesionalCliente">
-                                    {%for p in profesionales%}
-                                        <option value="{{p.rut}}">{{p.nombre}}</option>
-                                    {%endfor%}
+                                <select class="form-select form-select-lg"  name="comuna">
+                                    {{ubicaciones | safe}}
                                 </select>
                             </div>
                         </div>
-                    </div>
 
-                    <div id="profesional" class="row esp-input">
-                        <label for="nombre_profesional" id="nombre_profesional_l" class="col-sm-4 col-form-label col-form-label-lg">Nombre:</label>
-                        <div class="col-sm-8">
-                            <input type="text" name="nombre_profesional" id="nombre_profesional_f" placeholder="Persona Falsa" class="form-control form-control-lg"></input><br>
+                        <div class="row esp-input">
+                            <label for="direccion" class="col-sm-4 col-form-label col-form-label-lg">Direccion:</label>
+                            <div class="col-sm-8">
+                                <input class="form-control form-control-lg" type="text" name="direccion" placeholder="Calle Falsa 1"></input>
+                            </div>
                         </div>
-                    </div>
 
-                    <div id="administrador" class="row esp-input">
-                        <label for="nombre_administrador" id="nombre_administrador_l" class="col-sm-4 col-form-label col-form-label-lg">Nombre:</label>
-                        <div class="col-sm-8">
-                            <input type="text" name="nombre_administrador" id="nombre_administrador_f" placeholder="Persona Falsa" class="form-control form-control-lg"></input><br>
+                        <div class="row esp-input">
+                            <label for="tipo" class="col-sm-4 col-form-label col-form-label-lg">Tipo Usuario:</label>
+                            <div class="col-sm-8">
+                                <select class="form-select form-select-lg" name="tipo" id="tipo" onchange="cambioTipo()">
+                                    <option value="CLIENTE">CLIENTE</option>
+                                    <option value="PROFESIONAL">PROFESIONAL</option>
+                                    <option value="ADMINISTRADOR">ADMINISTRADOR</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
 
+                        <div id="cliente">
+
+                            <div class="row esp-input">
+                                <label for="nombre_empresa" class="col-sm-4 col-form-label col-form-label-lg">Nombre Empresa:</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control form-control-lg" type="text" name="nombre_empresa" id="nombre_empresa_f" placeholder="Empresa Falsa"></input>
+                                </div>
+                            </div>
+
+                            <div class="row esp-input">
+                                <label for="rubro" class="col-sm-4 col-form-label col-form-label-lg">Rubro:</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control form-control-lg" type="text" name="rubro" id="rubro" id="rubro_f" placeholder="Mineria"></input>
+                                </div>
+                            </div>
+
+                            <div class="row esp-input">
+                                <label for="cant_trabajadores" class="col-sm-4 col-form-label col-form-label-lg">Cantidad Trabajadores:</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control form-control-lg" type="text" name="cant_trabajadores" id="cant_trabajadores_f" placeholder="2"></input>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <h3>Definicion de contrato</h3>
+                            <div class="row esp-input">
+                                <label for="costo_base" class="col-sm-4 col-form-label col-form-label-lg">Costo Base (CLP$):</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control form-control-lg" type="text" name="costo_base" placeholder="200000"><br>
+                                </div>
+                            </div>
+
+                            <div class="row esp-input">
+                                <label for="fecha_firma" class="col-sm-4 col-form-label col-form-label-lg">Fecha Firma:</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control form-control-lg" type="date" name="fecha_firma"><br>
+                                </div>
+                            </div>
+                            <div class="row esp-input">
+                                <label for="profesionalCliente" class="col-sm-4 col-form-label col-form-label-lg">Profesional Encargado: </label>
+                                <div class="col-sm-8">
+                                    <select class="form-select form-select-lg"  name="profesionalCliente">
+                                        {%for p in profesionales%}
+                                            <option value="{{p.rut}}">{{p.nombre}}</option>
+                                        {%endfor%}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="profesional" class="row esp-input">
+                            <label for="nombre_profesional" id="nombre_profesional_l" class="col-sm-4 col-form-label col-form-label-lg">Nombre:</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="nombre_profesional" id="nombre_profesional_f" placeholder="Persona Falsa" class="form-control form-control-lg"></input><br>
+                            </div>
+                        </div>
+
+                        <div id="administrador" class="row esp-input">
+                            <label for="nombre_administrador" id="nombre_administrador_l" class="col-sm-4 col-form-label col-form-label-lg">Nombre:</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="nombre_administrador" id="nombre_administrador_f" placeholder="Persona Falsa" class="form-control form-control-lg"></input><br>
+                            </div>
+                        </div>
+
+                        <div class="row esp-input">
+                            <input type="submit" value="Crear Usuario" class="btn btn-primary btn-lg"></input>
+                        </div>
+                    </form>
                     <div class="row esp-input">
-                        <input type="submit" value="Crear Usuario" class="btn btn-primary btn-lg"></input>
+                        <a class="btn btn-danger btn-lg" href="{%url 'gestionusuario'%}">Volver</a>
                     </div>
-                </form>
-                <div class="row esp-input">
-                    <a class="btn btn-danger btn-lg" href="{%url 'gestionusuario'%}">Volver</a>
+                    {% for mensaje in messages %}
+                        {{mensaje}}<br>
+                    {% endfor %}
                 </div>
-                {% for mensaje in messages %}
-                    {{mensaje}}<br>
-                {% endfor %}
             </div>
         </div>
     </div>

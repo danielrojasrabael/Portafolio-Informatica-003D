@@ -3,53 +3,55 @@
 {%block titulo%}SSAP | Gestión de Usuarios{%endblock%}
 {%block head%}<script src="{%static 'js/crearChecklist.js'%}"></script>{%endblock%}
 {%block contenido%}
-<div class="fondo-home">
+<div class="fondo-global">
+    <div class="fondo-home">
 
-    <div class="contenedor">
-        <div class="espacio">
+        <div class="contenedor">
+            <div class="espacio">
 
-            <div class="row esp-input col-sm-12">
-                <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title">Cliente</h5>
-                      <h1>{{cliente.nombre_empresa}}</h1>
-                      <h2>RUT: <kbd>{{cliente.rut}}</kbd></h2>
+                <div class="row esp-input col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                        <h5 class="card-title">Cliente</h5>
+                        <h1>{{cliente.nombre_empresa}}</h1>
+                        <h2>RUT: <kbd>{{cliente.rut}}</kbd></h2>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-                
-            <table class="table table-responsive table-light table-striped align-middle">
-                {%for item in checklist%}
-                <tr>
-                    <th>
-                        <form id="formEliminar" method="post" action="">
-                            {% csrf_token %}
-                            <div class="float-start">
-                                <label class="form-check-label">{{item}}</label>
-                                <input type="hidden" name="id_item" value="{{item}}">
-                            </div>
-                            <div class="float-end">
-                                <input type="submit" class="btn btn-danger btn-sm" value="&nbsp-&nbsp&nbsp">
-                            </div>
-                        </form>
-                    </th>
-                </tr>
-                {%endfor%}
-                <tr>
-                    <th>
-                        <form id="formCrear" method="post" action="">
-                            {% csrf_token %}
-                            <div class="float-start">
-                                <input type="text" placeholder="Añadir a checklist" name="item_checklist" id="item_checklist" class="form-control"></input>
-                            </div>
-                            <div class="float-end">
-                                <input type="submit" value="&nbsp+&nbsp" class="btn btn-success btn-sm">
-                            </div>
-                        </form>
-                    </th>
-                </tr>
-            </table>
+                    
+                <table class="table table-responsive table-light table-striped align-middle">
+                    {%for item in checklist%}
+                    <tr>
+                        <th>
+                            <form id="formEliminar" method="post" action="">
+                                {% csrf_token %}
+                                <div class="float-start">
+                                    <label class="form-check-label">{{item}}</label>
+                                    <input type="hidden" name="id_item" value="{{item}}">
+                                </div>
+                                <div class="float-end">
+                                    <input type="submit" class="btn btn-danger btn-sm" value="&nbsp-&nbsp&nbsp">
+                                </div>
+                            </form>
+                        </th>
+                    </tr>
+                    {%endfor%}
+                    <tr>
+                        <th>
+                            <form id="formCrear" method="post" action="">
+                                {% csrf_token %}
+                                <div class="float-start">
+                                    <input type="text" placeholder="Añadir a checklist" name="item_checklist" id="item_checklist" class="form-control"></input>
+                                </div>
+                                <div class="float-end">
+                                    <input type="submit" value="&nbsp+&nbsp" class="btn btn-success btn-sm">
+                                </div>
+                            </form>
+                        </th>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 </div>

@@ -2,7 +2,7 @@
 {%load static%}
 {%block titulo%}SSAP | Menú Principal{%endblock%}
 {%block contenido%}
-<div class="fondo-global oscuro">
+<div class="fondo-global">
     <div class="fondo-falso">
         
         <div class="contenedor">
@@ -10,15 +10,15 @@
             <div class="card">
                 <div class="card-body">
                 
-                    <div style="text-align: center;">
+                    <div style="text-align: center;" class="futura">
                         {%if request.session.usuario.tipo == 'CLIENTE'%}
-                            <h1 class="tx-gradiente-am">{{tipoUsuario.nombre_empresa}} Bienvenido a SSAP</h1><br>
+                            <h1 class="tx-gradiente-am">{{tipoUsuario.nombre_empresa}}, Bienvenido a SSAP</h1><br>
                             <h3 class="tx-gradiente-am">Tipo Usuario: Cliente</h3>
                         {%elif request.session.usuario.tipo == 'PROFESIONAL'%}
-                            <h1 class="tx-gradiente-av">{{tipoUsuario.nombre}} Bienvenido a SSAP</h1><br>
+                            <h1 class="tx-gradiente-av">{{tipoUsuario.nombre}}, Bienvenido a SSAP</h1><br>
                             <h3 class="tx-gradiente-av">Tipo Usuario: Profesional</h3>
                         {%elif request.session.usuario.tipo == 'ADMINISTRADOR' %}
-                            <h1 class="tx-gradiente-aa">{{tipoUsuario.nombre}} Bienvenido a SSAP</h1><br>
+                            <h1 class="tx-gradiente-aa">{{tipoUsuario.nombre}}, Bienvenido a SSAP</h1><br>
                             <h3 class="tx-gradiente-aa">Tipo Usuario: Administrador</h3>
                         {%endif%}
                     </div>

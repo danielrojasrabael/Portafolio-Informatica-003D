@@ -327,10 +327,14 @@ def boleta_adm(request, nombre):
     except:
         return redirect('index')
 
+# Actividades
 @logueado
 @esAdmin
 def verActividades(request):
-    return render(request, 'SSAP/veractividades.html')
+    actividades = []
+    for profesional in Profesional.todos():
+        actividades = actividades+Actividad.obtener(rut=profesional.rut)
+    return render(request, 'SSAP/veractividades.html',{'actividades':actividades})
 #   ------------------------ Cliente ------------------------
 
 @logueado

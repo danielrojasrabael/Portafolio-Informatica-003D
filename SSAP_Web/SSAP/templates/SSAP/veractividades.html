@@ -15,6 +15,10 @@
                             <h3 class="tx-gradiente-p medio-tx">Tabla de Actividades</h3>
                         </caption>
                         
+                        <caption>
+                            <input type="text" class="buscarTabla form-control form-control-lg col-sm-12" placeholder="Buscar en Tabla">
+                        </caption>
+                        
                         <tr>
                             <th scope="col">Profesional</th>
                             <th scope="col">Tipo</th>
@@ -24,24 +28,14 @@
 
                     </thead>
                     <tbody>
-                        <tr>
-                            <th>Homero Sinso</th>
-                            <th>Visita</th>
-                            <th>14/01/2023</th>
-                            <th>Mi Casa 123, Renca</th>
-                        </tr>
-                        <tr>
-                            <th>Homero Sinso</th>
-                            <th>Capacitación</th>
-                            <th>12/01/2023</th>
-                            <th>Antonio Varas 666, Providencia</th>
-                        </tr>
-                        <tr>
-                            <th>Jorge de Guzman</th>
-                            <th>Visita</th>
-                            <th>21/01/2023</th>
-                            <th>Lugar Random 34, Cerro Navia</th>
-                        </tr>
+                        {%for actividad in actividades%}
+                            <tr>
+                                <th>{{actividad.nombre_profesional}}</th>
+                                <th>{{actividad.tipo}}</th>
+                                <th>{{actividad.fecha | date:'d/m/Y'}}</th>
+                                <th>{{actividad.ubicacion}}</th>
+                            </tr>
+                        {%endfor%}
                     </tbody>
                 </table>
             </div>

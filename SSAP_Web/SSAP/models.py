@@ -6,7 +6,7 @@ import cx_Oracle
 
 # Variables
 
-conexion = cx_Oracle.connect(user="SSAP", password="123456", dsn="localhost:1521/XE")
+conexion = cx_Oracle.connect(user="SSAP", password="123456", dsn="localhost:1522/ORCL1")
 conexion.autocommit = True
 
 # Modelos
@@ -373,3 +373,39 @@ class Visita(models.Model):
         return lista
     class Meta:
         managed = False
+
+# Funciones de Administrador
+
+class Actividad(models.Model):
+    nombre_profesional = models.CharField(max_length=999)
+    tipo = models.CharField(max_length=999)
+    fecha = models.DateField()
+    ubicacion = models.CharField(max_length=999)
+    def obtener(rut=None, conn=conexion):
+        #Visita
+        cur = conn.cursor()
+        datos = conn.cursor()
+        cur.callproc("ACTIVIDADPROFVISITA", [datos,rut])
+        lista = []
+        for i in datos:
+            actividad = Actividad(nombre_profesional=i[3],tipo="Visita",fecha=i[0],ubicacion=i[1]+", "+i[2])
+            lista.append(actividad)
+        
+        #Capacitacion
+        cur = conn.cursor()
+        datos = conn.cursor()
+        cur.callproc("ACTIVIDADPROFCAPACITACION", [datos,rut])
+        for i in datos:
+            actividad = Actividad(nombre_profesional=i[4],tipo="Capacitacion",fecha=i[1],ubicacion=i[2]+", "+i[3])
+            lista.append(actividad)
+
+        #Asesoria
+        cur = conn.cursor()
+        datos = conn.cursor()
+        cur.callproc("ACTIVIDADPROFASESORIA", [datos,rut])
+        for i in datos:
+            actividad = Actividad(nombre_profesional=i[2],tipo="Asesoria",fecha=i[1],ubicacion="N/A")
+            lista.append(actividad)
+        cur.close()
+        datos.close()
+        return lista

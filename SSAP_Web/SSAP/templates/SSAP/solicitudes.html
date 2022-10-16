@@ -1,0 +1,69 @@
+{%extends 'SSAP/base.html'%}
+{% load static %}
+{%block titulo%}SSAP | Solicitudes{%endblock%}
+{%block contenido%}
+<div class="fondo-global">
+    <div class="fondo-home">
+        <div class="contenedor">
+            <div class="espacio">
+
+                <div class="row esp-input col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h1 class="card-title tx-gradiente-p medio-tx">Solicitudes</h1>
+                            <br><h2>Te quedan: <strong class="tx-gradiente-am">7</strong> Solicitudes (las demas seran cargadas)</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row esp-input col-sm-12">
+                    <table class="table table-responsive table-light table-striped">
+                        <thead>
+                            <caption>
+                                <h3 class="tx-gradiente-p medio-tx float-start">Historial de Solicitudes</h3>
+                                <form action="{%url 'crearsolicitud'%}" method="post" class="float-end">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="id" value="">
+                                    <input type="submit" value="Crear Solicitud" class="accion btn btn-primary col-sm-12">
+                                </form>
+                            </caption>
+                            
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Motivo</th>
+                                <th scope="col">Tipo</th>
+                                <th scope="col">Fecha</th>
+                                <th scope="col">Estado</th>
+                            </tr>
+    
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>3</th>
+                                <th>Requiero una capacitación</th>
+                                <th>Capacitación</th>
+                                <th>23/01/2023</th>
+                                <th>Pendiente</th>
+                            </tr>
+                            <tr>
+                                <th>2</th>
+                                <th>Hay un problema con...</th>
+                                <th>Asesoría</th>
+                                <th>23/01/2023</th>
+                                <th>No Resuelta</th>
+                            </tr>
+                            <tr>
+                                <th>1</th>
+                                <th>Hay un problema con...</th>
+                                <th>Asesoría</th>
+                                <th>23/01/2023</th>
+                                <th>Pendiente</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

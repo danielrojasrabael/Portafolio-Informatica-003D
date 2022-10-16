@@ -36,6 +36,9 @@ urlpatterns = [
     #   ------------------------ Cliente ------------------------
     path('notificaciones/', views.notificaciones, name="notificaciones"),
     path('elimnotif/', views.elimNotif, name="elimnotif"),
+    path('pagos/', views.pagos, name="pagos"),
+    path('solicitudes/', views.solicitudes, name="solicitudes"),
+    path('crearsolicitud/', views.crearSolicitud, name="crearsolicitud"),
     #   ------------------------ Profesional ------------------------
     path('verclientes/', views.verClientes, name="verclientes"),
     path('checklists/', views.checklists, name="checklists"),

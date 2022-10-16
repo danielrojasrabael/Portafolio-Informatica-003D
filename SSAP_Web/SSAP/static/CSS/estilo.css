@@ -200,6 +200,9 @@ nav{
     box-shadow: var(--bs-toast-box-shadow);
 }
 
+.vacio{
+    padding: 4vh;
+}
 .nav-links{
     padding-left: 0%;
     justify-content: space-around;

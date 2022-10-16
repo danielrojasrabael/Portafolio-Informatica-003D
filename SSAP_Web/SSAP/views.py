@@ -348,6 +348,20 @@ def elimNotif(request):
         Notificacion.eliminar(id=request.POST['id'], rut=cliente.rut)
     return redirect('notificaciones')
 
+@logueado
+@esCliente
+def pagos(request):
+    return render(request, 'SSAP/pagos.html')
+
+@logueado
+@esCliente
+def solicitudes(request):
+    return render(request, 'SSAP/solicitudes.html')
+
+@logueado
+@esCliente
+def crearSolicitud(request):
+    return render(request, 'SSAP/crearsolicitud.html')
 #   ------------------------ Profesional ------------------------
 
 @logueado

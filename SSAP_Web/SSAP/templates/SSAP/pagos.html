@@ -1,0 +1,76 @@
+{%extends 'SSAP/base.html'%}
+{% load static %}
+{%block titulo%}SSAP | Pagos{%endblock%}
+{%block contenido%}
+<div class="fondo-global">
+    <div class="fondo-home">
+        <div class="contenedor">
+            <div class="espacio">
+
+                <div class="row esp-input col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h1 class="card-title tx-gradiente-p medio-tx">Mis Pagos</h1>
+                            <h1>Douc UC.</h1>
+                            <h2>RUT: 34.567.789-1</h2>
+                            <h2>Estado: <kbd> Atrasado</kbd></h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row esp-input col-sm-12">
+                    <table class="table table-responsive table-light table-striped">
+                        <thead>
+                            <caption>
+                                <h3 class="tx-gradiente-p medio-tx">Tabla de Pagos</h3>
+                            </caption>
+                            
+                            <tr>
+                                <th scope="col">Fecha Límite</th>
+                                <th scope="col">Fecha Pago</th>
+                                <th scope="col">Monto</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Boleta</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+    
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>23/02/2022</th>
+                                <th>N/A</th>
+                                <th>$200.000</th>
+                                <th>Atrasado</th>
+                                <th>N/A</th>
+                                <th>
+                                    <form action="{}" method="post" class="col-sm-12">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="id" value="">
+                                        <input type="submit" value="Pagar" class="accion btn btn-primary col-sm-12">
+                                    </form>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>23/01/2023</th>
+                                <th>22/01/2023</th>
+                                <th>$200.000</th>
+                                <th>Pagado</th>
+                                <th>Link</th>
+                                <th>
+                                    <div>
+                                        <form action="{}" method="post" class="col-sm-12">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="id" value="">
+                                            <input type="submit" value="Pagar" class="accion btn btn-primary col-sm-12" disabled>
+                                        </form>
+                                    </div>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

@@ -62,6 +62,8 @@
 
                     {%if request.session.usuario.tipo == 'CLIENTE'%}
                     <li><a href="{%url 'notificaciones'%}"><button class="btn btn-sidebar" type="button"><strong>Notificaciones</strong></button></a></li>
+                    <li><a href="{%url 'pagos'%}"><button class="btn btn-sidebar" type="button"><strong>Pagos</strong></button></a></li>
+                    <li><a href="{%url 'solicitudes'%}"><button class="btn btn-sidebar" type="button"><strong>Solicitudes</strong></button></a></li>
                     {%elif request.session.usuario.tipo == 'PROFESIONAL'%}
                     <li><a href="{%url 'verclientes'%}"><button class="btn btn-sidebar" type="button"><strong>Ver Clientes</strong></button></a></li>
                     <li><a href="{%url 'checklists'%}"><button class="btn btn-sidebar" type="button"><strong>Check Lists</strong></button></a></li>
@@ -74,8 +76,14 @@
                     <li><a href="{%url 'logout'%}"><button class="btn btn-sidebar" type="button"><strong>Logout</strong></button></a></li>
                     
                 </ul>
-                <div>
-                </div>
+                {%if request.session.usuario%}
+                    <div class="vacio">
+                    </div>
+                {%else%}
+                    <div>
+                    </div>
+                {%endif%}
+
         </nav>
         {%block contenido%}
         {%endblock%}

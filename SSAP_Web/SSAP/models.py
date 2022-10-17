@@ -409,3 +409,5 @@ class Actividad(models.Model):
         cur.close()
         datos.close()
         return lista
+    class Meta:
+        managed = False

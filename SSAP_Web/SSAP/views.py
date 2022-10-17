@@ -337,6 +337,7 @@ def verActividades(request):
     return render(request, 'SSAP/veractividades.html',{'actividades':actividades})
 #   ------------------------ Cliente ------------------------
 
+# Notificaciones
 @logueado
 @esCliente
 def notificaciones(request):
@@ -352,10 +353,40 @@ def elimNotif(request):
         Notificacion.eliminar(id=request.POST['id'], rut=cliente.rut)
     return redirect('notificaciones')
 
+# Pagos
+
 @logueado
 @esCliente
 def pagos(request):
-    return render(request, 'SSAP/pagos.html')
+    cliente = request.session.get('subtipo')
+    contrato = Contrato.filtro_rutcliente(rut=cliente.rut)
+    mensualidades = Mensualidad.todos_idcontrato(id=contrato.id_contrato)
+    estado = "Al día"
+    for m in mensualidades:
+        if m.estado == False:
+            estado = "Pendiente"
+            if m.esta_atrasado():
+                estado = "Atrasado"
+                break
+    return render(request, 'SSAP/pagos.html', {'estado':estado, 'mensualidades':mensualidades})
+
+@logueado
+@esCliente
+def boleta_cli(request, nombre):
+    cliente = request.session.get('subtipo')
+    contrato = Contrato.filtro_rutcliente(rut=cliente.rut)
+    archivos = []
+    for mensualidad in Mensualidad.todos_idcontrato(id=contrato.id_contrato):
+        if mensualidad.boleta is not None:
+            archivos.append(mensualidad.boleta)
+    if nombre not in archivos:
+        return redirect('pagos')
+    archivo = 'MEDIA/BOLETAS/'+nombre
+    try:
+        return FileResponse(open(archivo,'rb'), content_type='application/pdf')
+    except:
+        return redirect('index')
+# Solicitudes
 
 @logueado
 @esCliente

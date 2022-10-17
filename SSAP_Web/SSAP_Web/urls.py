@@ -39,6 +39,7 @@ urlpatterns = [
     path('pagos/', views.pagos, name="pagos"),
     path('solicitudes/', views.solicitudes, name="solicitudes"),
     path('crearsolicitud/', views.crearSolicitud, name="crearsolicitud"),
+    path('boleta_cli/<nombre>', views.boleta_cli, name="boleta_cli"),
     #   ------------------------ Profesional ------------------------
     path('verclientes/', views.verClientes, name="verclientes"),
     path('checklists/', views.checklists, name="checklists"),

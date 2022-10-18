@@ -7,10 +7,26 @@
 
         <div class="contenedor">
             <div class="espacio">
+
+                {% for mensaje in messages %}
+                    <div class="alert alert-danger alert-dismissible fade show col-sm-12" role="alert">
+                        <strong>{{mensaje}}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+
+                <div class="row esp-input">
+                    <div class="card">
+                        <div class="card-body">
+                        <h1 class="card-title tx-gradiente-p">Visitas</h1>
+                        </div>
+                    </div>
+                </div>
+
                 <table class="table table-responsive table-light table-striped align-middle medio-tx">
                     <thead>
                         <tr>
-                            <td colspan="5"><h3 class="tx-gradiente-p">Historial Visitas</h3></td>
+                            <td colspan="5"><h3 class="tx-gradiente-p">Historial</h3></td>
                         </tr>
                         <tr>
                             <th scope="col">Cliente</th>
@@ -68,9 +84,6 @@
                         {%endfor%}
                     </tbody>
                 </table>
-                {%for mensaje in messages%}
-                    {{mensaje}}
-                {%endfor%}
             </div>
         </div>
     </div>

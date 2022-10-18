@@ -66,3 +66,19 @@ class ModificarProfesionalPrueba(SimpleTestCase):
         profesional.nombre = "Enzo"
         profesional.actualizar(conn=conexion)
         self.assertEquals(profesional.nombre, "Enzo")
+
+# -- CU 3 (No implementao) --
+
+# -- CU 4 --
+class CrearVisitaPrueba(SimpleTestCase):
+    def setUp(self):
+        pass
+
+    def test_crear_visita(self):
+        pass
+
+# -- CU 5 --
+
+# -- CU 6 --
+
+# -- CU 7 --

@@ -8,10 +8,24 @@
 
         <div class="contenedor">
 
+            {% for mensaje in messages %}
+                <div class="alert alert-danger alert-dismissible fade show col-sm-12" role="alert">
+                    <strong>{{mensaje}}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+
+            <div class="row esp-input">
+                <div class="card">
+                    <div class="card-body">
+                    <h1 class="card-title tx-gradiente-p">Crear Usuario</h1>
+                    </div>
+                </div>
+            </div>
+            
             <div class="panel-blanco-redondo">
-                
+
                 <div style="text-align: center; width: 90%;">
-                    <h2 class="esp-input">Crear Usuario</h2>
                     
                     <form id="formCrear" action="" method="post">
                         {%csrf_token%}
@@ -135,9 +149,6 @@
                     <div class="row esp-input">
                         <a class="btn btn-danger btn-lg" href="{%url 'gestionusuario'%}">Volver</a>
                     </div>
-                    {% for mensaje in messages %}
-                        {{mensaje}}<br>
-                    {% endfor %}
                 </div>
             </div>
         </div>

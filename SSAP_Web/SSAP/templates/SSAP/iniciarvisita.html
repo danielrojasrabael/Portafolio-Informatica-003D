@@ -4,10 +4,20 @@
 {%block contenido%}
 <div class="fondo-global">
     <div class="fondo-home">
+
         <form id="formConfirmar" method="post" action="">
         {% csrf_token %}
         <div class="contenedor">
+            
             <div class="espacio">
+                <div class="row esp-input">
+                    <div class="card">
+                        <div class="card-body">
+                            <h1 class="card-title tx-gradiente-p">Iniciar Visitas</h1>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row esp-input col-sm-12">
                     <div class="card">
                         <div class="card-body">

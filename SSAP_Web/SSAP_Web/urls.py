@@ -37,8 +37,10 @@ urlpatterns = [
     path('notificaciones/', views.notificaciones, name="notificaciones"),
     path('elimnotif/', views.elimNotif, name="elimnotif"),
     path('pagos/', views.pagos, name="pagos"),
+    path('pagar/',views.pagar, name="pagar"),
     path('solicitudes/', views.solicitudes, name="solicitudes"),
     path('crearsolicitud/', views.crearSolicitud, name="crearsolicitud"),
+    path('boleta_cli/<nombre>', views.boleta_cli, name="boleta_cli"),
     #   ------------------------ Profesional ------------------------
     path('verclientes/', views.verClientes, name="verclientes"),
     path('checklists/', views.checklists, name="checklists"),

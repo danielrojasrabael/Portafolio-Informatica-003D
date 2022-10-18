@@ -1,0 +1,16 @@
+<body>
+    <div>
+        <div>
+            <h1><center>No Mas Accidentes</center></h1>
+            <h2>Comprador: {{cliente.nombre_empresa}}</h2>
+            <h2>Fecha Pago: {% now 'd/m/Y'%}</h2>
+            <h2>RUT Cliente: {{cliente.rut}}</h2>
+        </div>
+        <hr>
+        <div>
+            <h3>Detalle de Compra:</h3>
+            Producto: Renovación de contrato servicio "SSAP" <br>
+            Monto Pagado: ${{pago.costo}}
+        </div>
+    </div>
+</body>

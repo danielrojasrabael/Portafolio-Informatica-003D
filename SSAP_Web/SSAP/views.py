@@ -1,6 +1,6 @@
 #Imports
 from datetime import datetime
-from time import strftime
+from xmlrpc.client import DateTime
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -50,7 +50,6 @@ def func_generar_pdf(template_src, contexto, nom_archivo):
     html_tmpl = template.render(contexto)
     archivo = os.path.join(settings.BASE_DIR, nom_archivo)
     css_pag = os.path.join(settings.BASE_DIR, 'SSAP/static/css/estilo_pdf.css')
-
     HTML(string=html_tmpl).write_pdf(target=archivo, stylesheets=[CSS(css_pag)])
 
 # Decoradores
@@ -321,7 +320,7 @@ def reportarAtraso(request):
 @logueado
 @esAdmin
 def boleta_adm(request, nombre):
-    archivo = 'MEDIA/BOLETAS/'+nombre
+    archivo = str(settings.MEDIA_ROOT)+'/BOLETAS/'+nombre
     try:
         return FileResponse(open(archivo,'rb'), content_type='application/pdf')
     except:
@@ -370,6 +369,38 @@ def pagos(request):
                 break
     return render(request, 'SSAP/pagos.html', {'estado':estado, 'mensualidades':mensualidades})
 
+
+@logueado
+@esCliente
+def pagar(request):
+    if request.method == 'POST':
+        #Inicializar Variables
+        cliente = request.session.get('subtipo')
+        contrato = Contrato.filtro_rutcliente(cliente.rut)
+        mensualidad = Mensualidad.filtro_id(request.POST['id'])
+        nombre_archivo = cliente.rut+str(datetime.now().strftime("%d%m%Y"))+str(mensualidad.id_mensualidad)+".pdf"
+        ruta_pdf = str(settings.MEDIA_ROOT)+"/BOLETAS/"+nombre_archivo
+
+        #Validaciones
+        ids = []
+        for m in Mensualidad.todos_idcontrato(contrato.id_contrato):
+            ids.append(m.id_mensualidad)
+        if mensualidad.id_mensualidad not in ids:
+            return redirect('pagos')
+        if mensualidad.estado:
+            return redirect('pagos')
+
+        #Actualizar mensualidad
+        mensualidad.estado = 1
+        mensualidad.fecha_pago = datetime.now()
+        mensualidad.boleta = nombre_archivo
+
+        #Generar PDF boleta
+        func_generar_pdf("SSAP/boleta.html",{'pago':mensualidad,'cliente':cliente},ruta_pdf)
+        messages.success(request,"Pago "+str(mensualidad.fecha_limite.strftime("%d/%m/%Y"))+" realizado correctamente")
+        mensualidad.actualizar()
+    return redirect('pagos')
+
 @logueado
 @esCliente
 def boleta_cli(request, nombre):
@@ -381,7 +412,7 @@ def boleta_cli(request, nombre):
             archivos.append(mensualidad.boleta)
     if nombre not in archivos:
         return redirect('pagos')
-    archivo = 'MEDIA/BOLETAS/'+nombre
+    archivo = str(settings.MEDIA_ROOT)+'/BOLETAS/'+nombre
     try:
         return FileResponse(open(archivo,'rb'), content_type='application/pdf')
     except:
@@ -557,7 +588,7 @@ def iniciarVisita(request, id):
         visita.reporte_final = nombre_pdf
         visita.estado = 1
         visita.modificar()
-        ruta_pdf = "MEDIA/CHECKLISTS/"+nombre_pdf
+        ruta_pdf = str(settings.MEDIA_ROOT)+"/CHECKLISTS/"+nombre_pdf
         func_generar_pdf("SSAP/visitapdf.html",{'visita':visita,'cliente':cliente, 'checklist':items, 'aprobados':aprobados, 'mejora':mejora}, ruta_pdf)
         messages.success(request, "Visita "+str(visita.fecha.strftime("%d/%m/%Y"))+" realizada")
         return redirect('visitas')
@@ -566,7 +597,7 @@ def iniciarVisita(request, id):
 @logueado
 @esProfesional
 def visita_profesional(request, nombre):
-    archivo = 'MEDIA/CHECKLISTS/'+nombre
+    archivo = str(settings.MEDIA_ROOT)+'/CHECKLISTS/'+nombre
     try:
         return FileResponse(open(archivo,'rb'), content_type='application/pdf')
     except:

@@ -302,6 +302,19 @@ class Mensualidad(models.Model):
         return lista
     def esta_atrasado(self):
         return date.today() > self.fecha_limite.date()
+    def filtro_id(id,conn=conexion):
+        cur = conn.cursor()
+        datos = conn.cursor()
+        cur.callproc("PAGO_PORIDMENSUALIDAD", [datos,id])
+        for i in datos:
+            mensualidad = Mensualidad(id_mensualidad=i[0],fecha_limite=i[1],estado=i[2],costo=i[3],id_contrato=i[4], fecha_pago=i[5], boleta=i[6])
+        cur.close()
+        datos.close()
+        return mensualidad
+    def actualizar(self,conn=conexion):
+        cur = conn.cursor()
+        cur.callproc("ACTUALIZARMENSUALIDAD", [self.estado,self.fecha_pago,self.boleta,self.id_mensualidad])
+        cur.close()
     class Meta:
         managed = False
 

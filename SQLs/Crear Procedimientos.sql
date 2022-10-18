@@ -210,6 +210,8 @@ CREATE OR REPLACE PROCEDURE insertarContrato(costo in NUMBER, fecha in VARCHAR2,
 as
 begin
     insert into contrato (costo_base, fecha_firma, ultimo_pago, rut_cliente, rut_profesional) VALUES (costo, TO_DATE(fecha, 'YYYY-MM-DD'), TO_DATE(fecha, 'YYYY-MM-DD'), rutCli, rutPro);
+    INSERT INTO VISITA (estado,periodo,id_contrato,id_comuna) SELECT 0,TRUNC(SYSDATE, 'MM'),id_contrato,1 FROM CONTRATO WHERE id_contrato = (select max(id_contrato) from contrato);
+    INSERT INTO VISITA (estado,periodo,id_contrato,id_comuna) SELECT 0,TRUNC(SYSDATE, 'MM'),id_contrato,1 FROM CONTRATO WHERE id_contrato = (select max(id_contrato) from contrato);
 end;
 /
 
@@ -282,6 +284,35 @@ CREATE OR REPLACE PROCEDURE pago_PorIdContrato (registro out SYS_REFCURSOR, idCt
 as
 begin
     open registro for select ID_MENSUALIDAD, FECHA_LIMITE, ESTADO, COSTO, ID_CONTRATO, FECHA_PAGO, BOLETA from pago_mensualidad where ID_CONTRATO = idCtr order by fecha_limite desc;
+end;
+/
+
+create or replace PROCEDURE pa_buscar_pagos (registro out SYS_REFCURSOR)
+as
+begin
+    open registro for   select 
+                        EXTRACT(YEAR FROM fecha_limite)AS AÑO,
+                        to_char(fecha_limite, 'Month') AS MES,
+                        SUM(COSTO) AS TOTAL_MENSUAL
+                        from pago_mensualidad
+                        WHERE ESTADO = 1
+                        GROUP BY EXTRACT(YEAR FROM fecha_limite),
+                        to_char(fecha_limite, 'Month')
+                        ;
+end;
+/
+
+CREATE OR REPLACE PROCEDURE pago_PorIdMensualidad (registro out SYS_REFCURSOR, idMen in NUMBER)
+as
+begin
+    open registro for select ID_MENSUALIDAD, FECHA_LIMITE, ESTADO, COSTO, ID_CONTRATO, FECHA_PAGO, BOLETA from pago_mensualidad where ID_MENSUALIDAD=idMen;
+end;
+/
+
+CREATE OR REPLACE PROCEDURE actualizarMensualidad(estado_v in NUMBER,fecha_pago_v in DATE,boleta_v in VARCHAR2,idMen in NUMBER)
+as
+begin
+    UPDATE pago_mensualidad SET ESTADO = estado_v, FECHA_PAGO = fecha_pago_v, BOLETA = boleta_v WHERE ID_MENSUALIDAD = idMen;
 end;
 /
 

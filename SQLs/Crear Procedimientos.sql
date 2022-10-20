@@ -363,6 +363,9 @@ begin
     ON c.id_contrato = vi.id_contrato
     INNER JOIN CLIENTES cli
     ON c.rut_cliente = cli.rut_cliente
+    INNER JOIN USUARIO usr
+    ON usr.id_usuario = cli.id_usuario
+    WHERE usr.estado = 1
     ORDER BY vi.PERIODO desc;
 end;
 /

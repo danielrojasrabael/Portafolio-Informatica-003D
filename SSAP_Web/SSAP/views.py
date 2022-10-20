@@ -575,13 +575,25 @@ def iniciarVisita(request, id):
     if request.method=="POST":
         #Obtener datos
         aprobados = []
+        cant_aprobados = 0
+        cant_maximo = 0
         for item in items:
+            cant_maximo = cant_maximo+1
             try:
                 if request.POST[item] in items:
+                    cant_aprobados = cant_aprobados+1
                     aprobados.append(request.POST[item])
             except:
                 None
         mejora = request.POST["mejora"]
+        porc_aprobados = round((cant_aprobados * 100)/cant_maximo,1)
+        porc_reprobados = round(100 - porc_aprobados,1)
+        barras = '''
+            <div style="display: flex;">
+                <div style="color:white; text-align: left  ;height: 25px; background-color: green; width: {}%;">{}%</div>
+                <div style="color:white; text-align: right ;height: 25px; background-color: brown; width: {}%;">{}%</div>
+            </div>
+        '''.format(porc_aprobados,porc_aprobados,porc_reprobados,porc_reprobados)
 
         #Generar PDF
         nombre_pdf = cliente.rut+str(datetime.now().strftime("%d%m%Y"))+str(visita.id_visita)+".pdf"
@@ -589,7 +601,7 @@ def iniciarVisita(request, id):
         visita.estado = 1
         visita.modificar()
         ruta_pdf = str(settings.MEDIA_ROOT)+"/CHECKLISTS/"+nombre_pdf
-        func_generar_pdf("SSAP/visitapdf.html",{'visita':visita,'cliente':cliente, 'checklist':items, 'aprobados':aprobados, 'mejora':mejora}, ruta_pdf)
+        func_generar_pdf("SSAP/visitapdf.html",{'visita':visita,'cliente':cliente, 'checklist':items, 'aprobados':aprobados, 'mejora':mejora, 'barras':barras}, ruta_pdf)
         messages.success(request, "Visita "+str(visita.fecha.strftime("%d/%m/%Y"))+" realizada")
         return redirect('visitas')
     return render(request,"SSAP/iniciarvisita.html",{'visita':visita,'cliente':cliente, 'checklist':items})

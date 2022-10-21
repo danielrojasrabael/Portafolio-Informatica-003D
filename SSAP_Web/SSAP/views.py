@@ -1,10 +1,12 @@
 #Imports
+from django.utils.datastructures import MultiValueDictKeyError
 from datetime import datetime
 from xmlrpc.client import DateTime
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import FileResponse
+from django.core.files.storage import FileSystemStorage
 import calendar
 
 #Modelos
@@ -433,10 +435,21 @@ def crearSolicitud(request):
     if request.method == "POST":
         cliente = request.session.get('subtipo')
         contrato = Contrato.filtro_rutcliente(rut=cliente.rut)
-        tipos = ['ASESORÍA','CAPACITACIÓN']
         tipos_asesoria = ['VISITA','ACCIDENTE']
-        if request.POST['tipo'] not in tipos:
-            return redirect('crearsolicitud')
+        try:
+            nombre_archivo = request.FILES['archivo'].name
+            #Tamaño en bytes/1000000 / tamaño en mb
+            if request.FILES['archivo'].size/1000000 > 20:
+                messages.success(request,"Error: Tamaño de archivo máximo: 20MB")
+                return redirect('crearsolicitud')
+            if not nombre_archivo.endswith(('.pdf','.rar','.zip','.png','.jpg','.jpeg','.txt')):
+                messages.success(request,"Error: Tipo de archivo no admitido")
+                return redirect('crearsolicitud')
+            nombre_archivo = cliente.rut+str(datetime.now().strftime("%d%m%Y"))+nombre_archivo
+            fs = FileSystemStorage(location=str(settings.MEDIA_ROOT)+"/SOLICITUDES/")
+            fs.save(nombre_archivo, request.FILES['archivo'])
+        except MultiValueDictKeyError:
+            nombre_archivo = None
 
         if request.POST['tipo'] == "ASESORÍA":
             if request.POST['tipo_asesoria'] not in tipos_asesoria:
@@ -445,7 +458,7 @@ def crearSolicitud(request):
                 tipo = "ASESORÍA",
                 fecha_publicacion = datetime.now(),
                 motivo = request.POST['motivo'],
-                archivo = None,
+                archivo = nombre_archivo,
                 tipo_asesoria = request.POST['tipo_asesoria'],
                 CONTRATO_id_contrato = contrato.id_contrato
             )
@@ -457,11 +470,14 @@ def crearSolicitud(request):
                 tipo = "CAPACITACIÓN",
                 fecha_publicacion = datetime.now(),
                 motivo = request.POST['motivo'],
-                archivo = None,
+                archivo = nombre_archivo,
                 CONTRATO_id_contrato = contrato.id_contrato
             )
             solicitud_cap.guardar()
             messages.success(request,"Capacitación del día "+str(datetime.now().strftime("%d/%m/%Y"))+" guardada.")
+            return redirect('solicitudes')
+        else:
+            messages.success(request,"Tipo de solicitud no admitida")
             return redirect('solicitudes')
     return render(request, 'SSAP/crearsolicitud.html')
 #   ------------------------ Profesional ------------------------

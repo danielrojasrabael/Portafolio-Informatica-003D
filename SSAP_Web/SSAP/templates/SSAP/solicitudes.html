@@ -36,7 +36,9 @@
                                 <h3 class="tx-gradiente-p medio-tx float-start">Historial de Solicitudes</h3>
                                 <a href="{%url 'crearsolicitud'%}" class="float-end"><button class="accion btn btn-primary col-sm-12 ">Crear Solicitud</button></a>
                             </caption>
-                            
+                            <caption>
+                                <input type="text" class="buscarTabla form-control form-control-lg col-sm-12" placeholder="Buscar en Tabla">
+                            </caption>
                             <tr>
                                 <th scope="col">Motivo</th>
                                 <th scope="col">Tipo</th>
@@ -49,7 +51,7 @@
                         <tbody>
                             {%for solicitud in solicitudes%}
                             <tr>
-                                <th>{{solicitud.motivo}}</th>
+                                <th style="max-width: 200px; overflow: hidden;text-overflow: ellipsis; white-space: nowrap;">{{solicitud.motivo}}</th>
                                 <th>{{solicitud.tipo}}</th>
                                 <th>{{solicitud.fecha_publicacion | date:'d/m/Y'}}</th>
                                 <th>{{solicitud.estado}}</th>

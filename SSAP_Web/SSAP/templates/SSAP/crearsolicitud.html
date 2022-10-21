@@ -17,8 +17,15 @@
                         </div>
                     </div>
 
+                    {% for mensaje in messages %}
+                        <div class="alert alert-danger alert-dismissible fade show col-sm-12" role="alert">
+                            <strong>{{mensaje}}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+
                     <div class="row esp-input">
-                        <form id="formCrear" action="" method="post">
+                        <form id="formCrear" action="" method="post"  enctype="multipart/form-data">
                             {%csrf_token%}
                             <div class="row esp-input">
                                 <label for="tipo" class="col-sm-4 col-form-label col-form-label-lg">Tipo Solicitud:</label>
@@ -43,8 +50,8 @@
                             <div class="row esp-input col-sm-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <label for="comment" class="float-start"><h4>Motivo:</h4></label>
-                                        <textarea class="form-control" rows="5" id="comment" name="motivo"></textarea>
+                                        <label for="motivo" class="float-start"><h4>Motivo:</h4></label>
+                                        <textarea class="form-control" rows="5" form_id="formCrear" id="motivo" name="motivo"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -52,7 +59,7 @@
                             <div class="row esp-input">
                                 <label for="archivo" class="col-sm-4 col-form-label col-form-label-lg">Archivo adjunto (Opcional):</label>
                                 <div class="col-sm-8">
-                                    <h4><strong class="tx-gradiente-am"><input type="file"></strong></h4>
+                                    <h4><strong class="tx-gradiente-am"><input type="file" name="archivo" accept=".pdf,.rar,.zip,.png,.jpg,.jpeg,.txt"/></strong></h4>
                                 </div>
                             </div>
 

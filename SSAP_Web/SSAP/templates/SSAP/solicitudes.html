@@ -55,7 +55,11 @@
                                 <th>{{solicitud.tipo}}</th>
                                 <th>{{solicitud.fecha_publicacion | date:'d/m/Y'}}</th>
                                 <th>{{solicitud.estado}}</th>
-                                <th><button>Ver Respuesta</button></th>
+                                {%if solicitud.estado == 'RESUELTA' %}
+                                    <th><button class="accion btn btn-primary col-sm-12">Ver Respuesta</button></th>
+                                {%else%}
+                                    <th><button class="accion btn btn-primary col-sm-12">Ver Detalle</button></th>
+                                {%endif%}
                             </tr>
                             {%endfor%}
                         </tbody>

@@ -347,6 +347,51 @@ class Notificacion(models.Model):
     class Meta:
         managed = False
 
+class Solicitud(models.Model):
+    id_solicitud = models.IntegerField()
+    estado = models.CharField(max_length=999)
+    tipo = models.CharField(max_length=999)
+    fecha_publicacion = models.DateTimeField()
+    motivo = models.TextField()
+    archivo = models.CharField(max_length=999)
+    CONTRATO_id_contrato = models.IntegerField()
+    def todos_idcontrato(id,conn=conexion):
+        cur = conn.cursor()
+        datosAs = conn.cursor()
+        datosCap = conn.cursor()
+        lista = []
+        cur.callproc("SOLICITUD_PORIDCONTRATO", [datosAs,datosCap,id])
+        for i in datosAs:
+            solicitud = Solicitud(motivo=i[0],tipo=i[1],fecha_publicacion=i[2],estado=i[3],id_solicitud=i[4])
+            lista.append(solicitud)
+        for i in datosCap:
+            solicitud = Solicitud(motivo=i[0],tipo=i[1],fecha_publicacion=i[2],estado=i[3],id_solicitud=i[4])
+            lista.append(solicitud)
+        cur.close()
+        datosAs.close()
+        datosCap.close()
+        return lista
+    class Meta:
+        managed = False
+    
+class Asesoria(Solicitud):
+    id_asesoria = models.IntegerField()
+    tipo_asesoria = models.CharField(max_length=999)
+    fecha_respuesta = models.DateTimeField()
+    def guardar(self,conn=conexion):
+        cur = conn.cursor()
+        cur.callproc("INSERTARASESORIA", [self.tipo,self.CONTRATO_id_contrato,self.fecha_publicacion,self.motivo,self.archivo,self.tipo_asesoria])
+        cur.close()
+    class Meta:
+        managed = False
+
+class SolicitudCapacitacion(Solicitud):
+    def guardar(self,conn=conexion):
+        cur = conn.cursor()
+        cur.callproc("INSERTARASOLICITUDCAPACITACION", [self.tipo,self.CONTRATO_id_contrato,self.fecha_publicacion,self.motivo,self.archivo])
+        cur.close()
+    class Meta:
+        managed = False
 #   Funciones Profesionales
 
 class Visita(models.Model):

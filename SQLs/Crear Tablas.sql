@@ -13,16 +13,16 @@
 --------------------------------------------------------
 --  DDL for Table ASESORIA
 --------------------------------------------------------
-
   CREATE TABLE "ASESORIA" 
    (	"ID_ASESORIA" NUMBER(13,0) GENERATED ALWAYS AS IDENTITY(START WITH 1 INCREMENT BY 1) , 
 	"FECHA_PUBLICACION" DATE, 
-	"MOTIVO" VARCHAR2(200 BYTE), 
+	"MOTIVO" CLOB, 
 	"FECHA_RESPUESTA" DATE, 
 	"RESPUESTA" VARCHAR2(300 BYTE), 
 	"ID_SOLICITUD" NUMBER(13,0), 
 	"ARCHIVO" VARCHAR2(200 BYTE)
    );
+   ALTER TABLE "ASESORIA" ADD "TIPO_ASESORIA" VARCHAR2(200);
    
 --------------------------------------------------------
 --  DDL for Table CAPACITACION

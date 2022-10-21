@@ -422,7 +422,10 @@ def boleta_cli(request, nombre):
 @logueado
 @esCliente
 def solicitudes(request):
-    return render(request, 'SSAP/solicitudes.html')
+    cliente = request.session.get('subtipo')
+    contrato = Contrato.filtro_rutcliente(rut=cliente.rut)
+    solicitudes = Solicitud.todos_idcontrato(contrato.id_contrato)
+    return render(request, 'SSAP/solicitudes.html', {'solicitudes':solicitudes})
 
 @logueado
 @esCliente

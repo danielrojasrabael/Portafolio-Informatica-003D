@@ -15,13 +15,13 @@
                     </div>
                 </div>
 
-                <div class="row esp-input col-sm-12">
+                <!--<div class="row esp-input col-sm-12">
                     <div class="card">
                         <div class="card-body">
                             <h2>Te quedan: <strong class="tx-gradiente-am">7</strong> Solicitudes (las demas seran <strong>cargadas</strong>)</h2>
                         </div>
                     </div>
-                </div>
+                </div>-->
                 <div class="row esp-input col-sm-12">
                     <table class="table table-responsive table-light table-striped">
                         <thead>
@@ -35,36 +35,24 @@
                             </caption>
                             
                             <tr>
-                                <th scope="col">ID</th>
                                 <th scope="col">Motivo</th>
                                 <th scope="col">Tipo</th>
                                 <th scope="col">Fecha</th>
                                 <th scope="col">Estado</th>
+                                <th scope="col">Accion</th>
                             </tr>
     
                         </thead>
                         <tbody>
+                            {%for solicitud in solicitudes%}
                             <tr>
-                                <th>3</th>
-                                <th>Requiero una capacitación</th>
-                                <th>Capacitación</th>
-                                <th>23/01/2023</th>
-                                <th>Pendiente</th>
+                                <th>{{solicitud.motivo}}</th>
+                                <th>{{solicitud.tipo}}</th>
+                                <th>{{solicitud.fecha_publicacion | date:'d/m/Y'}}</th>
+                                <th>{{solicitud.estado}}</th>
+                                <th><button>Ver Respuesta</button></th>
                             </tr>
-                            <tr>
-                                <th>2</th>
-                                <th>Hay un problema con...</th>
-                                <th>Asesoría</th>
-                                <th>23/01/2023</th>
-                                <th>No Resuelta</th>
-                            </tr>
-                            <tr>
-                                <th>1</th>
-                                <th>Hay un problema con...</th>
-                                <th>Asesoría</th>
-                                <th>23/01/2023</th>
-                                <th>Pendiente</th>
-                            </tr>
+                            {%endfor%}
                         </tbody>
                     </table>
                 </div>

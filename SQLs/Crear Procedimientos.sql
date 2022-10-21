@@ -376,7 +376,39 @@ begin
      UPDATE VISITA SET FECHA = fecha_v, ESTADO=estado_v, UBICACION = ubicacion_v, REPORTE_FINAL = reporte_final_v, PERIODO = periodo_v,ID_COMUNA = idComuna_v WHERE ID_VISITA = idVi;
 end;
 /
+------------------------------------------
+-- Solicitudes
+------------------------------------------
+CREATE OR REPLACE PROCEDURE insertarAsesoria(tipo_v in VARCHAR2,idCtr in NUMBER, fecha_publicacion_v in DATE, motivo_v in CLOB,archivo_v in VARCHAR2, tipo_asesoria_v in VARCHAR2)
+as
+begin
+    INSERT INTO SOLICITUD (tipo, id_contrato) VALUES (tipo_v,idCtr);
+    INSERT INTO ASESORIA (fecha_publicacion,motivo,id_solicitud,archivo,tipo_asesoria) VALUES (fecha_publicacion_v, motivo_v, (SELECT MAX(ID_SOLICITUD) FROM SOLICITUD),archivo_v,tipo_asesoria_v);
+end;
+/
 
+CREATE OR REPLACE PROCEDURE insertarSolicitudCapacitacion(tipo_v in VARCHAR2,idCtr in NUMBER,fecha_publicacion_v in DATE, motivo_v in CLOB, archivo_v in VARCHAR2)
+as
+begin
+    INSERT INTO SOLICITUD (tipo, id_contrato) VALUES (tipo_v,idCtr);
+    INSERT INTO SOLICITUD_CAPACITACION (fecha_publicacion,motivo,archivo,id_solicitud) VALUES (fecha_publicacion_v, motivo_v, archivo_v, (SELECT MAX(ID_SOLICITUD) FROM SOLICITUD));
+end;
+/
+
+CREATE OR REPLACE PROCEDURE solicitud_PorIdContrato(registroAs out SYS_REFCURSOR, registroCap out SYS_REFCURSOR, idCtr in NUMBER)
+as
+begin
+    --Select Asesorias
+    OPEN registroAs FOR SELECT ase.MOTIVO, sol.TIPO, ase.FECHA_PUBLICACION, sol.ESTADO, sol.ID_SOLICITUD 
+    FROM SOLICITUD sol INNER JOIN ASESORIA ase ON ase.ID_SOLICITUD = sol.ID_SOLICITUD
+    WHERE sol.ID_CONTRATO = idCtr;
+    
+    --Select Capacitaciones
+    OPEN registroCap FOR SELECT sc.MOTIVO, sol.TIPO, sc.FECHA_PUBLICACION, sol.ESTADO, sol.ID_SOLICITUD 
+    FROM SOLICITUD sol INNER JOIN SOLICITUD_CAPACITACION sc ON sc.ID_SOLICITUD = sol.ID_SOLICITUD
+    WHERE sol.ID_CONTRATO = idCtr;
+end;
+/
 ------------------------------------------
 -- Actividades
 ------------------------------------------

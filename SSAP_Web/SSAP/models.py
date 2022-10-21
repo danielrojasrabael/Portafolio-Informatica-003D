@@ -388,7 +388,7 @@ class Asesoria(Solicitud):
 class SolicitudCapacitacion(Solicitud):
     def guardar(self,conn=conexion):
         cur = conn.cursor()
-        cur.callproc("INSERTARASOLICITUDCAPACITACION", [self.tipo,self.CONTRATO_id_contrato,self.fecha_publicacion,self.motivo,self.archivo])
+        cur.callproc("INSERTARSOLICITUDCAPACITACION", [self.tipo,self.CONTRATO_id_contrato,self.fecha_publicacion,self.motivo,self.archivo])
         cur.close()
     class Meta:
         managed = False

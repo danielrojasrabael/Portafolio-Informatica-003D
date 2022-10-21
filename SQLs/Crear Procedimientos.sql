@@ -382,7 +382,7 @@ end;
 CREATE OR REPLACE PROCEDURE insertarAsesoria(tipo_v in VARCHAR2,idCtr in NUMBER, fecha_publicacion_v in DATE, motivo_v in CLOB,archivo_v in VARCHAR2, tipo_asesoria_v in VARCHAR2)
 as
 begin
-    INSERT INTO SOLICITUD (tipo, id_contrato) VALUES (tipo_v,idCtr);
+    INSERT INTO SOLICITUD (estado,tipo, id_contrato) VALUES ('PENDIENTE',tipo_v,idCtr);
     INSERT INTO ASESORIA (fecha_publicacion,motivo,id_solicitud,archivo,tipo_asesoria) VALUES (fecha_publicacion_v, motivo_v, (SELECT MAX(ID_SOLICITUD) FROM SOLICITUD),archivo_v,tipo_asesoria_v);
 end;
 /
@@ -390,7 +390,7 @@ end;
 CREATE OR REPLACE PROCEDURE insertarSolicitudCapacitacion(tipo_v in VARCHAR2,idCtr in NUMBER,fecha_publicacion_v in DATE, motivo_v in CLOB, archivo_v in VARCHAR2)
 as
 begin
-    INSERT INTO SOLICITUD (tipo, id_contrato) VALUES (tipo_v,idCtr);
+    INSERT INTO SOLICITUD (estado,tipo, id_contrato) VALUES ('PENDIENTE',tipo_v,idCtr);
     INSERT INTO SOLICITUD_CAPACITACION (fecha_publicacion,motivo,archivo,id_solicitud) VALUES (fecha_publicacion_v, motivo_v, archivo_v, (SELECT MAX(ID_SOLICITUD) FROM SOLICITUD));
 end;
 /

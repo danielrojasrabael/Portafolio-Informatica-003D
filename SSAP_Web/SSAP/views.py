@@ -430,6 +430,39 @@ def solicitudes(request):
 @logueado
 @esCliente
 def crearSolicitud(request):
+    if request.method == "POST":
+        cliente = request.session.get('subtipo')
+        contrato = Contrato.filtro_rutcliente(rut=cliente.rut)
+        tipos = ['ASESORÍA','CAPACITACIÓN']
+        tipos_asesoria = ['VISITA','ACCIDENTE']
+        if request.POST['tipo'] not in tipos:
+            return redirect('crearsolicitud')
+
+        if request.POST['tipo'] == "ASESORÍA":
+            if request.POST['tipo_asesoria'] not in tipos_asesoria:
+                return redirect('crearsolicitud')
+            asesoria = Asesoria(
+                tipo = "ASESORÍA",
+                fecha_publicacion = datetime.now(),
+                motivo = request.POST['motivo'],
+                archivo = None,
+                tipo_asesoria = request.POST['tipo_asesoria'],
+                CONTRATO_id_contrato = contrato.id_contrato
+            )
+            asesoria.guardar()
+            messages.success(request,"Asesoría del día "+str(datetime.now().strftime("%d/%m/%Y"))+" guardada.")
+            return redirect('solicitudes')
+        elif request.POST['tipo'] == "CAPACITACIÓN":
+            solicitud_cap = SolicitudCapacitacion(
+                tipo = "CAPACITACIÓN",
+                fecha_publicacion = datetime.now(),
+                motivo = request.POST['motivo'],
+                archivo = None,
+                CONTRATO_id_contrato = contrato.id_contrato
+            )
+            solicitud_cap.guardar()
+            messages.success(request,"Capacitación del día "+str(datetime.now().strftime("%d/%m/%Y"))+" guardada.")
+            return redirect('solicitudes')
     return render(request, 'SSAP/crearsolicitud.html')
 #   ------------------------ Profesional ------------------------
 

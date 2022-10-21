@@ -1,6 +1,7 @@
 {%extends 'SSAP/base.html'%}
 {%load static%}
 {%block titulo%}SSAP | Crear Solicitud{%endblock%}
+{%block head%}<script src="{%static 'js/crearSolicitud.js'%}"></script>{%endblock%}
 {%block contenido%}
 <div class="fondo-global">
     <div class="fondo-falso">
@@ -8,7 +9,6 @@
             <div class="espacio">
 
                 <div style="text-align: center; width: 90%;">
-
                     <div class="row esp-input">
                         <div class="card">
                             <div class="card-body">
@@ -19,23 +19,23 @@
 
                     <div class="row esp-input">
                         <form id="formCrear" action="" method="post">
-
+                            {%csrf_token%}
                             <div class="row esp-input">
                                 <label for="tipo" class="col-sm-4 col-form-label col-form-label-lg">Tipo Solicitud:</label>
                                 <div class="col-sm-8">
-                                    <select class="form-select form-select-lg" name="tipo" id="tipo">
-                                        <option>Asesoría</option>
-                                        <option>Capacitación</option>
+                                    <select class="form-select form-select-lg" name="tipo" id="tipo" onchange="cambioTipo()">
+                                        <option value="ASESORÍA">Asesoría</option>
+                                        <option value="CAPACITACIÓN">Capacitación</option>
                                     </select>
                                 </div>
                             </div>
 
-                            <div class="row esp-input">
+                            <div class="row esp-input" id="tipo-asesoria-div">
                                 <label for="tipo-asesoria" class="col-sm-4 col-form-label col-form-label-lg">Tipo Asesoría:</label>
                                 <div class="col-sm-8">
-                                    <select class="form-select form-select-lg" name="tipo" id="tipo-asesoria">
-                                        <option>Visita</option>
-                                        <option>Accidente</option>
+                                    <select class="form-select form-select-lg" name="tipo_asesoria" id="tipo-asesoria">
+                                        <option value="VISITA">Visita</option>
+                                        <option value="ACCIDENTE">Accidente</option>
                                     </select>
                                 </div>
                             </div>
@@ -44,7 +44,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <label for="comment" class="float-start"><h4>Motivo:</h4></label>
-                                        <textarea class="form-control" rows="5" id="comment" name="mejora"></textarea>
+                                        <textarea class="form-control" rows="5" id="comment" name="motivo"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -56,17 +56,17 @@
                                 </div>
                             </div>
 
+
+                            <div class="row esp-input col-sm-12">
+                                <div class="col-sm-6">
+                                    <a class="btn btn-back btn-lg col-sm-12" href="{% url 'solicitudes' %}" >Volver</a>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="submit" value="Crear Solicitud" class="btn btn-primary btn-lg col-sm-12"></input>
+                                </div>
+                            </div>
+
                         </form>
-
-                        <div class="row esp-input col-sm-12">
-                            <div class="col-sm-6">
-                                <a class="btn btn-back btn-lg col-sm-12" href="" >Volver</a>
-                            </div>
-                            <div class="col-sm-6">
-                                <input type="submit" value="Crear Solicitud" class="btn btn-primary btn-lg col-sm-12"></input>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>

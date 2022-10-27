@@ -490,6 +490,18 @@ def detalleSolicitudCli(request):
 @esCliente
 def capacitacionesCli(request):
     return render(request,'SSAP/capacitaciones_cli.html')
+
+@logueado
+@esCliente
+def visitasCli(request):
+    cliente = request.session.get('subtipo')
+    visitas = []
+    comunas = Ubicacion.todos()
+    contrato = Contrato.filtro_rutcliente(rut=cliente.rut)
+    for visita in Visita.todos():
+        if visita.CONTRATO_id == contrato.id_contrato:
+            visitas.append(visita)
+    return render(request,'SSAP/Visitas_cli.html',{'visitas':visitas, 'comunas':comunas})
 #   ------------------------ Profesional ------------------------
 
 @logueado

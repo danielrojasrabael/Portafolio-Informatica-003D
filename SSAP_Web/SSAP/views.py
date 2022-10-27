@@ -485,6 +485,11 @@ def crearSolicitud(request):
 @esCliente
 def detalleSolicitudCli(request):
     return render(request, 'SSAP/detallesolicitud.html')
+
+@logueado
+@esCliente
+def capacitacionesCli(request):
+    return render(request,'SSAP/capacitaciones_cli.html')
 #   ------------------------ Profesional ------------------------
 
 @logueado

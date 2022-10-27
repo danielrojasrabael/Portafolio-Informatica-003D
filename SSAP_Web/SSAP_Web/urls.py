@@ -42,6 +42,7 @@ urlpatterns = [
     path('crearsolicitud/', views.crearSolicitud, name="crearsolicitud"),
     path('boleta_cli/<nombre>', views.boleta_cli, name="boleta_cli"),
     path('detallesolicitud_cli/',views.detalleSolicitudCli,name="detallesolicitud_cli"),
+    path('capacitaciones_cli/',views.capacitacionesCli,name='capacitaciones_cli'),
     #   ------------------------ Profesional ------------------------
     path('verclientes/', views.verClientes, name="verclientes"),
     path('checklists/', views.checklists, name="checklists"),

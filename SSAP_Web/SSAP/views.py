@@ -483,8 +483,21 @@ def crearSolicitud(request):
 
 @logueado
 @esCliente
-def detalleSolicitudCli(request):
-    return render(request, 'SSAP/detallesolicitud.html')
+def detalleSolicitudCli(request,id_sol):
+    cliente = request.session.get('subtipo')
+    contrato = Contrato.filtro_rutcliente(rut=cliente.rut)
+    tipo = None
+    for soli in Solicitud.todos_idcontrato(contrato.id_contrato):
+        if str(soli.id_solicitud) == id_sol:
+            tipo = soli.tipo
+            break
+    if tipo == 'ASESORÍA':
+        solicitud = Asesoria.filtro_idsolicitud(id=id_sol)
+    if tipo == 'CAPACITACIÓN':
+        solicitud = SolicitudCapacitacion.filtro_idsolicitud(id=id_sol)
+    if not tipo:
+        return redirect('solicitudes')
+    return render(request, 'SSAP/detallesolicitud.html',{'solicitud':solicitud})
 
 @logueado
 @esCliente

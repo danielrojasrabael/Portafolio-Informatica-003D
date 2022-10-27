@@ -409,6 +409,24 @@ begin
     WHERE sol.ID_CONTRATO = idCtr;
 end;
 /
+
+CREATE OR REPLACE PROCEDURE asesoria_PorIdSolicitud(registro out SYS_REFCURSOR,idSlc in NUMBER)
+as
+begin
+    OPEN registro FOR SELECT ase.MOTIVO, sol.TIPO, ase.FECHA_PUBLICACION, sol.ESTADO, sol.ID_SOLICITUD, ase.RESPUESTA, ase.FECHA_RESPUESTA, ase.ARCHIVO
+    FROM SOLICITUD sol INNER JOIN ASESORIA ase ON ase.ID_SOLICITUD = sol.ID_SOLICITUD
+    WHERE sol.ID_SOLICITUD = idSlc;
+end;
+/
+
+CREATE OR REPLACE PROCEDURE solicitud_capacitacion_PorIdSolicitud(registro out SYS_REFCURSOR,idSlc in NUMBER)
+as
+begin
+    OPEN registro FOR SELECT sc.MOTIVO, sol.TIPO, sc.FECHA_PUBLICACION, sol.ESTADO, sol.ID_SOLICITUD, sc.ARCHIVO 
+    FROM SOLICITUD sol INNER JOIN SOLICITUD_CAPACITACION sc ON sc.ID_SOLICITUD = sol.ID_SOLICITUD
+    WHERE sol.ID_SOLICITUD = idSlc;
+end;
+/
 ------------------------------------------
 -- Actividades
 ------------------------------------------

@@ -13,13 +13,13 @@ $(document).ready(function(){
         rules:{
             motivo:{
                 required: true,
-                maxlength: 300
+                maxlength: 1000
             }
         },
         messages:{
             motivo:{
                 required: "Campo Requerido",
-                maxlength: "Máximo 300 caracteres"
+                maxlength: "Máximo 1000 caracteres"
             }
         }
     });

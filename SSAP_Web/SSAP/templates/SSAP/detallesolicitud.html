@@ -1,6 +1,6 @@
 {%extends 'SSAP/base.html'%}
 {%load static%}
-{%block titulo%}SSAP | Solicitud N°{%endblock%}
+{%block titulo%}SSAP | Solicitud N°{{solicitud.id_solicitud}}{%endblock%}
 {%block head%}{%endblock%}
 {%block contenido%}
 <div class="fondo-global">
@@ -21,16 +21,16 @@
                             <div class="row esp-input col-sm-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <label for="motivo" class="float-start"><h4>Motivo:</h4></label><label for="motivo" class="float-end"><h4>Fecha Solicitud: 22/01/2023</h4></label>
-                                        <textarea class="form-control" rows="5" id="motivo" name="motivo" disabled style="overflow-y: scroll; resize: none;"></textarea>
+                                        <label for="motivo" class="float-start"><h4>Motivo:</h4></label><label for="motivo" class="float-end"><h4>Fecha Solicitud: {{solicitud.fecha_publicacion | date:'d/m/Y'}}</h4></label>
+                                        <textarea class="form-control" rows="5" id="motivo" name="motivo" disabled style="overflow-y: scroll; resize: none;">{{solicitud.motivo}}</textarea>
                                     </div>
                                 </div>
                             </div>
                             <div class="row esp-input col-sm-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <label for="respuesta" class="float-start"><h4>Respuesta:</h4></label><label for="motivo" class="float-end"><h4>Fecha Respuesta: 23/01/2023</h4></label>
-                                        <textarea class="form-control" rows="5" id="respuesta" name="respuesta" disabled style="overflow-y: scroll; resize: none;"></textarea>
+                                        <label for="respuesta" class="float-start"><h4>Respuesta:</h4></label><label for="motivo" class="float-end"><h4>Fecha Respuesta: {%if solicitud.fecha_respuesta%}{{solicitud.fecha_respuesta | date:'d/m/Y'}}{%else%}N/A{%endif%}</h4></label>
+                                        <textarea class="form-control" rows="5" id="respuesta" name="respuesta" disabled style="overflow-y: scroll; resize: none;">{%if solicitud.respuesta%}{{solicitud.respuesta}}{%endif%}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -38,7 +38,13 @@
                             <div class="row esp-input">
                                 <label for="archivo" class="col-sm-4 col-form-label col-form-label-lg">Archivo adjunto:</label>
                                 <div class="col-sm-8">
-                                    <h4><a href="">archivo.txt</a></h4>
+                                    <h4>
+                                        {%if solicitud.archivo%}
+                                            <a href="">{{solicitud.archivo}}</a>
+                                        {%else%}
+                                            N/A
+                                        {%endif%}
+                                    </h4>
                                 </div>
                             </div>
 

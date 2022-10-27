@@ -480,6 +480,11 @@ def crearSolicitud(request):
             messages.success(request,"Tipo de solicitud no admitida")
             return redirect('solicitudes')
     return render(request, 'SSAP/crearsolicitud.html')
+
+@logueado
+@esCliente
+def detalleSolicitudCli(request):
+    return render(request, 'SSAP/detallesolicitud.html')
 #   ------------------------ Profesional ------------------------
 
 @logueado

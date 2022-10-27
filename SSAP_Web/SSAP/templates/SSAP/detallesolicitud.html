@@ -1,0 +1,57 @@
+{%extends 'SSAP/base.html'%}
+{%load static%}
+{%block titulo%}SSAP | Solicitud N°{%endblock%}
+{%block head%}{%endblock%}
+{%block contenido%}
+<div class="fondo-global">
+    <div class="fondo-falso">
+        <div class="contenedor">
+            <div class="espacio">
+
+                <div style="text-align: center; width: 90%;">
+                    <div class="row esp-input col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+                            <h1 class="card-title tx-gradiente-p">Detalle Solicitud</h1>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row esp-input">
+                            <div class="row esp-input col-sm-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <label for="motivo" class="float-start"><h4>Motivo:</h4></label><label for="motivo" class="float-end"><h4>Fecha Solicitud: 22/01/2023</h4></label>
+                                        <textarea class="form-control" rows="5" id="motivo" name="motivo" disabled style="overflow-y: scroll; resize: none;"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row esp-input col-sm-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <label for="respuesta" class="float-start"><h4>Respuesta:</h4></label><label for="motivo" class="float-end"><h4>Fecha Respuesta: 23/01/2023</h4></label>
+                                        <textarea class="form-control" rows="5" id="respuesta" name="respuesta" disabled style="overflow-y: scroll; resize: none;"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row esp-input">
+                                <label for="archivo" class="col-sm-4 col-form-label col-form-label-lg">Archivo adjunto:</label>
+                                <div class="col-sm-8">
+                                    <h4><a href="">archivo.txt</a></h4>
+                                </div>
+                            </div>
+
+
+                            <div class="row esp-input col-sm-12">
+                                <div class="col-sm-12">
+                                    <a class="btn btn-back btn-lg col-sm-12" href="{% url 'solicitudes' %}" >Volver</a>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

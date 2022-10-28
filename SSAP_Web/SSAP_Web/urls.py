@@ -43,6 +43,7 @@ urlpatterns = [
     path('boleta_cli/<nombre>', views.boleta_cli, name="boleta_cli"),
     path('detallesolicitud_cli/<id_sol>',views.detalleSolicitudCli,name="detallesolicitud_cli"),
     path('capacitaciones_cli/',views.capacitacionesCli,name='capacitaciones_cli'),
+    path('descargar_cli/<nombre_archivo>',views.descargar_cli,name="descargar_cli"),
     #   ------------------------ Profesional ------------------------
     path('verclientes/', views.verClientes, name="verclientes"),
     path('checklists/', views.checklists, name="checklists"),

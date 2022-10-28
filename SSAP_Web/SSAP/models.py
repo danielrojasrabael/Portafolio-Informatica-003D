@@ -362,10 +362,10 @@ class Solicitud(models.Model):
         lista = []
         cur.callproc("SOLICITUD_PORIDCONTRATO", [datosAs,datosCap,id])
         for i in datosAs:
-            solicitud = Solicitud(motivo=i[0],tipo=i[1],fecha_publicacion=i[2],estado=i[3],id_solicitud=i[4])
+            solicitud = Solicitud(motivo=i[0],tipo=i[1],fecha_publicacion=i[2],estado=i[3],id_solicitud=i[4], archivo=i[5])
             lista.append(solicitud)
         for i in datosCap:
-            solicitud = Solicitud(motivo=i[0],tipo=i[1],fecha_publicacion=i[2],estado=i[3],id_solicitud=i[4])
+            solicitud = Solicitud(motivo=i[0],tipo=i[1],fecha_publicacion=i[2],estado=i[3],id_solicitud=i[4], archivo=i[5])
             lista.append(solicitud)
         cur.close()
         datosAs.close()

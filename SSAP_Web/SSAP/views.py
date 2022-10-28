@@ -549,7 +549,6 @@ def visita_cliente(request,nombre):
     for visita in Visita.todos():
         if visita.CONTRATO_id == contrato.id_contrato:
             nombres.append(visita.reporte_final)
-    print(nombres)
     if nombre not in nombres:
         return redirect('index')
     try:

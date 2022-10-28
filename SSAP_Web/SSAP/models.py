@@ -362,10 +362,10 @@ class Solicitud(models.Model):
         lista = []
         cur.callproc("SOLICITUD_PORIDCONTRATO", [datosAs,datosCap,id])
         for i in datosAs:
-            solicitud = Solicitud(motivo=i[0],tipo=i[1],fecha_publicacion=i[2],estado=i[3],id_solicitud=i[4])
+            solicitud = Solicitud(motivo=i[0],tipo=i[1],fecha_publicacion=i[2],estado=i[3],id_solicitud=i[4], archivo=i[5])
             lista.append(solicitud)
         for i in datosCap:
-            solicitud = Solicitud(motivo=i[0],tipo=i[1],fecha_publicacion=i[2],estado=i[3],id_solicitud=i[4])
+            solicitud = Solicitud(motivo=i[0],tipo=i[1],fecha_publicacion=i[2],estado=i[3],id_solicitud=i[4], archivo=i[5])
             lista.append(solicitud)
         cur.close()
         datosAs.close()
@@ -377,11 +377,21 @@ class Solicitud(models.Model):
 class Asesoria(Solicitud):
     id_asesoria = models.IntegerField()
     tipo_asesoria = models.CharField(max_length=999)
+    respuesta = models.TextField()
     fecha_respuesta = models.DateTimeField()
     def guardar(self,conn=conexion):
         cur = conn.cursor()
         cur.callproc("INSERTARASESORIA", [self.tipo,self.CONTRATO_id_contrato,self.fecha_publicacion,self.motivo,self.archivo,self.tipo_asesoria])
         cur.close()
+    def filtro_idsolicitud(id=None,conn=conexion):
+        cur = conn.cursor()
+        datos = conn.cursor()
+        cur.callproc("ASESORIA_PORIDSOLICITUD", [datos,id])
+        for i in datos:
+            asesoria = Asesoria(motivo = i[0],tipo = i[1], fecha_publicacion = i[2], estado = i[3], id_solicitud=i[4], respuesta = i[5], fecha_respuesta = i[6], archivo = i[7])
+        cur.close()
+        datos.close()
+        return asesoria
     class Meta:
         managed = False
 
@@ -390,6 +400,15 @@ class SolicitudCapacitacion(Solicitud):
         cur = conn.cursor()
         cur.callproc("INSERTARSOLICITUDCAPACITACION", [self.tipo,self.CONTRATO_id_contrato,self.fecha_publicacion,self.motivo,self.archivo])
         cur.close()
+    def filtro_idsolicitud(id=None,conn=conexion):
+        cur = conn.cursor()
+        datos = conn.cursor()
+        cur.callproc("SOLICITUD_CAPACITACION_PORIDSOLICITUD", [datos,id])
+        for i in datos:
+            solicitudcapacitacion = SolicitudCapacitacion(motivo = i[0],tipo = i[1], fecha_publicacion = i[2], estado = i[3], id_solicitud=i[4], archivo = i[5])
+        cur.close()
+        datos.close()
+        return solicitudcapacitacion
     class Meta:
         managed = False
 #   Funciones Profesionales

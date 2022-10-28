@@ -1,11 +1,12 @@
 #Imports
+import mimetypes
 from django.utils.datastructures import MultiValueDictKeyError
 from datetime import datetime
 from xmlrpc.client import DateTime
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.http import FileResponse
+from django.http import FileResponse, HttpResponse
 from django.core.files.storage import FileSystemStorage
 import calendar
 
@@ -483,9 +484,43 @@ def crearSolicitud(request):
 
 @logueado
 @esCliente
-def detalleSolicitudCli(request):
-    return render(request, 'SSAP/detallesolicitud.html')
+def detalleSolicitudCli(request,id_sol):
+    cliente = request.session.get('subtipo')
+    contrato = Contrato.filtro_rutcliente(rut=cliente.rut)
+    tipo = None
+    for soli in Solicitud.todos_idcontrato(contrato.id_contrato):
+        if str(soli.id_solicitud) == id_sol:
+            tipo = soli.tipo
+            break
+    if tipo == 'ASESORÍA':
+        solicitud = Asesoria.filtro_idsolicitud(id=id_sol)
+    if tipo == 'CAPACITACIÓN':
+        solicitud = SolicitudCapacitacion.filtro_idsolicitud(id=id_sol)
+    if not tipo:
+        return redirect('solicitudes')
+    return render(request, 'SSAP/detallesolicitud.html',{'solicitud':solicitud})
 
+@logueado
+@esCliente
+def descargar_cli(request,nombre_archivo):
+    #Validación del archivo
+    cliente = request.session.get('subtipo')
+    contrato = Contrato.filtro_rutcliente(rut=cliente.rut)
+    archivos = []
+    for solicitud in Solicitud.todos_idcontrato(contrato.id_contrato):
+        archivos.append(solicitud.archivo)
+    if nombre_archivo not in archivos:
+        return redirect('index')
+
+    #Proceso de descarga del archivo
+    ubicacion_archivo = str(settings.MEDIA_ROOT)+'/SOLICITUDES/'+nombre_archivo
+    archivo = open(ubicacion_archivo,'rb')
+    mime_type, _ = mimetypes.guess_type(ubicacion_archivo)
+    response = HttpResponse(archivo, content_type=mime_type)
+    response['Content-Disposition'] = "attachment; filename=%s" % nombre_archivo
+    return response
+
+# Capacitaciones
 @logueado
 @esCliente
 def capacitacionesCli(request):

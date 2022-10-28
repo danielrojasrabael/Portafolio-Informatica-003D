@@ -427,7 +427,7 @@ class Capacitacion(models.Model):
         capacitaciones = []
         cur.callproc("CAPACITACION_PORIDCONTRATO", [datos,id])
         for i in datos:
-            capacitacion = Capacitacion(id_capacitacion = i[0], nombre = i[1], ubicacion = i[2], estado = i[3], fecha = i[4],CONTRATO_id_contrato = i[5])
+            capacitacion = Capacitacion(id_capacitacion = i[0], nombre = i[1], ubicacion = i[2], estado = i[3], fecha = i[4],CONTRATO_id_contrato = i[5], duracion = i[6])
             capacitaciones.append(capacitacion)
         cur.close()
         datos.close()

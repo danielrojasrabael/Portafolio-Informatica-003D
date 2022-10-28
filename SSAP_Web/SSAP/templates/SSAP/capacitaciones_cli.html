@@ -39,14 +39,14 @@
                     <tbody>
                         {%for capacitacion in capacitaciones%}
                             <tr>
-                                <th>{{capacitacion.nombre}}</th>
+                                <th style="max-width: 200px; overflow: hidden;text-overflow: ellipsis; white-space: nowrap;">{{capacitacion.nombre}}</th>
                                 <th>{{capacitacion.ubicacion}}</th>
                                 {% if estado%}
                                     <th>Realizada</th>
                                 {% else %}
                                     <th>Por Realizar</th>
                                 {% endif %}
-                                <th>2 Horas</th>
+                                <th>{{capacitacion.duracion}} Horas</th>
                                 <th>{{capacitacion.fecha | date:"d/m/Y H:m"}}</th>
                             </tr>
                         {%endfor%}

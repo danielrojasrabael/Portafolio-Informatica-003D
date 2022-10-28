@@ -63,6 +63,7 @@
                     {%if request.session.usuario.tipo == 'CLIENTE'%}
                     <li><a href="{%url 'notificaciones'%}"><button class="btn btn-sidebar" type="button"><strong>Notificaciones</strong></button></a></li>
                     <li><a href="{%url 'pagos'%}"><button class="btn btn-sidebar" type="button"><strong>Pagos</strong></button></a></li>
+                    <li><a href="{%url 'visitas_cli'%}"><button class="btn btn-sidebar" type="button"><strong>Visitas</strong></button></a></li>
                     <li><a href="{%url 'capacitaciones_cli'%}"><button class="btn btn-sidebar" type="button"><strong>Capacitaciones</strong></button></a></li>
                     <li><a href="{%url 'solicitudes'%}"><button class="btn btn-sidebar" type="button"><strong>Solicitudes</strong></button></a></li>
                     {%elif request.session.usuario.tipo == 'PROFESIONAL'%}

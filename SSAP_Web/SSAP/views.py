@@ -526,6 +526,7 @@ def descargar_cli(request,nombre_archivo):
 def capacitacionesCli(request):
     return render(request,'SSAP/capacitaciones_cli.html')
 
+# Visitas
 @logueado
 @esCliente
 def visitasCli(request):
@@ -537,6 +538,24 @@ def visitasCli(request):
         if visita.CONTRATO_id == contrato.id_contrato:
             visitas.append(visita)
     return render(request,'SSAP/Visitas_cli.html',{'visitas':visitas, 'comunas':comunas})
+
+@logueado
+@esCliente
+def visita_cliente(request,nombre):
+    archivo = str(settings.MEDIA_ROOT)+'/CHECKLISTS/'+nombre
+    cliente = request.session.get('subtipo')
+    nombres = []
+    contrato = Contrato.filtro_rutcliente(rut=cliente.rut)
+    for visita in Visita.todos():
+        if visita.CONTRATO_id == contrato.id_contrato:
+            nombres.append(visita.reporte_final)
+    print(nombres)
+    if nombre not in nombres:
+        return redirect('index')
+    try:
+        return FileResponse(open(archivo,'rb'), content_type='application/pdf')
+    except:
+        return redirect('index')
 #   ------------------------ Profesional ------------------------
 
 @logueado

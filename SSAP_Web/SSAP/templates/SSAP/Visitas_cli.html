@@ -50,7 +50,7 @@
                                 <th>N/A</th>
                                 <th>
                                     <div class="row esp-input">
-                                        <a href=""><button class="accion btn btn-primary col-sm-12" disabled>Revisar Reporte</button></a>
+                                        <div><button class="accion btn btn-primary col-sm-12" disabled>Revisar Reporte</button></div>
                                     </div>
                                 </th>
                             {%elif not visita.estado%}
@@ -58,7 +58,7 @@
                                 <th>{{visita.fecha | date:'d/m/Y'}}</th>
                                 <th>
                                     <div class="row esp-input">
-                                        <a href=""><button class="accion btn btn-primary col-sm-12" disabled>Revisar Reporte</button></a>
+                                        <div><button class="accion btn btn-primary col-sm-12" disabled>Revisar Reporte</button></div>
                                     </div>
                                 </th>
                             {%else%}
@@ -66,7 +66,7 @@
                                 <th>{{visita.fecha | date:'d/m/Y'}}</th>
                                 <th>
                                     <div class="row esp-input">
-                                        <a href="{% url 'visita_profesional' nombre=visita.reporte_final%}"><button class="accion btn btn-primary col-sm-12">Revisar Reporte</button></a>
+                                        <a href="{% url 'visita_cliente' nombre=visita.reporte_final%}"><button class="accion btn btn-primary col-sm-12">Revisar Reporte</button></a>
                                     </div>
                                 </th>
                             {%endif%}

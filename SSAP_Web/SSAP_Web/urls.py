@@ -44,6 +44,7 @@ urlpatterns = [
     path('detallesolicitud_cli/<id_sol>',views.detalleSolicitudCli,name="detallesolicitud_cli"),
     path('capacitaciones_cli/',views.capacitacionesCli,name='capacitaciones_cli'),
     path('visitas_cli/',views.visitasCli,name='visitas_cli'),
+    path('visita_cliente/<nombre>',views.visita_cliente,name="visita_cliente"),
     path('descargar_cli/<nombre_archivo>',views.descargar_cli,name="descargar_cli"),
     #   ------------------------ Profesional ------------------------
     path('verclientes/', views.verClientes, name="verclientes"),

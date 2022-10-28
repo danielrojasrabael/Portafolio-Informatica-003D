@@ -251,6 +251,15 @@ begin
 end;
 /
 
+create or replace PROCEDURE capacitacion_PorIdContrato (registro out SYS_REFCURSOR, idCtr in NUMBER)
+as
+begin
+    OPEN REGISTRO FOR SELECT ca.ID_CAPACITACION, ca.NOMBRE, ca.UBICACION || ', ' || co.NOMBRE, ca.ESTADO, ca.FECHA, ca.ID_CONTRATO
+    FROM CAPACITACION ca JOIN COMUNA co ON ca.id_comuna = co.id_comuna 
+    WHERE ID_CONTRATO = idCtr;
+end;
+/
+
 ------------------------------------------
 -- Ubicaciones
 ------------------------------------------

@@ -524,7 +524,10 @@ def descargar_cli(request,nombre_archivo):
 @logueado
 @esCliente
 def capacitacionesCli(request):
-    return render(request,'SSAP/capacitaciones_cli.html')
+    cliente = request.session.get('subtipo')
+    contrato = Contrato.filtro_rutcliente(rut=cliente.rut)
+    capacitaciones = Capacitacion.filtro_idcontrato(id=contrato.id_contrato)
+    return render(request,'SSAP/capacitaciones_cli.html', {'capacitaciones':capacitaciones})
 
 # Visitas
 @logueado

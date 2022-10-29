@@ -741,3 +741,8 @@ def visita_profesional(request, nombre):
         return FileResponse(open(archivo,'rb'), content_type='application/pdf')
     except:
         return redirect('index')
+
+@logueado
+@esProfesional
+def capacitaciones_prof(request):
+    return render(request,'SSAP/capacitaciones_prof.html')

@@ -134,6 +134,9 @@ def login(request):
             messages.warning(request, 'Rut o Contraseña erroneos')
     return render(request, "SSAP\login.html")
 
+def contactanos(request):
+    return render(request, 'SSAP/contactanos.html')
+
 @logueado
 def index(request):
     tipo = request.session.get('subtipo')
@@ -578,6 +581,7 @@ def verClientes(request):
             items = items+"<tr><th>{}</th><th>{}</th><th>{}</th></tr>".format(cliente.rut, cliente.nombre_empresa, usuario.direccion)
     return render(request,"SSAP/verclientes.html",{'clientes':items})
 
+# Check Lists
 @logueado
 @esProfesional
 def checklists(request):
@@ -636,6 +640,7 @@ def crearChecklist(request, rut):
         return redirect(''+cliente.rut)
     return render(request,"SSAP/crearchecklist.html",{'checklist':items, 'cliente':cliente})
 
+# Visitas
 @logueado
 @esProfesional
 def visitas(request):
@@ -751,12 +756,57 @@ def visita_profesional(request, nombre):
     except:
         return redirect('index')
 
+# Capacitaciones
+
 @logueado
 @esProfesional
 def capacitaciones_prof(request):
-    return render(request,'SSAP/capacitaciones_prof.html')
+    profesional = request.session.get('subtipo')
+    capacitaciones = []
+    for contrato in Contrato.seleccionar_rutprofesional(profesional.rut):
+        capacitaciones = capacitaciones + Capacitacion.filtro_idcontrato(id=contrato.id_contrato)
+    return render(request,'SSAP/capacitaciones_prof.html',{'capacitaciones':capacitaciones})
 
-# TODOS LOS USUARIOS
+@logueado
+@esProfesional
+def realizarCapacitacion(request):
+    if request.method == 'POST':
+        # Inicializacion de datos
+        capacitacion = Capacitacion.filtro_id(id=request.POST['id_capacitacion'])
+        profesional = request.session.get('subtipo')
+        capacitaciones = []
 
-def contactanos(request):
-    return render(request, 'SSAP/contactanos.html')
+        # Validacion
+        for contrato in Contrato.seleccionar_rutprofesional(profesional.rut):
+            capacitaciones = capacitaciones + Capacitacion.filtro_idcontrato(id=contrato.id_contrato)
+        ids = []
+        for cap in capacitaciones:
+            ids.append(cap.id_capacitacion)
+        if capacitacion.id_capacitacion in ids and capacitacion.estado == 'PENDIENTE':
+            # Marcar Realizada
+            capacitacion.estado = 'REALIZADA'
+            capacitacion.actualizar()
+            messages.success(request,'Capacitación {} realizada'.format(capacitacion.nombre))
+    return redirect('capacitaciones_prof')
+
+@logueado
+@esProfesional
+def cancelarCapacitacion(request):
+    if request.method == 'POST':
+        # Inicializacion de datos
+        capacitacion = Capacitacion.filtro_id(id=request.POST['id_capacitacion'])
+        profesional = request.session.get('subtipo')
+        capacitaciones = []
+
+        # Validacion
+        for contrato in Contrato.seleccionar_rutprofesional(profesional.rut):
+            capacitaciones = capacitaciones + Capacitacion.filtro_idcontrato(id=contrato.id_contrato)
+        ids = []
+        for cap in capacitaciones:
+            ids.append(cap.id_capacitacion)
+        if capacitacion.id_capacitacion in ids and capacitacion.estado == 'PENDIENTE':
+            # Marcar Cancelada
+            capacitacion.estado = 'CANCELADA'
+            capacitacion.actualizar()
+            messages.success(request,'Capacitación {} cancelada'.format(capacitacion.nombre))
+    return redirect('capacitaciones_prof')

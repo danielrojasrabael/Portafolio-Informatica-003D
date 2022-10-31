@@ -256,10 +256,23 @@ as
 begin
     OPEN REGISTRO FOR SELECT ca.ID_CAPACITACION, ca.NOMBRE, ca.UBICACION || ', ' || co.NOMBRE, ca.ESTADO, ca.FECHA, ca.ID_CONTRATO, ca.DURACION
     FROM CAPACITACION ca JOIN COMUNA co ON ca.id_comuna = co.id_comuna 
-    WHERE ID_CONTRATO = idCtr;
+    WHERE ID_CONTRATO = idCtr ORDER BY ca.FECHA DESC;
 end;
 /
 
+create or replace PROCEDURE capacitacion_PorId(registro out SYS_REFCURSOR, idCap in NUMBER)
+as
+begin
+    OPEN REGISTRO FOR SELECT ID_CAPACITACION, NOMBRE, UBICACION, ESTADO, DURACION, FECHA, ID_CONTRATO, ID_COMUNA FROM CAPACITACION WHERE ID_CAPACITACION = idCap;
+end;
+/
+
+create or replace PROCEDURE actualizarCapacitacion(estado_v in VARCHAR2, idCap in NUMBER)
+as
+begin
+    UPDATE CAPACITACION SET ESTADO = estado_v WHERE ID_CAPACITACION = idCap;
+end;
+/
 ------------------------------------------
 -- Ubicaciones
 ------------------------------------------

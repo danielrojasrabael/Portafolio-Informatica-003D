@@ -7,7 +7,7 @@ import cx_Oracle
 
 # Variables
 
-conexion = cx_Oracle.connect(user="SSAP", password="123456", dsn="localhost:1521/XE")
+conexion = cx_Oracle.connect(user="SSAP", password="123456", dsn="localhost:1522/ORCL1")
 conexion.autocommit = True
 
 # Modelos
@@ -433,6 +433,19 @@ class Capacitacion(models.Model):
         cur.close()
         datos.close()
         return capacitaciones
+    def filtro_id(id=None,conn=conexion):
+        cur = conn.cursor()
+        datos = conn.cursor()
+        cur.callproc("CAPACITACION_PORID", [datos,id])
+        for i in datos:
+            capacitacion = Capacitacion(id_capacitacion =  i[0],nombre = i[1],ubicacion = i[2],estado = i[3],duracion = i[4],fecha = i[5],CONTRATO_id_contrato = i[6],COMUNA_id_comuna = i[7])
+        cur.close()
+        datos.close()
+        return capacitacion
+    def actualizar(self, conn=conexion):
+        cur = conn.cursor()
+        cur.callproc("ACTUALIZARCAPACITACION", [self.estado,self.id_capacitacion])
+        cur.close()
     class Meta:
         managed = False
 

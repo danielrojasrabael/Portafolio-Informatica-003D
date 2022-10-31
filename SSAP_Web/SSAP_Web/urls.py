@@ -57,6 +57,8 @@ urlpatterns = [
     path('iniciarvisita/<id>', views.iniciarVisita, name="iniciarvisita"),
     path('visita_profesional/<nombre>',views.visita_profesional,name="visita_profesional"),
     path('capacitaciones_prof/',views.capacitaciones_prof,name='capacitaciones_prof'),
+    path('realizar_capacitacion/',views.realizarCapacitacion,name='realizar_capacitacion'),
+    path('cancelar_capacitacion/',views.cancelarCapacitacion,name='cancelar_capacitacion'),
     #   ------------------------ Miscelaneo ------------------------
     path('pruebas/', views.pruebas, name='pruebas'),
 ]

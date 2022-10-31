@@ -41,13 +41,9 @@
                             <tr>
                                 <th style="max-width: 200px; overflow: hidden;text-overflow: ellipsis; white-space: nowrap;">{{capacitacion.nombre}}</th>
                                 <th>{{capacitacion.ubicacion}}</th>
-                                {% if estado%}
-                                    <th>Realizada</th>
-                                {% else %}
-                                    <th>Por Realizar</th>
-                                {% endif %}
+                                <th>{{capacitacion.estado}}</th>
                                 <th>{{capacitacion.duracion}} Horas</th>
-                                <th>{{capacitacion.fecha | date:"d/m/Y H:m"}}</th>
+                                <th>{{capacitacion.fecha | date:"d/m/Y H:i"}}</th>
                             </tr>
                         {%endfor%}
                     </tbody>

@@ -526,3 +526,23 @@ class Actividad(models.Model):
         return lista
     class Meta:
         managed = False
+
+# Modelos Especializados
+
+class Pago_Mensual(models.Model):
+    año = models.IntegerField()
+    mes = models.CharField(max_length=999)
+    costo = models.IntegerField()
+    def todos(conn=conexion):
+        cur = conn.cursor()
+        datos = conn.cursor()
+        cur.callproc("PA_BUSCAR_PAGOS", [datos])
+        lista = []
+        for i in datos:
+            pago_mensual = Pago_Mensual(año = i[0], mes=i[1], costo = i[2])
+            lista.append(pago_mensual)
+        cur.close()
+        datos.close()
+        return lista
+    class Meta:
+        managed = False

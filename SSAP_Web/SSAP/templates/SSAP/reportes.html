@@ -1,6 +1,34 @@
 {%extends 'SSAP/base.html'%}
 {% load static %}
 {%block titulo%}SSAP | Reportes{%endblock%}
+{%block head%}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            const grafico = $("#usuariosTipo");
+            const usuariosTipo = new Chart(grafico,{
+                type: 'pie',
+                data: {
+                    labels: [
+                        'Clientes',
+                        'Profesionales',
+                        'Administradores'
+                    ],
+                    datasets: [{
+                        label: 'Cantidad de usuarios por tipo',
+                        data: [300, 50, 100],
+                        backgroundColor: [
+                        'rgb(54, 162, 235)',
+                        'rgb(255, 99, 132)',
+                        'rgb(255, 205, 86)'
+                        ],
+                        hoverOffset: 4
+                    }]
+                }
+            });
+        });
+    </script>
+{%endblock%}
 {%block contenido%}
 <div class="fondo-global">
     <div class="fondo-home">
@@ -19,15 +47,13 @@
 
                 <div class="row esp-input col-sm-12">
                     <div class="panel-blanco-redondo">
-                        <div class="row esp-input">
-                            <h2 class="card-title tx-gradiente-p">Cantidad de usuarios por tipo</h2>
-                        </div>
-                        <div class="row esp-input col-sm-12">
-                            <img class="img-fluid" src="{%static 'IMG/placeholdergraf.png'%}">
+                        <div class="row esp-input col-sm-6">
+                            <center><h2 class="card-title tx-gradiente-p">Cantidad de usuarios por tipo</h2></center>
+                            <canvas id="usuariosTipo"></canvas>
                         </div>
                     </div>
                 </div>
-                
+
                 <table class="table table-responsive table-light table-striped align-middle">
                     <thead>
                         <caption>
@@ -42,11 +68,13 @@
 
                     </thead>
                     <tbody>
-                        <tr>
-                            <th>2022</th>
-                            <th>Octubre</th>
-                            <th>$200000</th>
-                        </tr>
+                        {% for pago in pagos%}
+                            <tr>
+                                <th>{{pago.año}}</th>
+                                <th>{{pago.mes}}</th>
+                                <th>${{pago.costo}}</th>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

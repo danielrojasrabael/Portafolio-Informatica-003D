@@ -1,0 +1,83 @@
+{%extends 'SSAP/base.html'%}
+{% load static %}
+{%block titulo%}SSAP | Contáctanos{%endblock%}
+{%block contenido%}
+<div class="fondo-global">
+    <div class="fondo-home">
+        <div class="contenedor">
+            <div class="espacio">
+
+                <div class="row esp-input">
+                    <div class="card">
+                        <div class="card-body">
+                        <h1 class="card-title tx-gradiente-p">Contáctanos</h1>
+                        </div>
+                    </div>
+                </div>
+            
+                <div style="text-align: center; width: 90%;">
+                    <form id="" action="" method="post">
+                        {% csrf_token %}
+                    
+                        <div class="row esp-input col-sm-12">
+                            <div class="row esp-input">
+                                <label for="nombre" class="col-sm-4 col-form-label col-form-label-lg">Nombre Empresa:</label>
+                                <div class="col-sm-8">
+                                        <input class="form-control form-control-lg" type="text" name="nombre" placeholder="No Más Accidentes"></input>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row esp-input col-sm-12">
+                            <div class="row esp-input">
+                                <label for="correo" class="col-sm-4 col-form-label col-form-label-lg">E-Mail:</label>
+                                <div class="col-sm-8">
+                                        <input class="form-control form-control-lg" type="email" name="correo" placeholder="nma@nomasaccidentes.com"></input>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row esp-input col-sm-12">
+                            <div class="row esp-input">
+                                <label for="telefono" class="col-sm-4 col-form-label col-form-label-lg">Teléfono:</label>
+                                <div class="col-sm-8">
+                                        <input class="form-control form-control-lg" type="text" name="telefono" placeholder="+5691234567"></input>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row esp-input col-sm-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row esp-input col-sm-12">
+                                        <label for="mensaje" class="col-sm-4 col-form-label col-form-label-lg"><h4>Mensaje:</h4></label>
+                                        <div class="col-sm-8">
+                                            <textarea class="form-control form-control-lg" rows="5" name="mensaje" placeholder="Hay un problema..."></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="row esp-input col-sm-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5>Envíanos información de contacto y te contactaremos durante los siguientes días</h5>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row esp-input col-sm-12">
+                            <div class="col-sm-12">
+                                <input type="submit" class="btn btn-primary btn-lg col-sm-12" value="Enviar">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

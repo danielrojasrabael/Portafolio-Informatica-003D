@@ -21,6 +21,7 @@ from SSAP import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name="index"),
+    path('contactanos/', views.contactanos, name="contactanos"),
     path('login/', views.login, name="login"),
     path('logout/', views.pagLogout, name="logout"),
     #   ------------------------ Administrador ------------------------

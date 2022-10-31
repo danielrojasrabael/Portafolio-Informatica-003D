@@ -749,3 +749,8 @@ def visita_profesional(request, nombre):
 @esProfesional
 def capacitaciones_prof(request):
     return render(request,'SSAP/capacitaciones_prof.html')
+
+# TODOS LOS USUARIOS
+
+def contactanos(request):
+    return render(request, 'SSAP/contactanos.html')

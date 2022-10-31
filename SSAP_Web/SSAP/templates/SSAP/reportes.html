@@ -1,0 +1,56 @@
+{%extends 'SSAP/base.html'%}
+{% load static %}
+{%block titulo%}SSAP | Reportes{%endblock%}
+{%block contenido%}
+<div class="fondo-global">
+    <div class="fondo-home">
+
+        <div class="contenedor">
+
+            <div class="espacio">
+
+                <div class="row esp-input">
+                    <div class="card">
+                        <div class="card-body">
+                        <h1 class="card-title tx-gradiente-p">Reportes</h1>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row esp-input col-sm-12">
+                    <div class="panel-blanco-redondo">
+                        <div class="row esp-input">
+                            <h2 class="card-title tx-gradiente-p">Cantidad de usuarios por tipo</h2>
+                        </div>
+                        <div class="row esp-input col-sm-12">
+                            <img class="img-fluid" src="{%static 'IMG/placeholdergraf.png'%}">
+                        </div>
+                    </div>
+                </div>
+                
+                <table class="table table-responsive table-light table-striped align-middle">
+                    <thead>
+                        <caption>
+                            <h3 class="tx-gradiente-p medio-tx">Recaudaciones por Periodo</h3>
+                        </caption>
+                        
+                        <tr>
+                            <th scope="col">Año</th>
+                            <th scope="col">Mes</th>
+                            <th scope="col">Total</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>2022</th>
+                            <th>Octubre</th>
+                            <th>$200000</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

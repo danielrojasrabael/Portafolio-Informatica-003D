@@ -74,6 +74,7 @@
                     {%elif request.session.usuario.tipo == 'ADMINISTRADOR' %}   
                     <li><a href="{%url 'gestionusuario'%}"><button class="btn btn-sidebar" type="button"><strong>Gestionar Usuarios</strong></button></a></li>
                     <li><a href="{%url 'veractividades'%}"><button class="btn btn-sidebar" type="button"><strong>Ver Actividades</strong></button></a></li>
+                    <li><a href="{%url 'reportes'%}"><button class="btn btn-sidebar" type="button"><strong>Crear Reportes</strong></button></a></li>
                     {%endif%}
 
                     <li><a href="{%url 'logout'%}"><button class="btn btn-sidebar" type="button"><strong>Logout</strong></button></a></li>

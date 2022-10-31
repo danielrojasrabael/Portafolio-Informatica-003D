@@ -34,6 +34,7 @@ urlpatterns = [
     path('modificarusuario/', views.modificarUsuario, name="modificarusuario"),
     path('boleta_adm/<nombre>',views.boleta_adm, name='boleta_adm'),
     path('veractividades/',views.verActividades, name='veractividades'),
+    path('reportes/',views.reportes, name='reportes'),
     #   ------------------------ Cliente ------------------------
     path('notificaciones/', views.notificaciones, name="notificaciones"),
     path('elimnotif/', views.elimNotif, name="elimnotif"),

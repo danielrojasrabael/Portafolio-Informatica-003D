@@ -51,7 +51,6 @@
                 </div>
             {%else%}
                 <div>
-                    <h4><a class="btn btn-primary btn-sm" href="{%url 'contactanos'%}">CONTÁCTANOS</a></h4>
                 </div>
             {%endif%}
                 <div class="logo">
@@ -74,8 +73,8 @@
                     <li><a href="{%url 'capacitaciones_prof'%}"><button class="btn btn-sidebar" type="button"><strong>Capacitaciones</strong></button></a></li>
                     {%elif request.session.usuario.tipo == 'ADMINISTRADOR' %}   
                     <li><a href="{%url 'gestionusuario'%}"><button class="btn btn-sidebar" type="button"><strong>Gestionar Usuarios</strong></button></a></li>
-                    <li><a href="{%url 'veractividades'%}"><button class="btn btn-sidebar" type="button"><strong>Ver Actividades</strong></button></a></li>
                     <li><a href="{%url 'reportes'%}"><button class="btn btn-sidebar" type="button"><strong>Crear Reportes</strong></button></a></li>
+                    <li><a href="{%url 'veractividades'%}"><button class="btn btn-sidebar" type="button"><strong>Ver Actividades</strong></button></a></li>
                     {%endif%}
 
                     <li><a href="{%url 'logout'%}"><button class="btn btn-sidebar" type="button"><strong>Logout</strong></button></a></li>
@@ -92,8 +91,14 @@
         </nav>
         {%block contenido%}
         {%endblock%}
+        {%if request.session.usuario%}
         <footer class="pie">
             <h3> Prototipo </h3>
         </footer>
+        {%else%}
+        <footer class="pie">
+            <h3><a href="{%url 'contactanos'%}" style="color: rgb(99, 20, 168);">Contáctanos</a></h3>
+        </footer>
+        {%endif%}
     </body>
 </html>

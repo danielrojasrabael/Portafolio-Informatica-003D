@@ -1,5 +1,6 @@
 # Imports
 
+from unittest.util import _MAX_LENGTH
 from django.db import models
 from datetime import date
 import cx_Oracle
@@ -411,6 +412,30 @@ class SolicitudCapacitacion(Solicitud):
         return solicitudcapacitacion
     class Meta:
         managed = False
+
+class Capacitacion(models.Model):
+    id_capacitacion = models.IntegerField()
+    nombre = models.CharField(max_length=999)
+    ubicacion = models.CharField(max_length=999)
+    estado = models.CharField(max_length=999)
+    duracion = models.IntegerField()
+    fecha = models.DateField()
+    CONTRATO_id_contrato = models.IntegerField(),
+    COMUNA_id_comuna = models.IntegerField()
+    def filtro_idcontrato(id=None,conn=conexion):
+        cur = conn.cursor()
+        datos = conn.cursor()
+        capacitaciones = []
+        cur.callproc("CAPACITACION_PORIDCONTRATO", [datos,id])
+        for i in datos:
+            capacitacion = Capacitacion(id_capacitacion = i[0], nombre = i[1], ubicacion = i[2], estado = i[3], fecha = i[4],CONTRATO_id_contrato = i[5], duracion = i[6])
+            capacitaciones.append(capacitacion)
+        cur.close()
+        datos.close()
+        return capacitaciones
+    class Meta:
+        managed = False
+
 #   Funciones Profesionales
 
 class Visita(models.Model):

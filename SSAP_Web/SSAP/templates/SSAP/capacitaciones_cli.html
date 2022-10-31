@@ -32,18 +32,24 @@
                             <th scope="col">Ubicacion</th>
                             <th scope="col">Estado</th>
                             <th scope="col">Duracion</th>
-                            <th scope="col">Fecha</th>
+                            <th scope="col">Fecha y Hora</th>
                         </tr>
 
                     </thead>
                     <tbody>
-                        <tr>
-                            <th>Entrenamiento Minero 1</th>
-                            <th>Mi casa, Renca</th>
-                            <th>Por Realizar</th>
-                            <th>2 Horas</th>
-                            <th>12/01/2023</th>
-                        </tr>
+                        {%for capacitacion in capacitaciones%}
+                            <tr>
+                                <th style="max-width: 200px; overflow: hidden;text-overflow: ellipsis; white-space: nowrap;">{{capacitacion.nombre}}</th>
+                                <th>{{capacitacion.ubicacion}}</th>
+                                {% if estado%}
+                                    <th>Realizada</th>
+                                {% else %}
+                                    <th>Por Realizar</th>
+                                {% endif %}
+                                <th>{{capacitacion.duracion}} Horas</th>
+                                <th>{{capacitacion.fecha | date:"d/m/Y H:m"}}</th>
+                            </tr>
+                        {%endfor%}
                     </tbody>
                 </table>
             </div>

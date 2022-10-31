@@ -748,4 +748,8 @@ def visita_profesional(request, nombre):
 @logueado
 @esProfesional
 def capacitaciones_prof(request):
-    return render(request,'SSAP/capacitaciones_prof.html')
+    profesional = request.session.get('subtipo')
+    capacitaciones = []
+    for contrato in Contrato.seleccionar_rutprofesional(profesional.rut):
+        capacitaciones = capacitaciones + Capacitacion.filtro_idcontrato(id=contrato.id_contrato)
+    return render(request,'SSAP/capacitaciones_prof.html',{'capacitaciones':capacitaciones})

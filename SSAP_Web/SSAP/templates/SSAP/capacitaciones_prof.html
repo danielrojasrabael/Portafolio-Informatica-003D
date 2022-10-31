@@ -42,14 +42,16 @@
 
                     </thead>
                     <tbody>
-                        <tr>
-                            <th>Entrenamiento Minero 1</th>
-                            <th>Mi casa, Renca</th>
-                            <th>Por Realizar</th>
-                            <th>2 Horas</th>
-                            <th>12/01/2023</th>
-                            <th>
-                                     <div>
+                        {%for capacitacion in capacitaciones%}
+                            <tr>
+                                <th style="max-width: 200px; overflow: hidden;text-overflow: ellipsis; white-space: nowrap;">{{capacitacion.nombre}}</th>
+                                <th>{{capacitacion.ubicacion}}</th>
+                                <th>{{capacitacion.estado}}</th>
+                                <th>{{capacitacion.duracion}} Horas</th>
+                                <th>{{capacitacion.fecha | date:"d/m/Y H:i"}}</th>
+                                <th>
+                                    {%if capacitacion.estado == 'PENDIENTE'%}
+                                    <div>
                                         <form action="" method="post">
                                             {% csrf_token %}
                                             <input type="submit" value="Marcar Realizada" class="accion btn btn-success col-sm-12">
@@ -64,11 +66,20 @@
                                     <div>
                                         <form action="" method="post">
                                             {% csrf_token %}
-                                            <input type="submit" value="Eliminar" class="accion btn btn-danger col-sm-12">
+                                            <input type="submit" value="Cancelar" class="accion btn btn-danger col-sm-12">
                                         </form>
                                     </div>
-                            </th>
-                        </tr>
+                                    {%else%}
+                                    <div>
+                                        <form action="" method="post">
+                                            {% csrf_token %}
+                                            <input type="submit" value="Ver detalles" class="accion btn btn-primary col-sm-12">
+                                        </form>
+                                    </div>
+                                    {%endif%}
+                                </th>
+                            </tr>
+                        {%endfor%}
                     </tbody>
                 </table>
             </div>

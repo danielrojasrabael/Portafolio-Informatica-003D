@@ -256,7 +256,7 @@ as
 begin
     OPEN REGISTRO FOR SELECT ca.ID_CAPACITACION, ca.NOMBRE, ca.UBICACION || ', ' || co.NOMBRE, ca.ESTADO, ca.FECHA, ca.ID_CONTRATO, ca.DURACION
     FROM CAPACITACION ca JOIN COMUNA co ON ca.id_comuna = co.id_comuna 
-    WHERE ID_CONTRATO = idCtr;
+    WHERE ID_CONTRATO = idCtr ORDER BY ca.FECHA DESC;
 end;
 /
 

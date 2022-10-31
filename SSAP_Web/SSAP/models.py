@@ -420,7 +420,8 @@ class Capacitacion(models.Model):
     estado = models.CharField(max_length=999)
     duracion = models.IntegerField()
     fecha = models.DateField()
-    CONTRATO_id_contrato = models.IntegerField()
+    CONTRATO_id_contrato = models.IntegerField(),
+    COMUNA_id_comuna = models.IntegerField()
     def filtro_idcontrato(id=None,conn=conexion):
         cur = conn.cursor()
         datos = conn.cursor()

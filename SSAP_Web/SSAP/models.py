@@ -534,12 +534,14 @@ class Pago_Mensual(models.Model):
     mes = models.CharField(max_length=999)
     costo = models.IntegerField()
     def todos(conn=conexion):
+        idiomas = {"January":"Enero","February":"Febrero","March":"Marzo","April":"Abril","May":"Mayo","June":"Junio","July":"Julio","August":"Agosto","September":"Septiembre","October":"Octubre","November":"Noviembre","December":"Diciembre"}
         cur = conn.cursor()
         datos = conn.cursor()
         cur.callproc("PA_BUSCAR_PAGOS", [datos])
         lista = []
         for i in datos:
-            pago_mensual = Pago_Mensual(año = i[0], mes=i[1], costo = i[2])
+            m = str(i[1]).strip()
+            pago_mensual = Pago_Mensual(año = i[0], mes=idiomas[m], costo = i[2])
             lista.append(pago_mensual)
         cur.close()
         datos.close()

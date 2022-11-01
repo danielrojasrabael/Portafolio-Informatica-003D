@@ -318,9 +318,8 @@ begin
                         SUM(COSTO) AS TOTAL_MENSUAL
                         from pago_mensualidad
                         WHERE ESTADO = 1
-                        GROUP BY EXTRACT(YEAR FROM fecha_limite),
-                        to_char(fecha_limite, 'Month')
-                        ;
+                        GROUP BY EXTRACT(MONTH FROM fecha_limite), EXTRACT(YEAR FROM fecha_limite),to_char(fecha_limite, 'Month')
+                        ORDER BY EXTRACT(YEAR FROM fecha_limite) DESC,EXTRACT(MONTH FROM fecha_limite) DESC;
 end;
 /
 

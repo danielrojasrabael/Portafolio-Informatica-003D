@@ -130,6 +130,8 @@ REST_FRAMEWORK = {
 
 # Añadidos
 # python .\manage.py createcachetable
+
+# Sesiones
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
@@ -138,5 +140,14 @@ CACHES = {
 }
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 AUTHENTICATION_BACKENDS = ['SSAP.backends.autenticar',]
+
+# Archivos
 MEDIA_ROOT = BASE_DIR/'MEDIA'
 MEDIA_URL = '/MEDIA/'
+
+# Email
+EMAIL_HOST = 'smtp-mail.outlook.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'no-reply.nma@outlook.com'
+EMAIL_HOST_PASSWORD = '6SycSg82!28Z'

@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.http import FileResponse, HttpResponse
 from django.core.files.storage import FileSystemStorage
 import calendar
+from django.core.mail import send_mail
 
 #Modelos
 from SSAP.models import *
@@ -135,6 +136,21 @@ def login(request):
     return render(request, "SSAP\login.html")
 
 def contactanos(request):
+    if request.method == 'POST':
+        tema = "Contacto empresa: "+ request.POST['nombre']
+        mensaje = '''
+        Nombre de empresa: {} \n
+        Mail de Contacto: {} \n
+        Numero de Teléfono: {} \n
+        Mensaje: "{}"
+        '''.format(request.POST['nombre'],request.POST['correo'], request.POST['telefono'], request.POST['mensaje'])
+        send_mail(
+            tema,
+            mensaje,
+            'no-reply.nma@outlook.com',
+            ['no-reply.nma@outlook.com'],
+            fail_silently=False,
+        )
     return render(request, 'SSAP/contactanos.html')
 
 @logueado

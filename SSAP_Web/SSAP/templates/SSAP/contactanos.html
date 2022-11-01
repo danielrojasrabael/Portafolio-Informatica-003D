@@ -52,7 +52,7 @@
                                     <div class="row esp-input col-sm-12">
                                         <label for="mensaje" class="col-sm-4 col-form-label col-form-label-lg"><h4>Mensaje:</h4></label>
                                         <div class="col-sm-8">
-                                            <textarea class="form-control form-control-lg" rows="5" name="mensaje" placeholder="Hay un problema..."></textarea>
+                                            <textarea class="form-control form-control-lg" rows="5" name="mensaje" placeholder="Somos una empresa líder en seguridad..." style="overflow-y: scroll; resize: none;"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -69,7 +69,10 @@
                         </div>
 
                         <div class="row esp-input col-sm-12">
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
+                                <a href="{% url 'index' %}" class="btn btn-back btn-lg col-sm-12">Volver</a>
+                            </div>
+                            <div class="col-sm-6">
                                 <input type="submit" class="btn btn-primary btn-lg col-sm-12" value="Enviar">
                             </div>
                         </div>

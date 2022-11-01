@@ -3,6 +3,8 @@
 {%block titulo%}SSAP | Reportes{%endblock%}
 {%block head%}
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script src="https://unpkg.com/chart.js-plugin-labels-dv/dist/chartjs-plugin-labels.min.js"></script>
+    {{script | safe}}
     <script>
         $(document).ready(function(){
             const grafico = $("#usuariosTipo");
@@ -16,7 +18,7 @@
                     ],
                     datasets: [{
                         label: 'Cantidad de usuarios por tipo',
-                        data: [300, 50, 100],
+                        data: datos,
                         backgroundColor: [
                         'rgb(54, 162, 235)',
                         'rgb(255, 99, 132)',
@@ -24,6 +26,14 @@
                         ],
                         hoverOffset: 4
                     }]
+                },
+                options:{
+                    plugins:{
+                        labels:{
+                            fontSize: 24,
+                            fontColor: 'purple'
+                        }
+                    }
                 }
             });
         });

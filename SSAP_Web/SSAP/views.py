@@ -345,8 +345,20 @@ def verActividades(request):
 @logueado
 @esAdmin
 def reportes(request):
+    cant_admin = 0
+    cant_prof = 0
+    cant_cli = 0
+    for usuario in Usuario.todos():
+        if usuario.tipo == 'CLIENTE':
+            cant_cli += 1
+        if usuario.tipo == 'PROFESIONAL':
+            cant_prof += 1
+        if usuario.tipo == 'ADMINISTRADOR':
+            cant_admin += 1
+    datos = [cant_cli,cant_prof,cant_admin]
+    script = "<script>const datos = {}</script>".format(datos)
     pagos = Pago_Mensual.todos()
-    return render(request, 'SSAP/reportes.html',{'pagos':pagos})
+    return render(request, 'SSAP/reportes.html',{'pagos':pagos, 'script':script})
 #   ------------------------ Cliente ------------------------
 
 # Notificaciones

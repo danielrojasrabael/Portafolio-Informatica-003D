@@ -10,6 +10,7 @@ from django.http import FileResponse, HttpResponse
 from django.core.files.storage import FileSystemStorage
 import calendar
 from django.core.mail import send_mail
+from django.utils.html import strip_tags
 
 #Modelos
 from SSAP.models import *
@@ -139,18 +140,29 @@ def contactanos(request):
     if request.method == 'POST':
         tema = "Contacto empresa: "+ request.POST['nombre']
         mensaje = '''
-        Nombre de empresa: {} \n
-        Mail de Contacto: {} \n
-        Numero de Teléfono: {} \n
-        Mensaje: "{}"
+        <center><h2>No más Accidentes | Contacto de empresa</h2></center>
+        <hr>
+        <h4><ul>
+            <li>Nombre de empresa: {}</li>
+            <li>Mail de Contacto: {}</li>
+            <li>Numero de Teléfono: {}</li>
+        </ul></h4>
+        <hr>
+        <h5>{}</h5>
         '''.format(request.POST['nombre'],request.POST['correo'], request.POST['telefono'], request.POST['mensaje'])
-        send_mail(
-            tema,
-            mensaje,
-            'no-reply.nma@outlook.com',
-            ['no-reply.nma@outlook.com'],
-            fail_silently=False,
-        )
+        try:
+            send_mail(
+                tema,
+                strip_tags(mensaje),
+                'no-reply.nma@outlook.com',
+                ['no-reply.nma@outlook.com'],
+                fail_silently=False,
+                html_message=mensaje
+            )
+            messages.success(request, 'Información de contacto enviada exitosamente')
+        except:
+            messages.success(request, 'Error: No se ha podido enviar la informacion de contacto')
+        return redirect('contactanos')
     return render(request, 'SSAP/contactanos.html')
 
 @logueado

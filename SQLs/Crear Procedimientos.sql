@@ -1,5 +1,14 @@
-INSERT INTO "USUARIO"("CONTRASEï¿½A", TIPO, ID_COMUNA, DIRECCION) VALUES (1234, 'ADMINISTRADOR', 13101, 'Calle Falsa');
-INSERT INTO "ADMINISTRADORES" VALUES (65,'11.222.333-4','Admin Default');
+-----------------------------------------
+-- Procedimientos gestion de Usuario
+-----------------------------------------
+-- Ingresar Usuarios
+-----------------------------------------
+CREATE OR REPLACE PROCEDURE insertarUsuario (pass in VARCHAR2,tipo in Varchar2, id_comu in Number, direc in VARCHAR2)
+as
+begin
+    insert into USUARIO (contraseña,tipo,id_comuna,direccion) VALUES (pass,tipo,id_comu,direc);
+end;
+/
 
 
 CREATE OR REPLACE PROCEDURE insertarCliente (id_usu in NUMBER,rutCli in VARCHAR2,nomEmpre in Varchar2, rubroEmpre in Varchar2, cant in number)
@@ -34,9 +43,9 @@ CREATE OR REPLACE PROCEDURE seleccionarUsuarios (registro out SYS_REFCURSOR, ord
 as
 begin
     if order_id then
-        open registro for select ID_USUARIO ,"CONTRASEï¿½A" ,TIPO ,ID_COMUNA ,DIRECCION ,ESTADO  from usuario ORDER BY id_usuario;
+        open registro for select ID_USUARIO ,"CONTRASEÑA" ,TIPO ,ID_COMUNA ,DIRECCION ,ESTADO  from usuario ORDER BY id_usuario;
     else
-        open registro for select ID_USUARIO ,"CONTRASEï¿½A" ,TIPO ,ID_COMUNA ,DIRECCION ,ESTADO  from usuario ORDER BY estado desc;
+        open registro for select ID_USUARIO ,"CONTRASEÑA" ,TIPO ,ID_COMUNA ,DIRECCION ,ESTADO  from usuario ORDER BY estado desc;
     end if;
 end;
 /
@@ -44,7 +53,7 @@ end;
 CREATE OR REPLACE PROCEDURE usuario_PORID (registro out SYS_REFCURSOR, idUsr in NUMBER)
 as
 begin
-    open registro for select ID_USUARIO ,"CONTRASEï¿½A" ,TIPO ,ID_COMUNA ,DIRECCION ,ESTADO  from usuario where id_usuario = idUsr;
+    open registro for select ID_USUARIO ,"CONTRASEÑA" ,TIPO ,ID_COMUNA ,DIRECCION ,ESTADO  from usuario where id_usuario = idUsr;
 end;
 /
 
@@ -128,16 +137,16 @@ end;
 -- Modificar Usuarios
 -----------------------------------------
 
-CREATE OR REPLACE PROCEDURE actualizarUsuario(id_usr in number, contraseï¿½a in varchar2, tipo in varchar2, IdComuna in number, direccion in varchar2, estado in number)
+CREATE OR REPLACE PROCEDURE actualizarUsuario(id_usr in number, contraseña in varchar2, tipo in varchar2, IdComuna in number, direccion in varchar2, estado in number)
 as
     vid number := id_usr;
-    vpass varchar(999) := contraseï¿½a;
+    vpass varchar(999) := contraseña;
     vtipo varchar2(20) := tipo;
     vcomuna number := IdComuna;
     vdireccion varchar2(100) := direccion;
     vestado number := estado;
 begin
-    update usuario set CONTRASEï¿½A = vpass, TIPO = vtipo, ID_COMUNA = vcomuna, DIRECCION = vdireccion, ESTADO = vestado where ID_USUARIO = id_usr;
+    update usuario set CONTRASEÑA = vpass, TIPO = vtipo, ID_COMUNA = vcomuna, DIRECCION = vdireccion, ESTADO = vestado where ID_USUARIO = id_usr;
 EXCEPTION
     WHEN NO_DATA_FOUND THEN 
         NULL;
@@ -304,7 +313,7 @@ create or replace PROCEDURE pa_buscar_pagos (registro out SYS_REFCURSOR)
 as
 begin
     open registro for   select 
-                        EXTRACT(YEAR FROM fecha_limite)AS Aï¿½O,
+                        EXTRACT(YEAR FROM fecha_limite)AS AÑO,
                         to_char(fecha_limite, 'Month') AS MES,
                         SUM(COSTO) AS TOTAL_MENSUAL
                         from pago_mensualidad

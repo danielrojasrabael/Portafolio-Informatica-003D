@@ -59,6 +59,8 @@ urlpatterns = [
     path('capacitaciones_prof/',views.capacitaciones_prof,name='capacitaciones_prof'),
     path('realizar_capacitacion/',views.realizarCapacitacion,name='realizar_capacitacion'),
     path('cancelar_capacitacion/',views.cancelarCapacitacion,name='cancelar_capacitacion'),
+    path('crearCapacitacion/',views.crearCapacitacion,name='crearCapacitacion'),
+    path('detalleCapacitacion/',views.detalleCapacitacion,name='detalleCapacitacion'),
     #   ------------------------ Miscelaneo ------------------------
     path('pruebas/', views.pruebas, name='pruebas'),
-]
+    ]

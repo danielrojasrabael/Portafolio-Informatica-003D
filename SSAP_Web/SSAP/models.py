@@ -227,6 +227,8 @@ class Contrato(models.Model):
     ultimo_pago = models.DateField()
     CLIENTE_rut = models.CharField(max_length=999)
     PROFESIONAL_rut = models.CharField(max_length=999)
+    NOMBRE_contrato = models.CharField(max_length=999)
+
     def guardar(self, conn=conexion):
         cur = conn.cursor()
         cur.callproc("INSERTARCONTRATO", [self.costo_base, self.fecha_firma, self.CLIENTE_rut, self.PROFESIONAL_rut])

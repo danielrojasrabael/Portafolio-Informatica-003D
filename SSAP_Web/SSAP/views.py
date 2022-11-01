@@ -823,3 +823,14 @@ def cancelarCapacitacion(request):
             capacitacion.actualizar()
             messages.success(request,'Capacitación {} cancelada'.format(capacitacion.nombre))
     return redirect('capacitaciones_prof')
+
+@logueado
+@esProfesional
+def crearCapacitacion(request):
+    return render(request,'SSAP/crearCapacitacion.html')
+
+@logueado
+@esProfesional
+def detalleCapacitacion(request):
+    return render(request,'SSAP/detalleCapacitacion.html')
+

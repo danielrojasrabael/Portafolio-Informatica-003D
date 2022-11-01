@@ -30,8 +30,19 @@
                 options:{
                     plugins:{
                         labels:{
+                            render: 'value',
                             fontSize: 24,
                             fontColor: 'purple'
+                        },
+                        tooltip:{
+                            callbacks:{
+                                label: function(context){
+                                    label = context.label,
+                                    valor_actual = context.raw
+                                    var porcentaje = parseFloat((valor_actual/total)*100).toFixed(1);
+                                    return label+": "+porcentaje+"%";
+                                }
+                            }
                         }
                     }
                 }

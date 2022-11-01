@@ -356,7 +356,7 @@ def reportes(request):
         if usuario.tipo == 'ADMINISTRADOR':
             cant_admin += 1
     datos = [cant_cli,cant_prof,cant_admin]
-    script = "<script>const datos = {}</script>".format(datos)
+    script = "<script>const datos = {}; const total = {};</script>".format(datos,cant_cli+cant_admin+cant_prof)
     pagos = Pago_Mensual.todos()
     return render(request, 'SSAP/reportes.html',{'pagos':pagos, 'script':script})
 #   ------------------------ Cliente ------------------------

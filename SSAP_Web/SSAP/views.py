@@ -746,3 +746,13 @@ def visita_profesional(request, nombre):
 @esProfesional
 def capacitaciones_prof(request):
     return render(request,'SSAP/capacitaciones_prof.html')
+
+@logueado
+@esProfesional
+def crearCapacitacion(request):
+    return render(request,'SSAP/crearCapacitacion.html')
+
+@logueado
+@esProfesional
+def detalleCapacitacion(request):
+    return render(request,'SSAP/detalleCapacitacion.html')

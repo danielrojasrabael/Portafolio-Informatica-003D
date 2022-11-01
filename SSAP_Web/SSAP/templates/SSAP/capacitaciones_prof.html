@@ -24,7 +24,7 @@
                         </caption>
 
                         <caption>
-                            <a href="" class="btn btn-primary col-sm-12">Crear Capacitación</a>
+                            <a href="{%url 'crearCapacitacion'%}" class="btn btn-primary col-sm-12">Crear Capacitacion</a>
                         </caption>
                         
                         <caption>
@@ -56,7 +56,7 @@
                                         </form>
                                     </div>
                                     <div>
-                                        <form action="" method="post">
+                                        <form action="{%url 'detalleCapacitacion'%}" method="post">
                                             {% csrf_token %}
                                             <input type="submit" value="Ver detalles" class="accion btn btn-primary col-sm-12">
                                         </form>

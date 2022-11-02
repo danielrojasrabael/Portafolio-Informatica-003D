@@ -424,13 +424,14 @@ class Capacitacion(models.Model):
     fecha = models.DateField()
     CONTRATO_id_contrato = models.IntegerField()
     COMUNA_id_comuna = models.IntegerField()
+    nombre_cliente = models.CharField(max_length=999)
     def filtro_idcontrato(id=None,conn=conexion):
         cur = conn.cursor()
         datos = conn.cursor()
         capacitaciones = []
         cur.callproc("CAPACITACION_PORIDCONTRATO", [datos,id])
         for i in datos:
-            capacitacion = Capacitacion(id_capacitacion = i[0], nombre = i[1], ubicacion = i[2], estado = i[3], fecha = i[4],CONTRATO_id_contrato = i[5], duracion = i[6])
+            capacitacion = Capacitacion(id_capacitacion = i[0], nombre = i[1], ubicacion = i[2], estado = i[3], fecha = i[4],CONTRATO_id_contrato = i[5], duracion = i[6], nombre_cliente=i[7])
             capacitaciones.append(capacitacion)
         cur.close()
         datos.close()
@@ -440,7 +441,7 @@ class Capacitacion(models.Model):
         datos = conn.cursor()
         cur.callproc("CAPACITACION_PORID", [datos,id])
         for i in datos:
-            capacitacion = Capacitacion(id_capacitacion =  i[0],nombre = i[1],ubicacion = i[2],estado = i[3],duracion = i[4],fecha = i[5],CONTRATO_id_contrato = i[6],COMUNA_id_comuna = i[7])
+            capacitacion = Capacitacion(id_capacitacion =  i[0],nombre = i[1],ubicacion = i[2],estado = i[3],duracion = i[4],fecha = i[5],CONTRATO_id_contrato = i[6],COMUNA_id_comuna = i[7], nombre_cliente=i[8])
         cur.close()
         datos.close()
         return capacitacion

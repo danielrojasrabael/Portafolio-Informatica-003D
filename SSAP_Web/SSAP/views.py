@@ -892,6 +892,17 @@ def crearCapacitacion(request):
 
 @logueado
 @esProfesional
-def detalleCapacitacion(request):
-    return render(request,'SSAP/detalleCapacitacion.html')
+def detalleCapacitacion(request, id):
+    # Inicializacion de variables
+    profesional = request.session.get('subtipo')
+    contratos_id = [c.id_contrato for c in Contrato.seleccionar_rutprofesional(rut=profesional.rut)]
+    # Filtra si la capacitacion existe
+    try:
+        capacitacion = Capacitacion.filtro_id(id=id)
+    except:
+        return redirect('capacitaciones_prof')
+    # Filtra si la capacitacion pertenece al contrato
+    if capacitacion.CONTRATO_id_contrato not in contratos_id:
+        return redirect('capacitaciones_prof')
+    return render(request,'SSAP/detalleCapacitacion.html',{'capacitacion':capacitacion})
 

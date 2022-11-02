@@ -60,7 +60,7 @@ urlpatterns = [
     path('realizar_capacitacion/',views.realizarCapacitacion,name='realizar_capacitacion'),
     path('cancelar_capacitacion/',views.cancelarCapacitacion,name='cancelar_capacitacion'),
     path('crearCapacitacion/',views.crearCapacitacion,name='crearCapacitacion'),
-    path('detalleCapacitacion/',views.detalleCapacitacion,name='detalleCapacitacion'),
+    path('detalleCapacitacion/<id>',views.detalleCapacitacion,name='detalleCapacitacion'),
     #   ------------------------ Miscelaneo ------------------------
     path('pruebas/', views.pruebas, name='pruebas'),
     ]

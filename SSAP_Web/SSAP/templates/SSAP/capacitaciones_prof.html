@@ -82,10 +82,7 @@
                                     </div>
                                     {%else%}
                                     <div>
-                                        <form action="" method="post">
-                                            {% csrf_token %}
-                                            <input type="submit" value="Ver detalles" class="accion btn btn-primary col-sm-12">
-                                        </form>
+                                        <a href="{% url 'detalleCapacitacion' id=capacitacion.id_capacitacion%}" class="accion btn btn-primary col-sm-12">Ver detalles</a>
                                     </div>
                                     {%endif%}
                                 </th>

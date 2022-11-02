@@ -29,6 +29,9 @@
                                     <label for="nombre_empresa" class="col-sm-4 col-form-label col-form-label-lg">Cliente:</label>
                                     <div class="col-sm-8">
                                         <select class="form-select form-select-lg"  name="nombre_empresa">
+                                            {%for cliente in clientes%}
+                                                <option value="{{cliente.rut}}">{{cliente.nombre_empresa}}</option>
+                                            {%endfor%}
                                         </select>
                                     </div>
                                 </div>
@@ -61,7 +64,7 @@
                                     <label for="comuna" class="col-sm-4 col-form-label col-form-label-lg">Comuna: </label>
                                     <div class="col-sm-8">
                                         <select class="form-select form-select-lg"  name="comuna" placeholder="Seleccione Comuna">
-                                            {{ubicaciones | safe}}
+                                            {{comunas | safe}}
                                         </select>
                                     </div>
                                 </div>

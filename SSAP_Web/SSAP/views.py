@@ -855,7 +855,15 @@ def cancelarCapacitacion(request):
 @logueado
 @esProfesional
 def crearCapacitacion(request):
-    return render(request,'SSAP/crearCapacitacion.html')
+    profesional = request.session.get('subtipo')
+    clientes = []
+    ruts = []
+    for contrato in Contrato.seleccionar_rutprofesional(rut=profesional.rut):
+        cliente = Cliente.filtro_rut(rut=contrato.CLIENTE_rut)
+        clientes.append(cliente)
+        ruts.append(cliente.rut)
+    comunas = func_comunas()
+    return render(request,'SSAP/crearCapacitacion.html', {'comunas':comunas,'clientes':clientes})
 
 @logueado
 @esProfesional

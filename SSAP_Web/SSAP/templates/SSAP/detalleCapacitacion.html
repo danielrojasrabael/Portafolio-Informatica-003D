@@ -1,9 +1,6 @@
 {%extends 'SSAP/base.html'%}
 {% load static %}
-{%block titulo%}SSAP | Crear Capacitacion{%endblock%}
-{%block head%}
-<script src="{%static 'js/crearCapacitacion.js'%}"></script>
-{%endblock%}
+{%block titulo%}SSAP | Detalle Capacitacion{%endblock%}
 {%block contenido%}
 <div class="fondo-global">
     <div class="fondo-home">
@@ -13,7 +10,7 @@
                     <div class="row esp-input">
                         <div class="card">
                             <div class="card-body">
-                                <h1 class="card-title tx-gradiente-p">Crear Capacitacion</h1>
+                                <h1 class="card-title tx-gradiente-p">Detalle Capacitacion</h1>
                             </div>
                         </div>
                     </div>
@@ -47,7 +44,7 @@
                             <div class="row esp-input">
                                 <label for="fecha" class="col-sm-4 col-form-label col-form-label-lg">Fecha y Hora:</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control form-control-lg" type="datetime-local" name="fecha" value="{{capacitacion.fecha}}" disabled></input>
+                                    <input class="form-control form-control-lg" type="text" name="fecha" value="{{capacitacion.fecha | date:'d/m/Y H:i'}}" disabled></input>
                                 </div>
                             </div>
         
@@ -55,6 +52,7 @@
                                 <label for="comuna" class="col-sm-4 col-form-label col-form-label-lg">Comuna:</label>
                                 <div class="col-sm-8">
                                     <select class="form-select form-select-lg"  name="comuna" placeholder="Seleccione Comuna" disabled>
+                                        {{comunas | safe}}
                                     </select>
                                 </div>
                             </div>

@@ -904,5 +904,6 @@ def detalleCapacitacion(request, id):
     # Filtra si la capacitacion pertenece al contrato
     if capacitacion.CONTRATO_id_contrato not in contratos_id:
         return redirect('capacitaciones_prof')
-    return render(request,'SSAP/detalleCapacitacion.html',{'capacitacion':capacitacion})
+    comunas = func_comunas(id_com=capacitacion.COMUNA_id_comuna)
+    return render(request,'SSAP/detalleCapacitacion.html',{'capacitacion':capacitacion,'comunas':comunas})
 

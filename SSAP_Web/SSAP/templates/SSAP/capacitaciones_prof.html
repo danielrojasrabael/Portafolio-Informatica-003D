@@ -67,11 +67,7 @@
                                         </form>
                                     </div>
                                     <div>
-                                        <form action="{%url 'detalleCapacitacion'%}" method="post">
-                                            {% csrf_token %}
-                                            <input type="hidden" value="{{capacitacion.id_capacitacion}}" name="id_capacitacion">
-                                            <input type="submit" value="Ver detalles" class="accion btn btn-primary col-sm-12">
-                                        </form>
+                                        <a href="{% url 'detalleCapacitacion' id=capacitacion.id_capacitacion%}" class="accion btn btn-primary col-sm-12">Ver detalles</a>
                                     </div>
                                     <div>
                                         <form action="{% url 'cancelar_capacitacion'%}" method="post">

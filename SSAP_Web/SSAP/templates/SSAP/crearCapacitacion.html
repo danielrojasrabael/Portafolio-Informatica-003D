@@ -1,6 +1,9 @@
 {%extends 'SSAP/base.html'%}
 {% load static %}
 {%block titulo%}SSAP | Crear Capacitacion{%endblock%}
+{%block head%}
+<script src="{%static 'js/crearCapacitacion.js'%}"></script>
+{%endblock%}
 {%block contenido%}
 <div class="fondo-global">
     <div class="fondo-home">
@@ -46,8 +49,8 @@
                                 <div class="row esp-input">
                                     <label for="duracion" class="col-sm-4 col-form-label col-form-label-lg">Duracion (Horas):</label>
                                     <div class="col-sm-8">
-                                        <div class="col-sm-5" style="display: flex;">
-                                            <input class="form-control form-control-lg" type="text" placeholder="2" name="duracion"></input> 
+                                        <div class="col-sm-5" style="display: flex;" id="divHoras">
+                                            <input class="form-control form-control-lg" type="text" placeholder="2" name="duracion" id="txbHoras"></input> 
                                             <label for="duracion" class="col-form-label col-form-label-lg">&nbsp&nbspHoras</label>
                                         </div>
                                     </div>

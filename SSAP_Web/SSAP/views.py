@@ -863,6 +863,31 @@ def crearCapacitacion(request):
         clientes.append(cliente)
         ruts.append(cliente.rut)
     comunas = func_comunas()
+
+    #   Proceso de crear capacitacion
+    if request.method == 'POST':
+        # Validaciones
+        if request.POST['nombre_empresa'] not in ruts:
+            messages.success(request, 'Error: Rut de cliente no está en sus contratos')
+            return redirect('crearCapacitacion')
+        comunas = ["{}".format(c.id_comuna) for c in Ubicacion.todos()]
+        if request.POST['comuna'] not in comunas:
+            messages.success(request, 'Error: Id de comuna no existe')
+            return redirect('crearCapacitacion')
+
+        # Guardar capacitacion
+        contrato = Contrato.filtro_rutcliente(rut=request.POST['nombre_empresa'])
+        capacitacion = Capacitacion(
+            nombre=request.POST['nombre'],
+            ubicacion=request.POST['ubicacion'],
+            fecha=datetime.strptime(request.POST['fecha'],'%Y-%m-%dT%H:%M'),
+            duracion=request.POST['duracion'],
+            CONTRATO_id_contrato = contrato.id_contrato,
+            COMUNA_id_comuna = request.POST['comuna']
+        )
+        capacitacion.guardar()
+        messages.success(request, 'Capacitación registrada exitosamente')
+        return redirect('capacitaciones_prof')
     return render(request,'SSAP/crearCapacitacion.html', {'comunas':comunas,'clientes':clientes})
 
 @logueado

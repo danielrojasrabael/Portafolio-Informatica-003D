@@ -244,10 +244,10 @@ end;
 -- Capacitaciones
 ------------------------------------------
 
-create or replace PROCEDURE insertarCapacitacion (nom in VARCHAR2,ubi in VARCHAR2, estado in VARCHAR2, fecha in DATE, id_cont in NUMBER, id_com in NUMBER)
+create or replace PROCEDURE insertarCapacitacion (nom in VARCHAR2,ubi in VARCHAR2, fecha_v in DATE, id_cont in NUMBER, id_com in NUMBER, duracion_v in NUMBER)
 as
 begin
-    insert into capacitacion (nombre,ubicacion,estado,fecha,id_contrato,id_comuna) VALUES (nom,ubi,estado,fecha,id_cont,id_com);
+    insert into capacitacion (nombre,ubicacion,estado,fecha,id_contrato,id_comuna,duracion) VALUES (nom,ubi,'PENDIENTE',fecha_v,id_cont,id_com,duracion_v);
 end;
 /
 

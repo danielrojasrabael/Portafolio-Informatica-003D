@@ -448,6 +448,10 @@ class Capacitacion(models.Model):
         cur = conn.cursor()
         cur.callproc("ACTUALIZARCAPACITACION", [self.estado,self.id_capacitacion])
         cur.close()
+    def guardar(self, conn=conexion):
+        cur = conn.cursor()
+        cur.callproc("INSERTARCAPACITACION", [self.nombre,self.ubicacion,self.fecha,self.CONTRATO_id_contrato,self.COMUNA_id_comuna,self.duracion])
+        cur.close()
     class Meta:
         managed = False
 

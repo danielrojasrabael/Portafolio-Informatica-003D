@@ -396,6 +396,10 @@ class Asesoria(Solicitud):
         cur.close()
         datos.close()
         return asesoria
+    def actualizar(self, conn=conexion):
+        cur = conn.cursor()
+        cur.callproc("ACTUALIZARASESORIA", [self.respuesta,self.estado,self.id_solicitud])
+        cur.close()
     class Meta:
         managed = False
 
@@ -413,6 +417,10 @@ class SolicitudCapacitacion(Solicitud):
         cur.close()
         datos.close()
         return solicitudcapacitacion
+    def actualizar(self, conn=conexion):
+        cur = conn.cursor()
+        cur.callproc("ACTUALIZARSOLICITUDCAPACITACION", [self.estado,self.id_solicitud])
+        cur.close()
     class Meta:
         managed = False
 

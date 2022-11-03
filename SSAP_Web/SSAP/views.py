@@ -920,11 +920,14 @@ def solicitudes_prof(request):
 @esProfesional
 def responder_solicitud(request, id_sol):
     profesional = request.session.get('subtipo')
+    id_contrato = None
     tipo = None
+    comunas = func_comunas()
     for contrato in Contrato.seleccionar_rutprofesional(rut=profesional.rut):
         for soli in Solicitud.todos_idcontrato(id=contrato.id_contrato):
             if str(soli.id_solicitud) == id_sol:
                 tipo = soli.tipo
+                id_contrato = contrato.id_contrato
                 break
     if tipo == 'ASESORÍA':
         solicitud = Asesoria.filtro_idsolicitud(id=id_sol)
@@ -932,7 +935,32 @@ def responder_solicitud(request, id_sol):
         solicitud = SolicitudCapacitacion.filtro_idsolicitud(id=id_sol)
     if not tipo:
         return redirect('solicitudes_prof')
-    return render(request,'SSAP/responder_solicitud.html',{'solicitud':solicitud})
+    
+    if solicitud.estado == 'RESUELTA' or solicitud.estado == 'RECHAZADA':
+        return redirect('solicitudes_prof')
+
+    # Crear Capacitación
+    if request.method == 'POST' and tipo == 'CAPACITACIÓN':
+        #Validar la comuna
+        comunas = ["{}".format(c.id_comuna) for c in Ubicacion.todos()]
+        if request.POST['comuna'] not in comunas:
+            messages.success(request, 'Error: Id de comuna no existe')
+            return redirect('solicitudes_prof')
+
+        capacitacion = Capacitacion(
+            nombre=request.POST['nombre'],
+            ubicacion=request.POST['ubicacion'],
+            fecha=datetime.strptime(request.POST['fecha'],'%Y-%m-%dT%H:%M'),
+            duracion=request.POST['duracion'],
+            CONTRATO_id_contrato = id_contrato,
+            COMUNA_id_comuna = request.POST['comuna']
+        )
+        capacitacion.guardar()
+        solicitud.estado = 'RESUELTA'
+        solicitud.actualizar()
+        messages.success(request, 'Capacitación creada exitosamente')
+        return redirect('solicitudes_prof')
+    return render(request,'SSAP/responder_solicitud.html',{'solicitud':solicitud,'comunas':comunas})
 
 @logueado
 @esProfesional

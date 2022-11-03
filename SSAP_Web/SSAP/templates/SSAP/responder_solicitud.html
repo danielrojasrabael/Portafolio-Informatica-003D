@@ -1,6 +1,7 @@
 {%extends 'SSAP/base.html'%}
 {%load static%}
 {%block titulo%}SSAP | Responder Solicitud{%endblock%}
+{%block head%}<script src="{%static 'js/crearCapacitacion.js'%}"></script>{%endblock%}
 {%block contenido%}
 <div class="fondo-global">
     <div class="fondo-falso">
@@ -16,92 +17,133 @@
                         </div>
                     </div>
 
-                    {% for mensaje in messages %}
-                        <div class="alert alert-danger alert-dismissible fade show col-sm-12" role="alert">
-                            <strong>{{mensaje}}</strong>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <!--Todas las solicitudes-->
+                    <div class="row esp-input">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="float-start">Tipo Solicitud: {{solicitud.tipo}}</h4>
+                            </div>
+                            {% if solicitud.tipo == 'ASESORÍA'%}
+                            <div class="card-body">
+                                <h4 class="float-start">Tipo Asesoría: {{solicitud.tipo_asesoria}}</h4>
+                            </div>
+                            {% endif%}
                         </div>
-                    {% endfor %}
+                    </div>
 
                     <div class="row esp-input">
-                        <form id="formCrear" action="" method="post"  enctype="multipart/form-data">
-                            {%csrf_token%}
+                        <div class="card">
+                            <div class="card-body">
+                                <label for="motivo" class="float-start"><h4>Motivo:</h4></label><label for="motivo" class="float-end"><h4>Fecha Publicación: {{solicitud.fecha_publicacion | date:'d/m/Y'}}</h4></label>
+                                <textarea class="form-control" rows="5" form_id="formCrear" disabled id="motivo" name="motivo" style="overflow-y: scroll; resize: none;">{{solicitud.motivo}}</textarea>
+                            </div>
+                        </div>
+                    </div>
 
-                            <div class="row esp-input col-sm-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h4 class="float-start">Tipo Solicitud: {{solicitud.tipo}}</h4>
-                                    </div>
-                                    {% if solicitud.tipo == 'ASESORÍA'%}
-                                    <div class="card-body">
-                                        <h4 class="float-start">Tipo Asesoría: {{solicitud.tipo_asesoria}}</h4>
-                                    </div>
-                                    {% endif%}
+                    <div class="row esp-input">
+                        <label for="archivo" class="col-sm-4 col-form-label col-form-label-lg">Archivo adjunto:</label>
+                        <div class="col-sm-8">
+                            <h4>
+                                {%if solicitud.archivo%}
+                                    <a href="{% url 'descargar_prof' nombre_archivo=solicitud.archivo%}">{{solicitud.archivo}}</a>
+                                {%else%}
+                                    N/A
+                                {%endif%}
+                            </h4>
+                        </div>
+                    </div>
+
+                    {% if solicitud.tipo == 'ASESORÍA' and solicitud.tipo_asesoria == 'VISITA'%}
+                    <!--Botones de visita-->
+                        <div class="row esp-input">
+                            <div class="col-sm-6">
+                                <input type="submit" value="Denegar Solicitud" class="btn btn-danger btn-lg col-sm-12"></input>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="submit" value="Crear Visita" class="btn btn-success btn-lg col-sm-12"></input>
+                            </div>
+                        </div>
+                    {% elif solicitud.tipo == 'ASESORÍA' and solicitud.tipo_asesoria == 'ACCIDENTE'%}
+                    <!--Formulario de accidentes-->
+                        <hr>
+                        <div class="row esp-input">
+                            <div class="card">
+                                <div class="card-body">
+                                    <label for="motivo" class="float-start"><h4>Respuesta:</h4></label>
+                                    <textarea class="form-control" rows="5" form_id="formCrear" id="Respuesta" name="Respuesta" style="overflow-y: scroll; resize: none;"></textarea>
                                 </div>
                             </div>
-
-                            <div class="row esp-input col-sm-12">
+                        </div>
+                        <div class="row esp-input">
+                            <div class="col-sm-12">
+                                <input type="submit" value="Responder Accidente" class="btn btn-success btn-lg col-sm-12"></input>
+                            </div>
+                        </div>
+                    {% else %}
+                    <!--Formulario de capacitación-->
+                        <hr>
+                        <form action="" method="post" id="crearCapacitacion">
+                            {% csrf_token %}
+                            <div class="row esp-input">
                                 <div class="card">
                                     <div class="card-body">
-                                        <label for="motivo" class="float-start"><h4>Motivo:</h4></label>
-                                        <textarea class="form-control" rows="5" form_id="formCrear" disabled id="motivo" name="motivo" style="overflow-y: scroll; resize: none;">{{solicitud.motivo}}</textarea>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {% if solicitud.tipo == 'ASESORÍA' and solicitud.tipo_asesoria == 'ACCIDENTE'%}
-                                <div class="row esp-input col-sm-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <label for="motivo" class="float-start"><h4>Respuesta:</h4></label>
-                                            <textarea class="form-control" rows="5" form_id="formCrear" id="Respuesta" name="Respuesta" style="overflow-y: scroll; resize: none;"></textarea>
+                                        <h1 class="card-title tx-gradiente-p">Crear Capacitacion</h1><br>
+                                        
+                                        <div class="row esp-input">
+                                            <label for="nombre" class="col-sm-4 col-form-label col-form-label-lg">Titulo Capacitacion:</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control form-control-lg" type="text" name="nombre" placeholder="Nombre Capacitacion"></input>
+                                            </div>
+                                        </div>
+        
+                                        <div class="row esp-input">
+                                            <label for="duracion" class="col-sm-4 col-form-label col-form-label-lg">Duracion (Horas):</label>
+                                            <div class="col-sm-8">
+                                                <div class="col-sm-5" style="display: flex;" id="divHoras">
+                                                    <input class="form-control form-control-lg" type="text" placeholder="2" name="duracion" id="txbHoras"></input> 
+                                                    <label for="duracion" class="col-form-label col-form-label-lg">&nbsp&nbspHoras</label>
+                                                </div>
+                                            </div>
+                                        </div>                    
+                    
+                                        <div class="row esp-input">
+                                            <label for="fecha" class="col-sm-4 col-form-label col-form-label-lg">Fecha y Hora:</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control form-control-lg" type="datetime-local" name="fecha"></input>
+                                            </div>
+                                        </div>
+                    
+                                        <div class="row esp-input">
+                                            <label for="comuna" class="col-sm-4 col-form-label col-form-label-lg">Comuna: </label>
+                                            <div class="col-sm-8">
+                                                <select class="form-select form-select-lg"  name="comuna" placeholder="Seleccione Comuna">
+                                                    {{comunas | safe}}
+                                                </select>
+                                            </div>
+                                        </div>
+        
+                                        <div class="row esp-input">
+                                            <label for="ubicacion" class="col-sm-4 col-form-label col-form-label-lg">Ubicacion:</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control form-control-lg" type="text" name="ubicacion" placeholder="Calle Falsa"></input>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            {% endif %}
-
-                            <div class="row esp-input">
-                                <label for="archivo" class="col-sm-4 col-form-label col-form-label-lg">Archivo adjunto:</label>
-                                <div class="col-sm-8">
-                                    <h4>
-                                        {%if solicitud.archivo%}
-                                            <a href="{% url 'descargar_prof' nombre_archivo=solicitud.archivo%}">{{solicitud.archivo}}</a>
-                                        {%else%}
-                                            N/A
-                                        {%endif%}
-                                    </h4>
-                                </div>
                             </div>
-
-                            {% if solicitud.tipo == 'ASESORÍA' and solicitud.tipo_asesoria == 'VISITA'%}
-                                <div class="row esp-input col-sm-12">
-                                    <div class="col-sm-6">
-                                        <input type="submit" value="Denegar Solicitud" class="btn btn-danger btn-lg col-sm-12"></input>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="submit" value="Crear Visita" class="btn btn-success btn-lg col-sm-12"></input>
-                                    </div>
+                            <br>
+                            <div class="row esp-input">
+                                <div class="col-sm-6">
+                                    <input type="submit" value="Denegar Solicitud" class="btn btn-danger btn-lg col-sm-12"></input>
                                 </div>
-                            {% elif solicitud.tipo == 'ASESORÍA' and solicitud.tipo_asesoria == 'ACCIDENTE'%}
-                                <div class="row esp-input col-sm-12">
-                                    <div class="col-sm-12">
-                                        <input type="submit" value="Responder Accidente" class="btn btn-success btn-lg col-sm-12"></input>
-                                    </div>
+                                <div class="col-sm-6">
+                                    <input type="submit" value="Crear Capacitación" class="btn btn-success btn-lg col-sm-12"></input>
                                 </div>
-                            {% else %}
-                                <div class="row esp-input col-sm-12">
-                                    <div class="col-sm-6">
-                                        <input type="submit" value="Denegar Solicitud" class="btn btn-danger btn-lg col-sm-12"></input>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="submit" value="Crear Capacitación" class="btn btn-success btn-lg col-sm-12"></input>
-                                    </div>
-                                </div>
-                            {% endif%}
-                            <div class="row esp-input col-sm-12">
-                                <a class="btn btn-back btn-lg col-sm-12" href="{% url 'solicitudes_prof' %}" >Volver</a>
                             </div>
                         </form>
+                    {% endif%}
+                    <div class="row esp-input">
+                        <a class="btn btn-back btn-lg col-sm-12" href="{% url 'solicitudes_prof' %}" >Volver</a>
                     </div>
                 </div>
             </div>

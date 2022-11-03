@@ -1045,4 +1045,6 @@ def detallesolicitud_prof(request,id_sol):
         solicitud = Asesoria.filtro_idsolicitud(id=id_sol)
     if tipo == 'CAPACITACIÓN':
         solicitud = SolicitudCapacitacion.filtro_idsolicitud(id=id_sol)
+    if not tipo:
+        return redirect('solicitudes_prof')
     return render(request, 'SSAP/detallesolicitud.html',{'solicitud':solicitud})

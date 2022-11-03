@@ -1040,7 +1040,6 @@ def detallesolicitud_prof(request,id_sol):
         for soli in Solicitud.todos_idcontrato(id=contrato.id_contrato):
             if str(soli.id_solicitud) == id_sol:
                 tipo = soli.tipo
-                id_contrato = contrato.id_contrato
                 break
     if tipo == 'ASESORÍA':
         solicitud = Asesoria.filtro_idsolicitud(id=id_sol)

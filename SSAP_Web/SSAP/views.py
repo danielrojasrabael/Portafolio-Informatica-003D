@@ -907,3 +907,21 @@ def detalleCapacitacion(request, id):
     comunas = func_comunas(id_com=capacitacion.COMUNA_id_comuna)
     return render(request,'SSAP/detalleCapacitacion.html',{'capacitacion':capacitacion,'comunas':comunas})
 
+@logueado
+@esProfesional
+def solicitudes_prof(request):
+    profesional = request.session.get('subtipo')
+    solicitudes_pr = []
+    for contrato in Contrato.seleccionar_rutprofesional(profesional.rut):
+        solicitudes_pr = solicitudes_pr + solicitud.filtro_idcontrato(id=contrato.id_contrato)
+    return render(request,'SSAP/solicitudes_prof.html',{'solicitudes_pr':solicitudes_pr})
+
+@logueado
+@esProfesional
+def responder_solicitud(request):
+    profesional = request.session.get('subtipo')
+    responder_soli = []
+    for contrato in Contrato.seleccionar_rutprofesional(profesional.rut):
+        responder_soli = responder_soli + responder_soli.filtro_idcontrato(id=contrato.id_contrato)
+    return render(request,'SSAP/responder_solicitud.html',{'responder_soli':responder_soli})
+

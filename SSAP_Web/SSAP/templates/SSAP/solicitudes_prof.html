@@ -1,0 +1,54 @@
+{%extends 'SSAP/base.html'%}
+{% load static %}
+{%block titulo%}SSAP | solicitudes{%endblock%}
+{%block contenido%}
+<div class="fondo-global">
+    <div class="fondo-home">
+
+        <div class="contenedor">
+
+            <div class="espacio">
+
+                <div class="row esp-input">
+                    <div class="card">
+                        <div class="card-body">
+                        <h1 class="card-title tx-gradiente-p">Solicitudes</h1>
+                        </div>
+                    </div>
+                </div>
+                
+                {% for mensaje in messages %}
+                    <br>
+                    <div class="alert alert-primary alert-dismissible fade show col-sm-12" role="alert">
+                        <strong>{{mensaje}}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+
+                <table class="table table-responsive table-light table-striped align-middle">
+                    <thead>
+                        <caption>
+                            <h3 class="tx-gradiente-p medio-tx">Historial de solicitudes</h3>
+                        </caption>
+                        <caption>
+                            <input type="text" class="buscarTabla form-control form-control-lg col-sm-12" placeholder="Buscar en Tabla">
+                        </caption>
+                        
+                        <tr>
+                            <th scope="col">Cliente</th>
+                            <th scope="col">Motivo</th>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

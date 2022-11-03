@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'SSAP_Web.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
-        'NAME': 'localhost:1521/ORCL',
+        'NAME': 'localhost:1522/ORCL1',
         'USER': 'SSAP',
         'PASSWORD': '123456',
         'TEST': {

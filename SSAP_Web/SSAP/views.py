@@ -910,18 +910,10 @@ def detalleCapacitacion(request, id):
 @logueado
 @esProfesional
 def solicitudes_prof(request):
-    profesional = request.session.get('subtipo')
-    solicitudes_pr = []
-    for contrato in Contrato.seleccionar_rutprofesional(profesional.rut):
-        solicitudes_pr = solicitudes_pr + solicitud.filtro_idcontrato(id=contrato.id_contrato)
-    return render(request,'SSAP/solicitudes_prof.html',{'solicitudes_pr':solicitudes_pr})
+    return render(request,'SSAP/solicitudes_prof.html')
 
 @logueado
 @esProfesional
 def responder_solicitud(request):
-    profesional = request.session.get('subtipo')
-    responder_soli = []
-    for contrato in Contrato.seleccionar_rutprofesional(profesional.rut):
-        responder_soli = responder_soli + responder_soli.filtro_idcontrato(id=contrato.id_contrato)
-    return render(request,'SSAP/responder_solicitud.html',{'responder_soli':responder_soli})
+    return render(request,'SSAP/responder_solicitud.html')
 

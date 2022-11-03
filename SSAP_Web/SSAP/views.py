@@ -934,3 +934,22 @@ def responder_solicitud(request, id_sol):
         return redirect('solicitudes_prof')
     return render(request,'SSAP/responder_solicitud.html',{'solicitud':solicitud})
 
+@logueado
+@esProfesional
+def descargar_prof(request,nombre_archivo):
+    #Validación del archivo
+    profesional = request.session.get('subtipo')
+    archivos = []
+    for contrato in Contrato.seleccionar_rutprofesional(rut=profesional.rut):
+        for solicitud in Solicitud.todos_idcontrato(contrato.id_contrato):
+            archivos.append(solicitud.archivo)
+    if nombre_archivo not in archivos:
+        return redirect('index')
+
+    #Proceso de descarga del archivo
+    ubicacion_archivo = str(settings.MEDIA_ROOT)+'/SOLICITUDES/'+nombre_archivo
+    archivo = open(ubicacion_archivo,'rb')
+    mime_type, _ = mimetypes.guess_type(ubicacion_archivo)
+    response = HttpResponse(archivo, content_type=mime_type)
+    response['Content-Disposition'] = "attachment; filename=%s" % nombre_archivo
+    return response

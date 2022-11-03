@@ -63,6 +63,7 @@ urlpatterns = [
     path('detalleCapacitacion/<id>',views.detalleCapacitacion,name='detalleCapacitacion'),
     path('solicitudes_prof/', views.solicitudes_prof, name="solicitudes_prof"),
     path('responder_solicitud/<id_sol>', views.responder_solicitud, name="responder_solicitud"),
+    path('descargar_prof/<nombre_archivo>',views.descargar_prof,name="descargar_prof"),
     #   ------------------------ Miscelaneo ------------------------
     path('pruebas/', views.pruebas, name='pruebas'),
     ]

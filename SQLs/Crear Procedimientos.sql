@@ -457,6 +457,21 @@ begin
     WHERE sol.ID_SOLICITUD = idSlc;
 end;
 /
+
+CREATE OR REPLACE PROCEDURE actualizarAsesoria(respuesta_v in VARCHAR2,estado_v in VARCHAR2,idSlc in NUMBER)
+as
+begin
+    UPDATE SOLICITUD SET ESTADO = estado_v WHERE ID_SOLICITUD = idSlc;
+    UPDATE ASESORIA SET RESPUESTA = respuesta_v, FECHA_RESPUESTA = sysdate WHERE ID_SOLICITUD = idSlc;
+end;
+/
+
+CREATE OR REPLACE PROCEDURE actualizarSolicitudCapacitacion(estado_v in VARCHAR2,idSlc in NUMBER)
+as
+begin
+    UPDATE SOLICITUD SET ESTADO = estado_v WHERE ID_SOLICITUD = idSlc;
+end;
+/
 ------------------------------------------
 -- Actividades
 ------------------------------------------

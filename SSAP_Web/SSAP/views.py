@@ -919,6 +919,7 @@ def solicitudes_prof(request):
 @logueado
 @esProfesional
 def responder_solicitud(request, id_sol):
+    # Obtener datos de solicitud
     profesional = request.session.get('subtipo')
     id_contrato = None
     tipo = None
@@ -933,13 +934,14 @@ def responder_solicitud(request, id_sol):
         solicitud = Asesoria.filtro_idsolicitud(id=id_sol)
     if tipo == 'CAPACITACIÓN':
         solicitud = SolicitudCapacitacion.filtro_idsolicitud(id=id_sol)
+
+    # Filtros de solicitud
     if not tipo:
         return redirect('solicitudes_prof')
-    
     if solicitud.estado == 'RESUELTA' or solicitud.estado == 'RECHAZADA':
         return redirect('solicitudes_prof')
 
-    # Crear Capacitación
+    # Responder Capacitación Positivo
     if request.method == 'POST' and tipo == 'CAPACITACIÓN':
         #Validar la comuna
         comunas = ["{}".format(c.id_comuna) for c in Ubicacion.todos()]
@@ -959,6 +961,14 @@ def responder_solicitud(request, id_sol):
         solicitud.estado = 'RESUELTA'
         solicitud.actualizar()
         messages.success(request, 'Capacitación creada exitosamente')
+        return redirect('solicitudes_prof')
+    
+    #Responder Accidente
+    if request.method == 'POST' and tipo == 'ASESORÍA' and solicitud.tipo_asesoria == "ACCIDENTE":
+        solicitud.estado = 'RESUELTA'
+        solicitud.respuesta = request.POST['respuesta_accidente']
+        solicitud.actualizar()
+        messages.success(request, 'Respuesta al accidente informada al cliente')
         return redirect('solicitudes_prof')
     return render(request,'SSAP/responder_solicitud.html',{'solicitud':solicitud,'comunas':comunas})
 

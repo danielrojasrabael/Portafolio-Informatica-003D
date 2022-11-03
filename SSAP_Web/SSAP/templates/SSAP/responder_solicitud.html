@@ -1,7 +1,10 @@
 {%extends 'SSAP/base.html'%}
 {%load static%}
 {%block titulo%}SSAP | Responder Solicitud{%endblock%}
-{%block head%}<script src="{%static 'js/crearCapacitacion.js'%}"></script>{%endblock%}
+{%block head%}
+<script src="{%static 'js/crearCapacitacion.js'%}"></script>
+<script src="{%static 'js/responderSolicitud.js'%}"></script>
+{%endblock%}
 {%block contenido%}
 <div class="fondo-global">
     <div class="fondo-falso">
@@ -66,19 +69,22 @@
                     {% elif solicitud.tipo == 'ASESORÍA' and solicitud.tipo_asesoria == 'ACCIDENTE'%}
                     <!--Formulario de accidentes-->
                         <hr>
-                        <div class="row esp-input">
-                            <div class="card">
-                                <div class="card-body">
-                                    <label for="motivo" class="float-start"><h4>Respuesta:</h4></label>
-                                    <textarea class="form-control" rows="5" form_id="formCrear" id="Respuesta" name="Respuesta" style="overflow-y: scroll; resize: none;"></textarea>
+                        <form action="" method="post" id="responderAccidente">
+                            {% csrf_token %}
+                            <div class="row esp-input">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <label for="respuesta_accidente" class="float-start"><h4>Respuesta:</h4></label>
+                                        <textarea class="form-control" rows="5" form_id="responderAccidente" id="Respuesta" name="respuesta_accidente" style="overflow-y: scroll; resize: none;"></textarea>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row esp-input">
-                            <div class="col-sm-12">
-                                <input type="submit" value="Responder Accidente" class="btn btn-success btn-lg col-sm-12"></input>
+                            <div class="row esp-input">
+                                <div class="col-sm-12">
+                                    <input type="submit" value="Responder Accidente" class="btn btn-success btn-lg col-sm-12"></input>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     {% else %}
                     <!--Formulario de capacitación-->
                         <hr>

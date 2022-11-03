@@ -58,14 +58,17 @@
 
                     {% if solicitud.tipo == 'ASESORÍA' and solicitud.tipo_asesoria == 'VISITA'%}
                     <!--Botones de visita-->
-                        <div class="row esp-input">
-                            <div class="col-sm-6">
-                                <input type="submit" value="Denegar Solicitud" class="btn btn-danger btn-lg col-sm-12"></input>
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="row esp-input">
+                                <div class="col-sm-6">
+                                    <a href="{%url 'rechazar_solicitud' id_sol=solicitud.id_solicitud%}" class="btn btn-danger btn-lg col-sm-12">Denegar Solicitud</a>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="submit" value="Crear Visita" class="btn btn-success btn-lg col-sm-12"></input>
+                                </div>
                             </div>
-                            <div class="col-sm-6">
-                                <input type="submit" value="Crear Visita" class="btn btn-success btn-lg col-sm-12"></input>
-                            </div>
-                        </div>
+                        </form>
                     {% elif solicitud.tipo == 'ASESORÍA' and solicitud.tipo_asesoria == 'ACCIDENTE'%}
                     <!--Formulario de accidentes-->
                         <hr>
@@ -140,7 +143,7 @@
                             <br>
                             <div class="row esp-input">
                                 <div class="col-sm-6">
-                                    <input type="submit" value="Denegar Solicitud" class="btn btn-danger btn-lg col-sm-12"></input>
+                                    <a href="{%url 'rechazar_solicitud' id_sol=solicitud.id_solicitud%}" class="btn btn-danger btn-lg col-sm-12">Denegar Solicitud</a>
                                 </div>
                                 <div class="col-sm-6">
                                     <input type="submit" value="Crear Capacitación" class="btn btn-success btn-lg col-sm-12"></input>

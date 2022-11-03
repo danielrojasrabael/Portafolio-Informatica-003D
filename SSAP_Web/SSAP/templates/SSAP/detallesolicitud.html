@@ -30,7 +30,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <label for="respuesta" class="float-start"><h4>Respuesta:</h4></label><label for="motivo" class="float-end"><h4>Fecha Respuesta: {%if solicitud.fecha_respuesta%}{{solicitud.fecha_respuesta | date:'d/m/Y'}}{%else%}N/A{%endif%}</h4></label>
-                                        <textarea class="form-control" rows="5" id="respuesta" name="respuesta" disabled style="overflow-y: scroll; resize: none;">{%if solicitud.respuesta%}{{solicitud.respuesta}}{%elif solicitud.tipo == 'CAPACITACIÓN' and solicitud.estado == 'RESUELTA'%}Esta capacitación ha sido creada, revisar la página de capacitaciones para ver el detalle.{%endif%}</textarea>
+                                        <textarea class="form-control" rows="5" id="respuesta" name="respuesta" disabled style="overflow-y: scroll; resize: none;">{%if solicitud.respuesta%}{{solicitud.respuesta}}{%elif solicitud.tipo == 'CAPACITACIÓN' and solicitud.estado == 'RESUELTA'%}Esta capacitación ha sido creada, revisar la página de capacitaciones para ver el detalle.{%elif solicitud.tipo == 'CAPACITACIÓN' and solicitud.estado == 'RECHAZADA'%}La solicitud de capacitación ha sido rechazada.{%endif%}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -51,7 +51,11 @@
 
                             <div class="row esp-input col-sm-12">
                                 <div class="col-sm-12">
-                                    <a class="btn btn-back btn-lg col-sm-12" href="{% url 'solicitudes' %}" >Volver</a>
+                                    {%if request.session.usuario.tipo == 'CLIENTE'%}
+                                        <a class="btn btn-back btn-lg col-sm-12" href="{% url 'solicitudes' %}" >Volver</a>
+                                    {%elif request.session.usuario.tipo == 'PROFESIONAL'%}
+                                        <a class="btn btn-back btn-lg col-sm-12" href="{% url 'solicitudes_prof' %}" >Volver</a>
+                                    {%endif%}
                                 </div>
                             </div>
                     </div>

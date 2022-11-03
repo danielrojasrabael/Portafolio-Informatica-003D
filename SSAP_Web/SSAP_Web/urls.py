@@ -64,6 +64,8 @@ urlpatterns = [
     path('solicitudes_prof/', views.solicitudes_prof, name="solicitudes_prof"),
     path('responder_solicitud/<id_sol>', views.responder_solicitud, name="responder_solicitud"),
     path('descargar_prof/<nombre_archivo>',views.descargar_prof,name="descargar_prof"),
+    path('rechazar_solicitud/<id_sol>',views.rechazar_solicitud,name="rechazar_solicitud"),
+    path('detallesolicitud_prof/<id_sol>',views.detallesolicitud_prof,name="detallesolicitud_prof"),
     #   ------------------------ Miscelaneo ------------------------
     path('pruebas/', views.pruebas, name='pruebas'),
     ]

@@ -502,6 +502,10 @@ class Visita(models.Model):
         cur.close()
         datos.close()
         return lista
+    def nueva(id=None,conn=conexion):
+        cur = conn.cursor()
+        cur.callproc("INSERTARVISITA", [id])
+        cur.close()
     class Meta:
         managed = False
 

@@ -907,6 +907,9 @@ def detalleCapacitacion(request, id):
     comunas = func_comunas(id_com=capacitacion.COMUNA_id_comuna)
     return render(request,'SSAP/detalleCapacitacion.html',{'capacitacion':capacitacion,'comunas':comunas})
 
+
+# Solicitudes
+
 @logueado
 @esProfesional
 def solicitudes_prof(request):
@@ -970,6 +973,15 @@ def responder_solicitud(request, id_sol):
         solicitud.actualizar()
         messages.success(request, 'Respuesta al accidente informada al cliente')
         return redirect('solicitudes_prof')
+    
+    #Crear Visita Positivo
+    if request.method == 'POST' and tipo == 'ASESORÍA' and solicitud.tipo_asesoria == "VISITA":
+        Visita.nueva(id=id_contrato)
+        solicitud.estado = 'RESUELTA'
+        solicitud.respuesta = "Se ha creado una instancia de visita por programar, revise la página de visitas."
+        solicitud.actualizar()
+        messages.success(request, 'Nueva instancia de visita creada exitosamente')
+        return redirect('solicitudes_prof')
     return render(request,'SSAP/responder_solicitud.html',{'solicitud':solicitud,'comunas':comunas})
 
 @logueado
@@ -991,3 +1003,47 @@ def descargar_prof(request,nombre_archivo):
     response = HttpResponse(archivo, content_type=mime_type)
     response['Content-Disposition'] = "attachment; filename=%s" % nombre_archivo
     return response
+
+@logueado
+@esProfesional
+def rechazar_solicitud(request, id_sol):
+    # Obtener datos de solicitud
+    profesional = request.session.get('subtipo')
+    tipo = None
+    for contrato in Contrato.seleccionar_rutprofesional(rut=profesional.rut):
+        for soli in Solicitud.todos_idcontrato(id=contrato.id_contrato):
+            if str(soli.id_solicitud) == id_sol:
+                tipo = soli.tipo
+                break
+    if tipo == 'ASESORÍA':
+        solicitud = Asesoria.filtro_idsolicitud(id=id_sol)
+        if solicitud.estado == 'PENDIENTE' and solicitud.tipo_asesoria == "VISITA":
+            solicitud.estado = 'RECHAZADA'
+            solicitud.respuesta = "La solicitud de visita ha sido rechazada."
+            solicitud.actualizar()
+            messages.success(request, 'Solicitud de visita rechazada.')
+    if tipo == 'CAPACITACIÓN':
+        solicitud = SolicitudCapacitacion.filtro_idsolicitud(id=id_sol)
+        if solicitud.estado == 'PENDIENTE':
+            solicitud.estado = 'RECHAZADA'
+            solicitud.actualizar()
+            messages.success(request, 'Solicitud de capacitación rechazada.')
+    return redirect('solicitudes_prof')
+
+@logueado
+@esProfesional
+def detallesolicitud_prof(request,id_sol):
+    # Obtener datos de solicitud
+    profesional = request.session.get('subtipo')
+    tipo = None
+    for contrato in Contrato.seleccionar_rutprofesional(rut=profesional.rut):
+        for soli in Solicitud.todos_idcontrato(id=contrato.id_contrato):
+            if str(soli.id_solicitud) == id_sol:
+                tipo = soli.tipo
+                id_contrato = contrato.id_contrato
+                break
+    if tipo == 'ASESORÍA':
+        solicitud = Asesoria.filtro_idsolicitud(id=id_sol)
+    if tipo == 'CAPACITACIÓN':
+        solicitud = SolicitudCapacitacion.filtro_idsolicitud(id=id_sol)
+    return render(request, 'SSAP/detallesolicitud.html',{'solicitud':solicitud})

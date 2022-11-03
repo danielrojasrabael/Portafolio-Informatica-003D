@@ -402,6 +402,13 @@ begin
      UPDATE VISITA SET FECHA = fecha_v, ESTADO=estado_v, UBICACION = ubicacion_v, REPORTE_FINAL = reporte_final_v, PERIODO = periodo_v,ID_COMUNA = idComuna_v WHERE ID_VISITA = idVi;
 end;
 /
+
+CREATE OR REPLACE PROCEDURE insertarVisita (id_contrato_v in NUMBER)
+as
+begin
+    INSERT INTO VISITA (ESTADO,PERIODO,ID_CONTRATO,ID_COMUNA) VALUES (0,trunc(sysdate, 'MM'),id_contrato_v,1);
+end;
+/
 ------------------------------------------
 -- Solicitudes
 ------------------------------------------

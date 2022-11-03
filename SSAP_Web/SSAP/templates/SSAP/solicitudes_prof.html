@@ -38,13 +38,27 @@
                             <th scope="col">Cliente</th>
                             <th scope="col">Motivo</th>
                             <th scope="col">Tipo</th>
-                            <th scope="col">Fecha</th>
+                            <th scope="col">Fecha Publicación</th>
+                            <th scope="col">Estado</th>
                             <th scope="col">Acciones</th>
                         </tr>
 
                     </thead>
                     <tbody>
-                        
+                        {%for solicitud in solicitudes%}
+                            <tr>
+                                <th scope="col">{{solicitud.nombre_cliente}}</th>
+                                <th scope="col" style="max-width: 200px; overflow: hidden;text-overflow: ellipsis; white-space: nowrap;">{{solicitud.motivo}}</th>
+                                <th scope="col">{{solicitud.tipo}}</th>
+                                <th scope="col">{{solicitud.fecha_publicacion | date:'d/m/Y'}}</th>
+                                <th scope="col">{{solicitud.estado}}</th>
+                                {%if solicitud.estado == 'RESUELTA' or solicitud.estado == 'RECHAZADA'%}
+                                    <th><a href="{% url 'responder_solicitud'%}"><button class="accion btn btn-primary col-sm-12">Ver Respuesta</button></a></th>
+                                {%else%}
+                                    <th><a href="{% url 'responder_solicitud'%}"><button class="accion btn btn-primary col-sm-12">Responder Solicitud</button></a></th>
+                                {%endif%}
+                            </tr>
+                        {%endfor%}
                     </tbody>
                 </table>
             </div>

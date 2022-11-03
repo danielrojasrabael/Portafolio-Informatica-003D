@@ -358,6 +358,7 @@ class Solicitud(models.Model):
     motivo = models.TextField()
     archivo = models.CharField(max_length=999)
     CONTRATO_id_contrato = models.IntegerField()
+    nombre_cliente = models.CharField(max_length=999)
     def todos_idcontrato(id,conn=conexion):
         cur = conn.cursor()
         datosAs = conn.cursor()
@@ -365,10 +366,10 @@ class Solicitud(models.Model):
         lista = []
         cur.callproc("SOLICITUD_PORIDCONTRATO", [datosAs,datosCap,id])
         for i in datosAs:
-            solicitud = Solicitud(motivo=i[0],tipo=i[1],fecha_publicacion=i[2],estado=i[3],id_solicitud=i[4], archivo=i[5])
+            solicitud = Solicitud(motivo=i[0],tipo=i[1],fecha_publicacion=i[2],estado=i[3],id_solicitud=i[4], archivo=i[5], nombre_cliente=i[6])
             lista.append(solicitud)
         for i in datosCap:
-            solicitud = Solicitud(motivo=i[0],tipo=i[1],fecha_publicacion=i[2],estado=i[3],id_solicitud=i[4], archivo=i[5])
+            solicitud = Solicitud(motivo=i[0],tipo=i[1],fecha_publicacion=i[2],estado=i[3],id_solicitud=i[4], archivo=i[5], nombre_cliente=i[6])
             lista.append(solicitud)
         cur.close()
         datosAs.close()

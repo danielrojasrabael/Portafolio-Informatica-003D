@@ -392,7 +392,7 @@ class Asesoria(Solicitud):
         datos = conn.cursor()
         cur.callproc("ASESORIA_PORIDSOLICITUD", [datos,id])
         for i in datos:
-            asesoria = Asesoria(motivo = i[0],tipo = i[1], fecha_publicacion = i[2], estado = i[3], id_solicitud=i[4], respuesta = i[5], fecha_respuesta = i[6], archivo = i[7])
+            asesoria = Asesoria(motivo = i[0],tipo = i[1], fecha_publicacion = i[2], estado = i[3], id_solicitud=i[4], respuesta = i[5], fecha_respuesta = i[6], archivo = i[7], tipo_asesoria=i[8])
         cur.close()
         datos.close()
         return asesoria

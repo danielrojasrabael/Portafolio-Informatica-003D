@@ -26,12 +26,17 @@
                     <div class="row esp-input">
                         <form id="formCrear" action="" method="post"  enctype="multipart/form-data">
                             {%csrf_token%}
-                    
+
                             <div class="row esp-input col-sm-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <label for="motivo" class="float-start"><h4>Tipo Asesoría:</h4></label>
+                                        <h4 class="float-start">Tipo Solicitud: {{solicitud.tipo}}</h4>
                                     </div>
+                                    {% if solicitud.tipo == 'ASESORÍA'%}
+                                    <div class="card-body">
+                                        <h4 class="float-start">Tipo Asesoría: {{solicitud.tipo_asesoria}}</h4>
+                                    </div>
+                                    {% endif%}
                                 </div>
                             </div>
 
@@ -39,38 +44,60 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <label for="motivo" class="float-start"><h4>Motivo:</h4></label>
-                                        <textarea class="form-control" rows="5" form_id="formCrear" disabled id="motivo" name="motivo" style="overflow-y: scroll; resize: none;"></textarea>
+                                        <textarea class="form-control" rows="5" form_id="formCrear" disabled id="motivo" name="motivo" style="overflow-y: scroll; resize: none;">{{solicitud.motivo}}</textarea>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="row esp-input col-sm-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <label for="motivo" class="float-start"><h4>Respuesta:</h4></label>
-                                        <textarea class="form-control" rows="5" form_id="formCrear" id="Respuesta" name="Respuesta" style="overflow-y: scroll; resize: none;"></textarea>
+                            {% if solicitud.tipo == 'ASESORÍA' and solicitud.tipo_asesoria == 'ACCIDENTE'%}
+                                <div class="row esp-input col-sm-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <label for="motivo" class="float-start"><h4>Respuesta:</h4></label>
+                                            <textarea class="form-control" rows="5" form_id="formCrear" id="Respuesta" name="Respuesta" style="overflow-y: scroll; resize: none;"></textarea>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            {% endif %}
 
                             <div class="row esp-input">
                                 <label for="archivo" class="col-sm-4 col-form-label col-form-label-lg">Archivo adjunto:</label>
                                 <div class="col-sm-8">
                                     <h4>
-                                        N/A
+                                        {%if solicitud.archivo%}
+                                            <a href="">{{solicitud.archivo}}</a>
+                                        {%else%}
+                                            N/A
+                                        {%endif%}
                                     </h4>
                                 </div>
                             </div>
 
-                            <div class="row esp-input col-sm-12">
-                                <div class="col-sm-6">
-                                    <input type="submit" value="Denegar Solicitud" class="btn btn-danger btn-lg col-sm-12"></input>
+                            {% if solicitud.tipo == 'ASESORÍA' and solicitud.tipo_asesoria == 'VISITA'%}
+                                <div class="row esp-input col-sm-12">
+                                    <div class="col-sm-6">
+                                        <input type="submit" value="Denegar Solicitud" class="btn btn-danger btn-lg col-sm-12"></input>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="submit" value="Crear Visita" class="btn btn-success btn-lg col-sm-12"></input>
+                                    </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <input type="submit" value="Crear Visita" class="btn btn-success btn-lg col-sm-12"></input>
+                            {% elif solicitud.tipo == 'ASESORÍA' and solicitud.tipo_asesoria == 'ACCIDENTE'%}
+                                <div class="row esp-input col-sm-12">
+                                    <div class="col-sm-12">
+                                        <input type="submit" value="Responder Accidente" class="btn btn-success btn-lg col-sm-12"></input>
+                                    </div>
                                 </div>
-                            </div>
-
+                            {% else %}
+                                <div class="row esp-input col-sm-12">
+                                    <div class="col-sm-6">
+                                        <input type="submit" value="Denegar Solicitud" class="btn btn-danger btn-lg col-sm-12"></input>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="submit" value="Crear Capacitación" class="btn btn-success btn-lg col-sm-12"></input>
+                                    </div>
+                                </div>
+                            {% endif%}
                             <div class="row esp-input col-sm-12">
                                 <a class="btn btn-back btn-lg col-sm-12" href="{% url 'solicitudes_prof' %}" >Volver</a>
                             </div>

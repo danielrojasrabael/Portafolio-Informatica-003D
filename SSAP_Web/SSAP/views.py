@@ -918,6 +918,19 @@ def solicitudes_prof(request):
 
 @logueado
 @esProfesional
-def responder_solicitud(request):
-    return render(request,'SSAP/responder_solicitud.html')
+def responder_solicitud(request, id_sol):
+    profesional = request.session.get('subtipo')
+    tipo = None
+    for contrato in Contrato.seleccionar_rutprofesional(rut=profesional.rut):
+        for soli in Solicitud.todos_idcontrato(id=contrato.id_contrato):
+            if str(soli.id_solicitud) == id_sol:
+                tipo = soli.tipo
+                break
+    if tipo == 'ASESORÍA':
+        solicitud = Asesoria.filtro_idsolicitud(id=id_sol)
+    if tipo == 'CAPACITACIÓN':
+        solicitud = SolicitudCapacitacion.filtro_idsolicitud(id=id_sol)
+    if not tipo:
+        return redirect('solicitudes_prof')
+    return render(request,'SSAP/responder_solicitud.html',{'solicitud':solicitud})
 

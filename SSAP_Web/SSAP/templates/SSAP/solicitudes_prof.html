@@ -53,9 +53,9 @@
                                 <th scope="col">{{solicitud.fecha_publicacion | date:'d/m/Y'}}</th>
                                 <th scope="col">{{solicitud.estado}}</th>
                                 {%if solicitud.estado == 'RESUELTA' or solicitud.estado == 'RECHAZADA'%}
-                                    <th><a href="{% url 'responder_solicitud'%}"><button class="accion btn btn-primary col-sm-12">Ver Respuesta</button></a></th>
+                                    <th><a href="{% url 'responder_solicitud' id_sol=solicitud.id_solicitud%}"><button class="accion btn btn-primary col-sm-12">Ver Respuesta</button></a></th>
                                 {%else%}
-                                    <th><a href="{% url 'responder_solicitud'%}"><button class="accion btn btn-primary col-sm-12">Responder Solicitud</button></a></th>
+                                    <th><a href="{% url 'responder_solicitud' id_sol=solicitud.id_solicitud%}"><button class="accion btn btn-primary col-sm-12">Responder Solicitud</button></a></th>
                                 {%endif%}
                             </tr>
                         {%endfor%}

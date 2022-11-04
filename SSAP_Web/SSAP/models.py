@@ -254,6 +254,16 @@ class Contrato(models.Model):
         cur.close()
         datos.close()
         return contratos
+    def filtro_id(id=None, conn=conexion):
+        cur = conn.cursor()
+        datos = conn.cursor()
+        contrato = None
+        cur.callproc("CONTRATO_PORID", [datos,id])
+        for i in datos:
+            contrato = Contrato(id_contrato=i[0], costo_base=i[1],fecha_firma=i[2],ultimo_pago=i[3],CLIENTE_rut=i[4],PROFESIONAL_rut=i[5])
+        cur.close()
+        datos.close()
+        return contrato
     class Meta:
         managed = False
 

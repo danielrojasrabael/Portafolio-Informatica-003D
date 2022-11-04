@@ -215,6 +215,26 @@ begin
 end;
 /
 
+create or replace PROCEDURE contrato_porRutCliente (registro out SYS_REFCURSOR, rutCli in VARCHAR2)
+as
+begin
+    open registro for select ID_CONTRATO, COSTO_BASE, FECHA_FIRMA, ULTIMO_PAGO, RUT_CLIENTE, RUT_PROFESIONAL  from contrato where RUT_CLIENTE = rutCli;
+end;
+/
+
+create or replace PROCEDURE contratos_porRutProfesional (registro out SYS_REFCURSOR, rutPro in VARCHAR2)
+as
+begin
+    open registro for select ID_CONTRATO, COSTO_BASE, FECHA_FIRMA, ULTIMO_PAGO, RUT_CLIENTE, RUT_PROFESIONAL  from contrato where RUT_PROFESIONAL = rutPro;
+end;
+/
+
+create or replace PROCEDURE contrato_porId (registro out SYS_REFCURSOR, idCtr in NUMBER)
+as
+begin
+    open registro for select ID_CONTRATO, COSTO_BASE, FECHA_FIRMA, ULTIMO_PAGO, RUT_CLIENTE, RUT_PROFESIONAL  from contrato where ID_CONTRATO = idCtr;
+end;
+/
 ------------------------------------------
 -- Notificaciones
 ------------------------------------------
@@ -286,20 +306,6 @@ create or replace PROCEDURE seleccionarUbicacion (registro out SYS_REFCURSOR)
 as
 begin
     open registro for SELECT co.id_comuna, co.nombre "nombre_comuna", ci.nombre "nombre_ciudad", re.nombre "nombre_region" FROM comuna co JOIN ciudad ci ON ci.id_ciudad = co.id_ciudad JOIN region re ON ci.id_region = re.id_region;
-end;
-/
-
-create or replace PROCEDURE contrato_porRutCliente (registro out SYS_REFCURSOR, rutCli in VARCHAR2)
-as
-begin
-    open registro for select ID_CONTRATO, COSTO_BASE, FECHA_FIRMA, ULTIMO_PAGO, RUT_CLIENTE, RUT_PROFESIONAL  from contrato where RUT_CLIENTE = rutCli;
-end;
-/
-
-create or replace PROCEDURE contratos_porRutProfesional (registro out SYS_REFCURSOR, rutPro in VARCHAR2)
-as
-begin
-    open registro for select ID_CONTRATO, COSTO_BASE, FECHA_FIRMA, ULTIMO_PAGO, RUT_CLIENTE, RUT_PROFESIONAL  from contrato where RUT_PROFESIONAL = rutPro;
 end;
 /
 

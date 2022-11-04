@@ -727,6 +727,13 @@ def programarVisita(request, id):
             messages.success(request, "Error: Id de comuna fuera de rango")
             return redirect('visitas')
         visita.modificar()
+        notificacion = Notificacion(
+            titulo = "Visita Programada/Modificada",
+            descripcion = "Se le informa que se le ha programado (o modificado) una visita para el día {}. Visite el módulo de visitas para obtener más información.".format(visita.fecha.strftime('%d/%m/%Y')),
+            fecha = datetime.now(),
+            CLIENTE_rut = cliente.rut
+        )
+        notificacion.guardar()
         messages.success(request, "Visita programada")
         return redirect('visitas')
     return render(request,"SSAP/programarvisita.html",{'visita':visita, 'cliente':cliente, 'comunas':comunas})
@@ -802,7 +809,7 @@ def iniciarVisita(request, id):
                 <h3>Tasa de accidentabilidad:</h3>
                 <div style="display: flex;">
                     <div style="color:white; text-align: left  ;height: 25px; background-color: brown; width: 100%;">{}%</div>
-                    <div style="color:white; text-align: right ;height: 25px; background-color: green; width: 0%;">{}%</div>
+                    <div style="color:white; text-align: right ;height: 25px; background-color: green; width: 0%;"></div>
                 </div>
             '''.format(cliente.cant_trabajadores,cant_accidentes,porc_accidentabilidad)
         
@@ -813,6 +820,13 @@ def iniciarVisita(request, id):
         visita.modificar()
         ruta_pdf = str(settings.MEDIA_ROOT)+"/CHECKLISTS/"+nombre_pdf
         func_generar_pdf("SSAP/visitapdf.html",{'visita':visita,'cliente':cliente, 'checklist':items, 'aprobados':aprobados, 'mejora':mejora, 'barras':barras, 'accidentabilidad':accidentabilidad}, ruta_pdf)
+        notificacion = Notificacion(
+            titulo = "Visita {} Realizada".format(visita.fecha.strftime('%d/%m/%Y')),
+            descripcion = "Se le informa que la visita del día {} ya se encuentra realizada, visite el módulo de visitas para acceder al informe.".format(visita.fecha.strftime('%d/%m/%Y')),
+            fecha = datetime.now(),
+            CLIENTE_rut = cliente.rut
+        )
+        notificacion.guardar()
         messages.success(request, "Visita "+str(visita.fecha.strftime("%d/%m/%Y"))+" realizada")
         return redirect('visitas')
     return render(request,"SSAP/iniciarvisita.html",{'visita':visita,'cliente':cliente, 'checklist':items})
@@ -876,8 +890,16 @@ def cancelarCapacitacion(request):
             ids.append(cap.id_capacitacion)
         if capacitacion.id_capacitacion in ids and capacitacion.estado == 'PENDIENTE':
             # Marcar Cancelada
+            contrato = Contrato.filtro_id(id=capacitacion.CONTRATO_id_contrato)
             capacitacion.estado = 'CANCELADA'
             capacitacion.actualizar()
+            notificacion = Notificacion(
+                titulo = "Capacitación {} Cancelada".format(capacitacion.fecha.strftime('%d/%m/%Y')),
+                descripcion = "Se le informa que la capacitación del día {} ha sido cancelada, visite el módulo de capacitaciones para más información.".format(capacitacion.fecha.strftime('%d/%m/%Y')),
+                fecha = datetime.now(),
+                CLIENTE_rut = contrato.CLIENTE_rut
+            )
+            notificacion.guardar()
             messages.success(request,'Capacitación {} cancelada'.format(capacitacion.nombre))
     return redirect('capacitaciones_prof')
 
@@ -889,8 +911,10 @@ def crearCapacitacion(request):
     ruts = []
     for contrato in Contrato.seleccionar_rutprofesional(rut=profesional.rut):
         cliente = Cliente.filtro_rut(rut=contrato.CLIENTE_rut)
-        clientes.append(cliente)
-        ruts.append(cliente.rut)
+        usuario = Usuario.filtro_id(id=cliente.id_usuario)
+        if usuario.estado:
+            clientes.append(cliente)
+            ruts.append(cliente.rut)
     comunas = func_comunas()
 
     #   Proceso de crear capacitacion
@@ -915,6 +939,13 @@ def crearCapacitacion(request):
             COMUNA_id_comuna = request.POST['comuna']
         )
         capacitacion.guardar()
+        notificacion = Notificacion(
+            titulo = "Nueva Capacitación",
+            descripcion = "Se le informa que se realizará una capacitación el día {}, Visite el módulo de capacitaciones para más información.".format(capacitacion.fecha.strftime("%d/%m/%Y")),
+            fecha = datetime.now(),
+            CLIENTE_rut = request.POST['nombre_empresa']
+        )
+        notificacion.guardar()
         messages.success(request, 'Capacitación registrada exitosamente')
         return redirect('capacitaciones_prof')
     return render(request,'SSAP/crearCapacitacion.html', {'comunas':comunas,'clientes':clientes})
@@ -953,6 +984,7 @@ def solicitudes_prof(request):
 def responder_solicitud(request, id_sol):
     # Obtener datos de solicitud
     profesional = request.session.get('subtipo')
+    rut_cliente = None
     id_contrato = None
     tipo = None
     comunas = func_comunas()
@@ -961,6 +993,7 @@ def responder_solicitud(request, id_sol):
             if str(soli.id_solicitud) == id_sol:
                 tipo = soli.tipo
                 id_contrato = contrato.id_contrato
+                rut_cliente = contrato.CLIENTE_rut
                 break
     if tipo == 'ASESORÍA':
         solicitud = Asesoria.filtro_idsolicitud(id=id_sol)
@@ -992,6 +1025,13 @@ def responder_solicitud(request, id_sol):
         capacitacion.guardar()
         solicitud.estado = 'RESUELTA'
         solicitud.actualizar()
+        notificacion = Notificacion(
+            titulo = "Solicitud de Capacitación Respondida",
+            descripcion = "Se le informa que una solicitud de capacitación fue respondida y la capacitación será realizada el día {}, visite el módulo de capacitaciones para más información.".format(capacitacion.fecha.strftime("%d/%m/%Y")),
+            fecha = datetime.now(),
+            CLIENTE_rut = rut_cliente
+        )
+        notificacion.guardar()
         messages.success(request, 'Capacitación creada exitosamente')
         return redirect('solicitudes_prof')
     
@@ -1000,6 +1040,13 @@ def responder_solicitud(request, id_sol):
         solicitud.estado = 'RESUELTA'
         solicitud.respuesta = request.POST['respuesta_accidente']
         solicitud.actualizar()
+        notificacion = Notificacion(
+            titulo = "Asesoría de Accidente Respondida",
+            descripcion = "Se le informa que existe una respuesta al accidente ocurrido el dia {}, visite la página de solicitudes para más información.".format(solicitud.fecha_publicacion.strftime("%d/%m/%Y")),
+            fecha = datetime.now(),
+            CLIENTE_rut = rut_cliente
+        )
+        notificacion.guardar()
         messages.success(request, 'Respuesta al accidente informada al cliente')
         return redirect('solicitudes_prof')
     
@@ -1009,6 +1056,13 @@ def responder_solicitud(request, id_sol):
         solicitud.estado = 'RESUELTA'
         solicitud.respuesta = "Se ha creado una instancia de visita por programar, revise la página de visitas."
         solicitud.actualizar()
+        notificacion = Notificacion(
+            titulo = "Asesoría de Visita Respondida",
+            descripcion = "Se le informa que ya se ha creado una instancia de visita según la solicitud del día {}, visite la página de visitas para más información.".format(solicitud.fecha_publicacion.strftime("%d/%m/%Y")),
+            fecha = datetime.now(),
+            CLIENTE_rut = rut_cliente
+        )
+        notificacion.guardar()
         messages.success(request, 'Nueva instancia de visita creada exitosamente')
         return redirect('solicitudes_prof')
     return render(request,'SSAP/responder_solicitud.html',{'solicitud':solicitud,'comunas':comunas})
@@ -1038,11 +1092,13 @@ def descargar_prof(request,nombre_archivo):
 def rechazar_solicitud(request, id_sol):
     # Obtener datos de solicitud
     profesional = request.session.get('subtipo')
+    rut_cliente = None
     tipo = None
     for contrato in Contrato.seleccionar_rutprofesional(rut=profesional.rut):
         for soli in Solicitud.todos_idcontrato(id=contrato.id_contrato):
             if str(soli.id_solicitud) == id_sol:
                 tipo = soli.tipo
+                rut_cliente = contrato.CLIENTE_rut
                 break
     if tipo == 'ASESORÍA':
         solicitud = Asesoria.filtro_idsolicitud(id=id_sol)
@@ -1050,12 +1106,26 @@ def rechazar_solicitud(request, id_sol):
             solicitud.estado = 'RECHAZADA'
             solicitud.respuesta = "La solicitud de visita ha sido rechazada."
             solicitud.actualizar()
+            notificacion = Notificacion(
+                titulo = "Asesoría de Visita Rechazada",
+                descripcion = "Se le informa que su solicitud de visita del día {} ha sido rechazada, visite el módulo de solicitudes para más información.".format(solicitud.fecha_publicacion.strftime("%d/%m/%Y")),
+                fecha = datetime.now(),
+                CLIENTE_rut = rut_cliente
+            )
+            notificacion.guardar()
             messages.success(request, 'Solicitud de visita rechazada.')
     if tipo == 'CAPACITACIÓN':
         solicitud = SolicitudCapacitacion.filtro_idsolicitud(id=id_sol)
         if solicitud.estado == 'PENDIENTE':
             solicitud.estado = 'RECHAZADA'
             solicitud.actualizar()
+            notificacion = Notificacion(
+                titulo = "Solicitud de Capacitación Rechazada",
+                descripcion = "Se le informa que su solicitud de capacitación del día {} ha sido rechazada, visite el módulo de solicitudes para más información.".format(solicitud.fecha_publicacion.strftime("%d/%m/%Y")),
+                fecha = datetime.now(),
+                CLIENTE_rut = rut_cliente
+            )
+            notificacion.guardar()
             messages.success(request, 'Solicitud de capacitación rechazada.')
     return redirect('solicitudes_prof')
 

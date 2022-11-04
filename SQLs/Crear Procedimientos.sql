@@ -479,6 +479,17 @@ begin
     UPDATE SOLICITUD SET ESTADO = estado_v WHERE ID_SOLICITUD = idSlc;
 end;
 /
+
+CREATE OR REPLACE PROCEDURE cant_Accidentes_Mensual(registro out SYS_REFCURSOR, idCtr in NUMBER, fecha_periodo in DATE)
+as
+begin
+    OPEN registro FOR SELECT COUNT(ase.ID_ASESORIA)
+    FROM ASESORIA ase 
+    JOIN SOLICITUD sol ON ase.ID_SOLICITUD = sol.ID_SOLICITUD
+    WHERE ase.TIPO_ASESORIA = 'ACCIDENTE' AND sol.ID_CONTRATO = idCtr AND to_char(ase.fecha_publicacion, 'mm') = to_char(fecha_periodo, 'mm')
+    GROUP BY to_char(ase.fecha_publicacion, 'mm');
+end;
+/
 ------------------------------------------
 -- Actividades
 ------------------------------------------

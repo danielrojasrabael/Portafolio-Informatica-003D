@@ -568,3 +568,14 @@ class Pago_Mensual(models.Model):
         return lista
     class Meta:
         managed = False
+
+def cant_accidentes_mensuales(id_contrato=None,fecha=None,conn=conexion):
+    cur = conn.cursor()
+    datos = conn.cursor()
+    cantidad = 0
+    cur.callproc("CANT_ACCIDENTES_MENSUAL", [datos,id_contrato,fecha])
+    for i in datos:
+        cantidad = i[0]
+    cur.close()
+    datos.close()
+    return cantidad

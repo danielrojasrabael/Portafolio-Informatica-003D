@@ -1,5 +1,6 @@
 from django.contrib.auth.backends import ModelBackend
 from SSAP.models import Usuario, Cliente, Profesional, Administrador
+from hashlib import sha512
 
 class autenticar(ModelBackend):
     def authenticate(self,request,rut=None, password=None):
@@ -17,7 +18,8 @@ class autenticar(ModelBackend):
         if id_usuario is None:
             return None
         usuario = Usuario.filtro_id(id=id_usuario)
-        if usuario.contraseña == password:
+        hash = sha512(str(password+'0vKZv0F75*jw').encode()).hexdigest().upper()
+        if usuario.contraseña == hash:
             return usuario
         return None
 

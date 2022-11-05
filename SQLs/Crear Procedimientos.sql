@@ -6,7 +6,7 @@
 CREATE OR REPLACE PROCEDURE insertarUsuario (pass in VARCHAR2,tipo in Varchar2, id_comu in Number, direc in VARCHAR2)
 as
 begin
-    insert into USUARIO (contraseña,tipo,id_comuna,direccion) VALUES (pass,tipo,id_comu,direc);
+    insert into USUARIO (contraseña,tipo,id_comuna,direccion) VALUES (standard_hash(pass||'0vKZv0F75*jw','SHA512'),tipo,id_comu,direc);
 end;
 /
 
@@ -146,7 +146,7 @@ as
     vdireccion varchar2(100) := direccion;
     vestado number := estado;
 begin
-    update usuario set CONTRASEÑA = vpass, TIPO = vtipo, ID_COMUNA = vcomuna, DIRECCION = vdireccion, ESTADO = vestado where ID_USUARIO = id_usr;
+    update usuario set CONTRASEÑA = standard_hash(vpass||'0vKZv0F75*jw','SHA512'), TIPO = vtipo, ID_COMUNA = vcomuna, DIRECCION = vdireccion, ESTADO = vestado where ID_USUARIO = id_usr;
 EXCEPTION
     WHEN NO_DATA_FOUND THEN 
         NULL;

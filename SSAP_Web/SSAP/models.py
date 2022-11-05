@@ -46,15 +46,15 @@ class Usuario(models.Model):
         return usuario
     def deshabilitar(self, conn=conexion):
         cur = conn.cursor()
-        cur.callproc("ACTUALIZARUSUARIO", [self.id_usuario,self.contraseña, self.tipo, self.id_comuna, self.direccion, 0])
+        cur.callproc("ACTUALIZARUSUARIO", [self.id_usuario,self.contraseña, self.tipo, self.id_comuna, self.direccion, 0,False])
         cur.close()
     def habilitar(self, conn=conexion):
         cur = conn.cursor()
-        cur.callproc("ACTUALIZARUSUARIO", [self.id_usuario,self.contraseña, self.tipo, self.id_comuna, self.direccion, 1])
+        cur.callproc("ACTUALIZARUSUARIO", [self.id_usuario,self.contraseña, self.tipo, self.id_comuna, self.direccion, 1,False])
         cur.close()
     def actualizar(self, conn=conexion):
         cur = conn.cursor()
-        cur.callproc("ACTUALIZARUSUARIO", [self.id_usuario,self.contraseña, self.tipo, self.id_comuna, self.direccion, self.estado])
+        cur.callproc("ACTUALIZARUSUARIO", [self.id_usuario,self.contraseña, self.tipo, self.id_comuna, self.direccion, self.estado,True])
         cur.close()
     class Meta:
         managed = False

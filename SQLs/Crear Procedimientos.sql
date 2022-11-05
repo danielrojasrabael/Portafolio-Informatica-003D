@@ -137,7 +137,7 @@ end;
 -- Modificar Usuarios
 -----------------------------------------
 
-CREATE OR REPLACE PROCEDURE actualizarUsuario(id_usr in number, contraseña in varchar2, tipo in varchar2, IdComuna in number, direccion in varchar2, estado in number)
+CREATE OR REPLACE PROCEDURE actualizarUsuario(id_usr in number, contraseña in varchar2, tipo in varchar2, IdComuna in number, direccion in varchar2, estado in number, hashear in BOOLEAN)
 as
     vid number := id_usr;
     vpass varchar(999) := contraseña;
@@ -146,7 +146,11 @@ as
     vdireccion varchar2(100) := direccion;
     vestado number := estado;
 begin
-    update usuario set CONTRASEÑA = standard_hash(vpass||'0vKZv0F75*jw','SHA512'), TIPO = vtipo, ID_COMUNA = vcomuna, DIRECCION = vdireccion, ESTADO = vestado where ID_USUARIO = id_usr;
+    if hashear then
+        update usuario set CONTRASEÑA = standard_hash(vpass||'0vKZv0F75*jw','SHA512'), TIPO = vtipo, ID_COMUNA = vcomuna, DIRECCION = vdireccion, ESTADO = vestado where ID_USUARIO = id_usr;
+    else
+        update usuario set CONTRASEÑA = vpass, TIPO = vtipo, ID_COMUNA = vcomuna, DIRECCION = vdireccion, ESTADO = vestado where ID_USUARIO = id_usr;
+    end if;
 EXCEPTION
     WHEN NO_DATA_FOUND THEN 
         NULL;

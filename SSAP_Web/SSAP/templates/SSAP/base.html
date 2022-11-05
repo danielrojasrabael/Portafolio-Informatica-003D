@@ -92,14 +92,14 @@
         </nav>
         {%block contenido%}
         {%endblock%}
-        {%if request.session.usuario%}
-        <footer class="pie">
-            <h3> Prototipo </h3>
-        </footer>
-        {%else%}
-        <footer class="pie">
-            <h3><a href="{%url 'contactanos'%}" class="btn btn-primary btn-lg">Contactanos</a></h3>
-        </footer>
-        {%endif%}
     </body>
+    {%if request.session.usuario%}
+    <footer class="pie">
+        <h3> Prototipo </h3>
+    </footer>
+    {%else%}
+    <footer class="pie">
+        <h3><a href="{%url 'contactanos'%}" class="btn btn-primary btn-lg">Contactanos</a></h3>
+    </footer>
+    {%endif%}
 </html>

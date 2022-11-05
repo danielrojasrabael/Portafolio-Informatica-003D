@@ -40,7 +40,11 @@
                                 <div class="col-sm-8">
                                     <h4>
                                         {%if solicitud.archivo%}
-                                            <a href="{% url 'descargar_cli' nombre_archivo=solicitud.archivo%}">{{solicitud.archivo}}</a>
+                                            {%if request.session.usuario.tipo == 'CLIENTE'%}
+                                                <a href="{% url 'descargar_cli' nombre_archivo=solicitud.archivo%}">{{solicitud.archivo}}</a>
+                                            {%elif request.session.usuario.tipo == 'PROFESIONAL'%}
+                                                <a href="{% url 'descargar_prof' nombre_archivo=solicitud.archivo%}">{{solicitud.archivo}}</a>
+                                            {%endif%}
                                         {%else%}
                                             N/A
                                         {%endif%}

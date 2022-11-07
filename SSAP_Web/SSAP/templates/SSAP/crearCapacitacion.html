@@ -19,10 +19,18 @@
                     </div>
                     
                     {% for mensaje in messages %}
-                        <div class="alert alert-danger alert-dismissible fade show col-sm-12" role="alert">
-                            <strong>{{mensaje}}</strong>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
+                        <br>
+                        {% if mensaje.tags == 'error'%}
+                            <div class="alert alert-danger alert-dismissible fade show col-sm-12" role="alert">
+                                <strong>{{mensaje}}</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-primary alert-dismissible fade show col-sm-12" role="alert">
+                                <strong>{{mensaje}}</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endif %}
                     {% endfor %}
 
                     <form id="crearCapacitacion" action="" method="post">

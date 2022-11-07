@@ -10,6 +10,8 @@ Installs Python:
   - pip install djangorestframework
   
   - pip install weasyprint
+ 
+  - pip install stripe
 
   - python .\manage.py createcachetable
   

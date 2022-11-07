@@ -11,12 +11,19 @@
             <div class="espacio">
                 
                 {% for mensaje in messages %}
-                        <br>
+                    <br>
+                    {% if mensaje.tags == 'error'%}
+                        <div class="alert alert-danger alert-dismissible fade show col-sm-12" role="alert">
+                            <strong>{{mensaje}}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% else %}
                         <div class="alert alert-primary alert-dismissible fade show col-sm-12" role="alert">
                             <strong>{{mensaje}}</strong>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
-                    {% endfor %}
+                    {% endif %}
+                {% endfor %}
                 
                 <div style="text-align: center; width: 90%;">
                     <div class="row esp-input">

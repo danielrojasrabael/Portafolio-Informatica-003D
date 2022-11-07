@@ -71,7 +71,7 @@ def logueado(function):
         usuario = Usuario.filtro_id(id=usuarioSesion.id_usuario)
         if usuario.estado == False:
             request.session.__delitem__('usuario')
-            messages.success(request,"Usuario deshabilitado")
+            messages.error(request,"Usuario deshabilitado")
             return redirect('login')
         return function(request, **kwargs)
     return _function
@@ -165,7 +165,7 @@ def contactanos(request):
             )
             messages.success(request, 'Información de contacto enviada exitosamente')
         except:
-            messages.success(request, 'Error: No se ha podido enviar la informacion de contacto')
+            messages.error(request, 'Error: No se ha podido enviar la informacion de contacto')
         return redirect('contactanos')
     return render(request, 'SSAP/contactanos.html')
 
@@ -224,10 +224,10 @@ def crearusuario(request):
         tipos = ['CLIENTE', 'PROFESIONAL','ADMINISTRADOR']
         comunas = ["{}".format(c.id_comuna) for c in Ubicacion.todos()]
         if request.POST['tipo'] not in tipos:
-            messages.success(request,'Error: Tipo de usuario no admitido')
+            messages.error(request,'Error: Tipo de usuario no admitido')
             return redirect('/crearusuario')
         if request.POST['comuna'] not in comunas:
-            messages.success(request,'Error: ID de comuna no admitida')
+            messages.error(request,'Error: ID de comuna no admitida')
             return redirect('/crearusuario')
         if filtroRutC is None and filtroRutP is None and filtroRutA is None:
             nuevoUsr = Usuario(
@@ -278,7 +278,7 @@ def crearusuario(request):
                 messages.success(request,'Administrador Creado')
                 return redirect('/crearusuario')
         else:
-            messages.success(request,'Registro Incorrecto: Rut duplicado')
+            messages.error(request,'Registro Incorrecto: Rut duplicado')
             return redirect('/crearusuario')
     return render(request, "SSAP\crearusuario.html", {'profesionales':profesionales, 'ubicaciones':opciones})
 
@@ -295,7 +295,7 @@ def modificarUsuario(request):
     elif request.method=='POST' and 'rutViejo' in request.POST:
         comunas = ["{}".format(c.id_comuna) for c in Ubicacion.todos()]
         if request.POST['comuna'] not in comunas:
-            messages.success(request,'Error: ID de comuna no admitida')
+            messages.error(request,'Error: ID de comuna no admitida')
             return redirect('gestionusuario')
         usuario = Usuario.filtro_id(id=request.POST['id_usr'])
         usuario.id_comuna = request.POST['comuna']
@@ -482,13 +482,13 @@ def confirmarPago(request):
                 description='Renovación de contrato servicio "SSAP"'
             )
         except stripe.error.CardError as e:
-            messages.success(request,'Ocurrió un error con el pago: {}'.format(e.user_message))
+            messages.error(request,'Ocurrió un error con el pago: {}'.format(e.user_message))
             return redirect('pagos')
         except stripe.error.APIConnectionError:
-            messages.success(request,'Error: No se pudo conectar con stripe para pagar, intentelo más tarde.')
+            messages.error(request,'Error: No se pudo conectar con stripe para pagar, intentelo más tarde.')
             return redirect('pagos')
         except:
-            messages.success(request,'Ocurrió un error Inesperado, intentelo más tade.')
+            messages.error(request,'Ocurrió un error Inesperado, intentelo más tade.')
             return redirect('pagos')
 
         #Actualizar mensualidad
@@ -539,10 +539,10 @@ def crearSolicitud(request):
             nombre_archivo = request.FILES['archivo'].name
             #Tamaño en bytes/1000000 / tamaño en mb
             if request.FILES['archivo'].size/1000000 > 20:
-                messages.success(request,"Error: Tamaño de archivo máximo: 20MB")
+                messages.error(request,"Error: Tamaño de archivo máximo: 20MB")
                 return redirect('crearsolicitud')
             if not nombre_archivo.endswith(('.pdf','.rar','.zip','.png','.jpg','.jpeg','.txt')):
-                messages.success(request,"Error: Tipo de archivo no admitido")
+                messages.error(request,"Error: Tipo de archivo no admitido")
                 return redirect('crearsolicitud')
             nombre_archivo = cliente.rut+str(datetime.now().strftime("%d%m%Y"))+nombre_archivo
             fs = FileSystemStorage(location=str(settings.MEDIA_ROOT)+"/SOLICITUDES/")
@@ -576,7 +576,7 @@ def crearSolicitud(request):
             messages.success(request,"Capacitación del día "+str(datetime.now().strftime("%d/%m/%Y"))+" guardada.")
             return redirect('solicitudes')
         else:
-            messages.success(request,"Tipo de solicitud no admitida")
+            messages.error(request,"Tipo de solicitud no admitida")
             return redirect('solicitudes')
     return render(request, 'SSAP/crearsolicitud.html')
 
@@ -769,10 +769,10 @@ def programarVisita(request, id):
         ultimo_dia= "{}/{}/{}".format(visita.periodo.year,visita.periodo.month,calendar.monthrange(visita.periodo.year, visita.periodo.month)[1])
         comunas = ["{}".format(c.id_comuna) for c in Ubicacion.todos()]
         if visita.fecha < visita.periodo or visita.fecha > datetime.strptime(ultimo_dia, '%Y/%m/%d'):
-            messages.success(request, "Error: Visita fuera de rango")
+            messages.error(request, "Error: Visita fuera de rango")
             return redirect('visitas')
         if visita.COMUNA_id_comuna not in comunas:
-            messages.success(request, "Error: Id de comuna fuera de rango")
+            messages.error(request, "Error: Id de comuna fuera de rango")
             return redirect('visitas')
         visita.modificar()
         notificacion = Notificacion(
@@ -803,7 +803,7 @@ def iniciarVisita(request, id):
         checklist = Checklist.filtro_idcontrato(contrato.id_contrato)
         items = str(checklist.elementos).split(",")
         if checklist.elementos is None:
-            messages.success(request,"Error: El cliente {} necesita al menos un elemento en su checklist".format(cliente.nombre_empresa))
+            messages.error(request,"Error: El cliente {} necesita al menos un elemento en su checklist".format(cliente.nombre_empresa))
             return redirect('visitas')
     else:
         return redirect('visitas')
@@ -969,11 +969,11 @@ def crearCapacitacion(request):
     if request.method == 'POST':
         # Validaciones
         if request.POST['nombre_empresa'] not in ruts:
-            messages.success(request, 'Error: Rut de cliente no está en sus contratos')
+            messages.error(request, 'Error: Rut de cliente no está en sus contratos')
             return redirect('crearCapacitacion')
         comunas = ["{}".format(c.id_comuna) for c in Ubicacion.todos()]
         if request.POST['comuna'] not in comunas:
-            messages.success(request, 'Error: Id de comuna no existe')
+            messages.error(request, 'Error: Id de comuna no existe')
             return redirect('crearCapacitacion')
 
         # Guardar capacitacion
@@ -1059,7 +1059,7 @@ def responder_solicitud(request, id_sol):
         #Validar la comuna
         comunas = ["{}".format(c.id_comuna) for c in Ubicacion.todos()]
         if request.POST['comuna'] not in comunas:
-            messages.success(request, 'Error: Id de comuna no existe')
+            messages.error(request, 'Error: Id de comuna no existe')
             return redirect('solicitudes_prof')
 
         capacitacion = Capacitacion(

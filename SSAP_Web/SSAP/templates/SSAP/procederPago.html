@@ -1,0 +1,63 @@
+{%extends 'SSAP/base.html'%}
+{%load static%}
+{%block titulo%}SSAP | Pago N°{{mensualidad.id_mensualidad}}{%endblock%}
+{%block head%}
+<script src="https://js.stripe.com/v3/"></script>
+<script src="{%static 'js/procederPago.js'%}"></script>
+{%endblock%}
+{%block contenido%}
+<div class="fondo-global">
+    <div class="fondo-falso">
+        <div class="contenedor">
+            <div class="espacio">
+
+                <div style="text-align: center; width: 90%;">
+                    <div class="row esp-input col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+                            <h1 class="card-title tx-gradiente-p">Proceder con el Pago</h1>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <form id="payment-form" method="post" action="{% url 'confirmar_pago' %}">
+                        {% csrf_token %}
+                        <div class="row esp-input">
+                            <div class="row esp-input col-sm-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input type="hidden" value="{{mensualidad.id_mensualidad}}" name="id">
+                                        <h4 style="text-align: left;">
+                                            Producto: Renovación de contrato servicio "SSAP"<br>
+                                            <hr>
+                                            Total: ${{mensualidad.costo}}
+                                        </h4>
+                                        <hr>
+                                            <div id="card-element" class="form-control form-control-lg col-sm-12">
+                                                <!-- Elements will create input elements here -->
+                                            </div>
+                                            
+                                            <!-- We'll put the error messages in this element -->
+                                            <div id="card-errors" role="alert"></div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row esp-input col-sm-12">
+                                <div class="col-sm-6">
+                                    <a class="btn btn-back btn-lg col-sm-12" href="{% url 'pagos' %}">Volver</a>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="submit" class="btn btn-success btn-lg col-sm-12" value="Pagar"></input>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

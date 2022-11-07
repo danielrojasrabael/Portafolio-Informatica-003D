@@ -48,6 +48,7 @@ urlpatterns = [
     path('visitas_cli/',views.visitasCli,name='visitas_cli'),
     path('visita_cliente/<nombre>',views.visita_cliente,name="visita_cliente"),
     path('descargar_cli/<nombre_archivo>',views.descargar_cli,name="descargar_cli"),
+    path('confirmar_pago/',views.confirmarPago,name="confirmar_pago"),
     #   ------------------------ Profesional ------------------------
     path('verclientes/', views.verClientes, name="verclientes"),
     path('checklists/', views.checklists, name="checklists"),

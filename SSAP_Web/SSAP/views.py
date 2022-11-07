@@ -23,6 +23,10 @@ from django.template.loader import get_template
 from weasyprint import HTML, CSS
 import os
 
+#Pagos
+import stripe
+stripe.api_key = 'sk_test_51M1Iv7LIZZcOrtruCxeiGHubzCoGAoTNOP8L7P3IJZoLr2uiVHoEJoMoJPmVkgpgMqDRukfvztJnc4zdd0SSK835007fuC8e3z'
+
 # Funciones
 def func_logout(request):
     request.session.__delitem__('usuario')
@@ -431,6 +435,27 @@ def pagar(request):
         cliente = request.session.get('subtipo')
         contrato = Contrato.filtro_rutcliente(cliente.rut)
         mensualidad = Mensualidad.filtro_id(request.POST['id'])
+
+        #Validaciones
+        ids = []
+        for m in Mensualidad.todos_idcontrato(contrato.id_contrato):
+            ids.append(m.id_mensualidad)
+        if mensualidad.id_mensualidad not in ids:
+            return redirect('pagos')
+        if mensualidad.estado:
+            return redirect('pagos')
+
+        return render(request,'SSAP/procederPago.html',{'mensualidad':mensualidad})
+    return redirect('pagos')
+
+@logueado
+@esCliente
+def confirmarPago(request):
+    if request.method == 'POST':
+        #Inicializar Variables
+        cliente = request.session.get('subtipo')
+        contrato = Contrato.filtro_rutcliente(cliente.rut)
+        mensualidad = Mensualidad.filtro_id(request.POST['id'])
         nombre_archivo = cliente.rut+str(datetime.now().strftime("%d%m%Y"))+str(mensualidad.id_mensualidad)+".pdf"
         ruta_pdf = str(settings.MEDIA_ROOT)+"/BOLETAS/"+nombre_archivo
 
@@ -443,6 +468,18 @@ def pagar(request):
         if mensualidad.estado:
             return redirect('pagos')
 
+        #Proceder al pago
+        stripe_Cliente = stripe.Customer.create(
+            name = cliente.nombre_empresa,
+            source = request.POST['stripeToken']
+        )
+
+        stripe.Charge.create(
+            customer = stripe_Cliente,
+            amount = mensualidad.costo,
+            currency='clp',
+            description='Renovación de contrato servicio "SSAP"'
+        )
         #Actualizar mensualidad
         mensualidad.estado = 1
         mensualidad.fecha_pago = datetime.now()

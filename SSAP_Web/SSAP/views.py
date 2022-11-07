@@ -469,17 +469,28 @@ def confirmarPago(request):
             return redirect('pagos')
 
         #Proceder al pago
-        stripe_Cliente = stripe.Customer.create(
-            name = cliente.nombre_empresa,
-            source = request.POST['stripeToken']
-        )
+        try:
+            stripe_Cliente = stripe.Customer.create(
+                name = cliente.nombre_empresa,
+                source = request.POST['stripeToken']
+            )
 
-        stripe.Charge.create(
-            customer = stripe_Cliente,
-            amount = mensualidad.costo,
-            currency='clp',
-            description='Renovación de contrato servicio "SSAP"'
-        )
+            stripe.Charge.create(
+                customer = stripe_Cliente,
+                amount = mensualidad.costo,
+                currency='clp',
+                description='Renovación de contrato servicio "SSAP"'
+            )
+        except stripe.error.CardError as e:
+            messages.success(request,'Ocurrió un error con el pago: {}'.format(e.user_message))
+            return redirect('pagos')
+        except stripe.error.APIConnectionError:
+            messages.success(request,'Error: No se pudo conectar con stripe para pagar, intentelo más tarde.')
+            return redirect('pagos')
+        except:
+            messages.success(request,'Ocurrió un error Inesperado, intentelo más tade.')
+            return redirect('pagos')
+
         #Actualizar mensualidad
         mensualidad.estado = 1
         mensualidad.fecha_pago = datetime.now()

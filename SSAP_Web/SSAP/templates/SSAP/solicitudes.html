@@ -15,13 +15,14 @@
                     </div>
                 </div>
 
-                <!--<div class="row esp-input col-sm-12">
+                <div class="row esp-input col-sm-12">
                     <div class="card">
                         <div class="card-body">
-                            <h2>Te quedan: <strong class="tx-gradiente-am">7</strong> Solicitudes (las demas seran <strong>cargadas</strong>)</h2>
+                            <h2>Te quedan: <strong class="tx-gradiente-am">{% if cantidad_solicitudes > 0%}{{cantidad_solicitudes}}</strong> Solicitudes gratuitas{% else %}0</strong> Solicitudes gratuitas, las siguientes serán cargadas{%endif%}</h2>
+                            <h5>(Nota: Los accidentes no son cargados y solo aplica en solicitudes aprobadas)</h5>
                         </div>
                     </div>
-                </div>-->
+                </div>
 
                 {% for mensaje in messages %}
                     <br>

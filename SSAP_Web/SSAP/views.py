@@ -535,9 +535,10 @@ def boleta_cli(request, nombre):
 @esCliente
 def solicitudes(request):
     cliente = request.session.get('subtipo')
+    cantidad_solicitudes = Cliente.filtro_rut(rut=cliente.rut).cont_solicitudes
     contrato = Contrato.filtro_rutcliente(rut=cliente.rut)
     solicitudes = Solicitud.todos_idcontrato(contrato.id_contrato)
-    return render(request, 'SSAP/solicitudes.html', {'solicitudes':solicitudes})
+    return render(request, 'SSAP/solicitudes.html', {'solicitudes':solicitudes,'cantidad_solicitudes':cantidad_solicitudes})
 
 @logueado
 @esCliente
@@ -1084,6 +1085,8 @@ def responder_solicitud(request, id_sol):
         capacitacion.guardar()
         solicitud.estado = 'RESUELTA'
         solicitud.actualizar()
+
+        # Enviar la notificación al cliente
         notificacion = Notificacion(
             titulo = "Solicitud de Capacitación Respondida",
             descripcion = "Se le informa que una solicitud de capacitación fue respondida y la capacitación será realizada el día {}, visite el módulo de capacitaciones para más información.".format(capacitacion.fecha.strftime("%d/%m/%Y")),
@@ -1091,6 +1094,11 @@ def responder_solicitud(request, id_sol):
             CLIENTE_rut = rut_cliente
         )
         notificacion.guardar()
+
+        # Descontarle la cantidad de solicitudes disponibles
+        cliente = Cliente.filtro_rut(rut=rut_cliente)
+        cliente.cont_solicitudes -= 1
+        cliente.actualizar()
         messages.success(request, 'Capacitación creada exitosamente')
         return redirect('solicitudes_prof')
     
@@ -1099,6 +1107,7 @@ def responder_solicitud(request, id_sol):
         solicitud.estado = 'RESUELTA'
         solicitud.respuesta = request.POST['respuesta_accidente']
         solicitud.actualizar()
+        # Enviar la notificación al cliente
         notificacion = Notificacion(
             titulo = "Asesoría de Accidente Respondida",
             descripcion = "Se le informa que existe una respuesta al accidente ocurrido el dia {}, visite la página de solicitudes para más información.".format(solicitud.fecha_publicacion.strftime("%d/%m/%Y")),
@@ -1115,6 +1124,8 @@ def responder_solicitud(request, id_sol):
         solicitud.estado = 'RESUELTA'
         solicitud.respuesta = "Se ha creado una instancia de visita por programar, revise la página de visitas."
         solicitud.actualizar()
+
+        # Enviar la notificación al cliente
         notificacion = Notificacion(
             titulo = "Asesoría de Visita Respondida",
             descripcion = "Se le informa que ya se ha creado una instancia de visita según la solicitud del día {}, visite la página de visitas para más información.".format(solicitud.fecha_publicacion.strftime("%d/%m/%Y")),
@@ -1122,6 +1133,11 @@ def responder_solicitud(request, id_sol):
             CLIENTE_rut = rut_cliente
         )
         notificacion.guardar()
+
+        # Descontarle la cantidad de solicitudes disponibles
+        cliente = Cliente.filtro_rut(rut=rut_cliente)
+        cliente.cont_solicitudes -= 1
+        cliente.actualizar()
         messages.success(request, 'Nueva instancia de visita creada exitosamente')
         return redirect('solicitudes_prof')
     return render(request,'SSAP/responder_solicitud.html',{'solicitud':solicitud,'comunas':comunas})

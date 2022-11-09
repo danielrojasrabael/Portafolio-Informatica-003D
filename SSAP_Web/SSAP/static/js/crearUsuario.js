@@ -38,6 +38,11 @@ $(document).ready(function(){
                 minlength: 4,
                 equalTo: "#id_password1",
             },
+            email:{
+                required: true,
+                maxlength: 150,
+                email: true
+            },
             comuna:{
                 required: true
             },
@@ -89,6 +94,11 @@ $(document).ready(function(){
                 required: "Campo Requerido",
                 minlength: "4 carácteres mínimo",
                 equalTo: "Ambas contraseñas deben ser iguales",
+            },
+            email:{
+                required: "Campo Requerido",
+                maxlength: "Máximo 150 carácteres",
+                email: "Ingrese un mail válido"
             },
             comuna:{
                 required: "Campo Requerido"

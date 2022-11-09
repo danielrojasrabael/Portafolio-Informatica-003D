@@ -3,10 +3,10 @@
 -----------------------------------------
 -- Ingresar Usuarios
 -----------------------------------------
-CREATE OR REPLACE PROCEDURE insertarUsuario (pass in VARCHAR2,tipo in Varchar2, id_comu in Number, direc in VARCHAR2)
+CREATE OR REPLACE PROCEDURE insertarUsuario (pass in VARCHAR2,tipo in Varchar2, id_comu in Number, direc in VARCHAR2, correo_v in VARCHAR2)
 as
 begin
-    insert into USUARIO (contraseña,tipo,id_comuna,direccion) VALUES (standard_hash(pass||'0vKZv0F75*jw','SHA512'),tipo,id_comu,direc);
+    insert into USUARIO (contraseña,tipo,id_comuna,direccion, correo) VALUES (standard_hash(pass||'0vKZv0F75*jw','SHA512'),tipo,id_comu,direc,correo_v);
 end;
 /
 
@@ -15,7 +15,7 @@ CREATE OR REPLACE PROCEDURE insertarCliente (id_usu in NUMBER,rutCli in VARCHAR2
 as
 begin
 
-    insert into CLIENTES (id_usuario,rut_cliente,nombre_empresa,rubro_empresa,cant_trabajadores) VALUES (id_usu,rutCli,nomEmpre,rubroEmpre,cant);
+    insert into CLIENTES (id_usuario,rut_cliente,nombre_empresa,rubro_empresa,cant_trabajadores, contador_solicitud) VALUES (id_usu,rutCli,nomEmpre,rubroEmpre,cant, 10);
 end;
 /
 
@@ -43,9 +43,9 @@ CREATE OR REPLACE PROCEDURE seleccionarUsuarios (registro out SYS_REFCURSOR, ord
 as
 begin
     if order_id then
-        open registro for select ID_USUARIO ,"CONTRASEÑA" ,TIPO ,ID_COMUNA ,DIRECCION ,ESTADO  from usuario ORDER BY id_usuario;
+        open registro for select ID_USUARIO ,"CONTRASEÑA" ,TIPO ,ID_COMUNA ,DIRECCION ,ESTADO, CORREO  from usuario ORDER BY id_usuario;
     else
-        open registro for select ID_USUARIO ,"CONTRASEÑA" ,TIPO ,ID_COMUNA ,DIRECCION ,ESTADO  from usuario ORDER BY estado desc;
+        open registro for select ID_USUARIO ,"CONTRASEÑA" ,TIPO ,ID_COMUNA ,DIRECCION ,ESTADO, CORREO  from usuario ORDER BY estado desc;
     end if;
 end;
 /
@@ -53,7 +53,7 @@ end;
 CREATE OR REPLACE PROCEDURE usuario_PORID (registro out SYS_REFCURSOR, idUsr in NUMBER)
 as
 begin
-    open registro for select ID_USUARIO ,"CONTRASEÑA" ,TIPO ,ID_COMUNA ,DIRECCION ,ESTADO  from usuario where id_usuario = idUsr;
+    open registro for select ID_USUARIO ,"CONTRASEÑA" ,TIPO ,ID_COMUNA ,DIRECCION ,ESTADO, CORREO  from usuario where id_usuario = idUsr;
 end;
 /
 
@@ -64,7 +64,7 @@ CREATE OR REPLACE PROCEDURE seleccionarClientes (registro out SYS_REFCURSOR)
 as
 begin
     
-    open registro for select ID_USUARIO ,RUT_CLIENTE ,NOMBRE_EMPRESA ,RUBRO_EMPRESA ,CANT_TRABAJADORES  from Clientes;
+    open registro for select ID_USUARIO ,RUT_CLIENTE ,NOMBRE_EMPRESA ,RUBRO_EMPRESA ,CANT_TRABAJADORES,CONTADOR_SOLICITUD  from Clientes;
 
 end;
 /
@@ -72,14 +72,14 @@ end;
 CREATE OR REPLACE PROCEDURE cliente_PorRut (registro out SYS_REFCURSOR, rutCli in VARCHAR2)
 as
 begin
-    open registro for select ID_USUARIO ,RUT_CLIENTE ,NOMBRE_EMPRESA ,RUBRO_EMPRESA ,CANT_TRABAJADORES  from Clientes where rut_cliente = rutCli;
+    open registro for select ID_USUARIO ,RUT_CLIENTE ,NOMBRE_EMPRESA ,RUBRO_EMPRESA ,CANT_TRABAJADORES,CONTADOR_SOLICITUD  from Clientes where rut_cliente = rutCli;
 end;
 /
 
 CREATE OR REPLACE PROCEDURE cliente_PorId (registro out SYS_REFCURSOR, idCli in VARCHAR2)
 as
 begin
-    open registro for select ID_USUARIO ,RUT_CLIENTE ,NOMBRE_EMPRESA ,RUBRO_EMPRESA ,CANT_TRABAJADORES  from Clientes where ID_USUARIO = idCli;
+    open registro for select ID_USUARIO ,RUT_CLIENTE ,NOMBRE_EMPRESA ,RUBRO_EMPRESA ,CANT_TRABAJADORES,CONTADOR_SOLICITUD  from Clientes where ID_USUARIO = idCli;
 end;
 /
 -----------------------------------------
@@ -137,7 +137,7 @@ end;
 -- Modificar Usuarios
 -----------------------------------------
 
-CREATE OR REPLACE PROCEDURE actualizarUsuario(id_usr in number, contraseña in varchar2, tipo in varchar2, IdComuna in number, direccion in varchar2, estado in number, hashear in BOOLEAN)
+CREATE OR REPLACE PROCEDURE actualizarUsuario(id_usr in number, contraseña in varchar2, tipo in varchar2, IdComuna in number, direccion in varchar2, estado in number, hashear in BOOLEAN, correo in VARCHAR2)
 as
     vid number := id_usr;
     vpass varchar(999) := contraseña;
@@ -145,11 +145,12 @@ as
     vcomuna number := IdComuna;
     vdireccion varchar2(100) := direccion;
     vestado number := estado;
+    vcorreo varchar2(200) := correo;
 begin
     if hashear then
-        update usuario set CONTRASEÑA = standard_hash(vpass||'0vKZv0F75*jw','SHA512'), TIPO = vtipo, ID_COMUNA = vcomuna, DIRECCION = vdireccion, ESTADO = vestado where ID_USUARIO = id_usr;
+        update usuario set CONTRASEÑA = standard_hash(vpass||'0vKZv0F75*jw','SHA512'), TIPO = vtipo, ID_COMUNA = vcomuna, DIRECCION = vdireccion, ESTADO = vestado, CORREO = vcorreo where ID_USUARIO = id_usr;
     else
-        update usuario set CONTRASEÑA = vpass, TIPO = vtipo, ID_COMUNA = vcomuna, DIRECCION = vdireccion, ESTADO = vestado where ID_USUARIO = id_usr;
+        update usuario set CONTRASEÑA = vpass, TIPO = vtipo, ID_COMUNA = vcomuna, DIRECCION = vdireccion, ESTADO = vestado, CORREO = vcorreo where ID_USUARIO = id_usr;
     end if;
 EXCEPTION
     WHEN NO_DATA_FOUND THEN 
@@ -159,15 +160,16 @@ EXCEPTION
 end actualizarUsuario;
 /
 
-CREATE OR REPLACE PROCEDURE actualizarCliente(id_usr in number, rut_usr in varchar2, nombre in varchar2, rubro in varchar2, c_trab in number)
+CREATE OR REPLACE PROCEDURE actualizarCliente(id_usr in number, rut_usr in varchar2, nombre in varchar2, rubro in varchar2, c_trab in number, c_solicitud in number)
 as
     vid number := id_usr;
     vrut varchar2(13) := rut_usr;
     vnombre varchar2(200) := nombre;
     vrubro varchar2(200) := rubro;
     vctrab number := c_trab;
+    vcsolicitud number := c_solicitud;
 begin
-    update clientes set ID_USUARIO = vid, RUT_CLIENTE = vrut, NOMBRE_EMPRESA = vnombre, RUBRO_EMPRESA = vrubro, CANT_TRABAJADORES = vctrab WHERE ID_USUARIO = vid;
+    update clientes set ID_USUARIO = vid, RUT_CLIENTE = vrut, NOMBRE_EMPRESA = vnombre, RUBRO_EMPRESA = vrubro, CANT_TRABAJADORES = vctrab, CONTADOR_SOLICITUD = vcsolicitud WHERE ID_USUARIO = vid;
 EXCEPTION
     WHEN NO_DATA_FOUND THEN 
         NULL;

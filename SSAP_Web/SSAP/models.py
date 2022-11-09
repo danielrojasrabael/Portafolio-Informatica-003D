@@ -19,9 +19,10 @@ class Usuario(models.Model):
     id_comuna = models.CharField(max_length=999)
     direccion = models.CharField(max_length=999)
     estado = models.IntegerField()
+    correo = models.CharField(max_length=999)
     def guardar(self, conn=conexion):
         cur = conn.cursor()
-        cur.callproc("INSERTARUSUARIO", [self.contraseña, self.tipo, self.id_comuna, self.direccion])
+        cur.callproc("INSERTARUSUARIO", [self.contraseña, self.tipo, self.id_comuna, self.direccion, self.correo])
         cur.close()
     def todos(orden_id=False, conn=conexion):
         cur = conn.cursor()
@@ -29,7 +30,7 @@ class Usuario(models.Model):
         cur.callproc("SELECCIONARUSUARIOS", [datos, orden_id])
         lista = []
         for i in datos:
-            usuario = Usuario(id_usuario=i[0],contraseña=i[1],tipo=i[2],id_comuna=i[3],direccion=i[4], estado=i[5])
+            usuario = Usuario(id_usuario=i[0],contraseña=i[1],tipo=i[2],id_comuna=i[3],direccion=i[4], estado=i[5], correo=i[6])
             lista.append(usuario)
         cur.close()
         datos.close()
@@ -40,21 +41,21 @@ class Usuario(models.Model):
         usuario = None
         cur.callproc("USUARIO_PORID", [datos, id])
         for i in datos:
-            usuario = Usuario(id_usuario=i[0],contraseña=i[1],tipo=i[2],id_comuna=i[3],direccion=i[4], estado=i[5])
+            usuario = Usuario(id_usuario=i[0],contraseña=i[1],tipo=i[2],id_comuna=i[3],direccion=i[4], estado=i[5], correo=i[6])
         cur.close()
         datos.close()
         return usuario
     def deshabilitar(self, conn=conexion):
         cur = conn.cursor()
-        cur.callproc("ACTUALIZARUSUARIO", [self.id_usuario,self.contraseña, self.tipo, self.id_comuna, self.direccion, 0,False])
+        cur.callproc("ACTUALIZARUSUARIO", [self.id_usuario,self.contraseña, self.tipo, self.id_comuna, self.direccion, 0,False, self.correo])
         cur.close()
     def habilitar(self, conn=conexion):
         cur = conn.cursor()
-        cur.callproc("ACTUALIZARUSUARIO", [self.id_usuario,self.contraseña, self.tipo, self.id_comuna, self.direccion, 1,False])
+        cur.callproc("ACTUALIZARUSUARIO", [self.id_usuario,self.contraseña, self.tipo, self.id_comuna, self.direccion, 1,False, self.correo])
         cur.close()
     def actualizar(self, conn=conexion):
         cur = conn.cursor()
-        cur.callproc("ACTUALIZARUSUARIO", [self.id_usuario,self.contraseña, self.tipo, self.id_comuna, self.direccion, self.estado,True])
+        cur.callproc("ACTUALIZARUSUARIO", [self.id_usuario,self.contraseña, self.tipo, self.id_comuna, self.direccion, self.estado,True, self.correo])
         cur.close()
     class Meta:
         managed = False
@@ -65,6 +66,7 @@ class Cliente(models.Model):
     nombre_empresa = models.CharField(max_length=999)
     rubro_empresa = models.CharField(max_length=999)
     cant_trabajadores = models.IntegerField()
+    cont_solicitudes = models.IntegerField()
     def guardar(self, conn=conexion):
         cur = conn.cursor()
         cur.callproc("INSERTARCLIENTE", [self.id_usuario, self.rut, self.nombre_empresa, self.rubro_empresa, self.cant_trabajadores])
@@ -75,7 +77,7 @@ class Cliente(models.Model):
         cur.callproc("SELECCIONARCLIENTES", [datos])
         lista = []
         for i in datos:
-            cliente = Cliente(id_usuario=i[0],rut=i[1],nombre_empresa=i[2],rubro_empresa=i[3],cant_trabajadores=i[4])
+            cliente = Cliente(id_usuario=i[0],rut=i[1],nombre_empresa=i[2],rubro_empresa=i[3],cant_trabajadores=i[4], cont_solicitudes=i[5])
             lista.append(cliente)
         cur.close()
         datos.close()
@@ -86,7 +88,7 @@ class Cliente(models.Model):
         cliente = None
         cur.callproc("CLIENTE_PORRUT", [datos,rut])
         for i in datos:
-            cliente = Cliente(id_usuario=i[0],rut=i[1],nombre_empresa=i[2],rubro_empresa=i[3],cant_trabajadores=i[4])
+            cliente = Cliente(id_usuario=i[0],rut=i[1],nombre_empresa=i[2],rubro_empresa=i[3],cant_trabajadores=i[4], cont_solicitudes=i[5])
         cur.close()
         datos.close()
         return cliente
@@ -96,13 +98,13 @@ class Cliente(models.Model):
         cliente = None
         cur.callproc("CLIENTE_PORID", [datos,id])
         for i in datos:
-            cliente = Cliente(id_usuario=i[0],rut=i[1],nombre_empresa=i[2],rubro_empresa=i[3],cant_trabajadores=i[4])
+            cliente = Cliente(id_usuario=i[0],rut=i[1],nombre_empresa=i[2],rubro_empresa=i[3],cant_trabajadores=i[4], cont_solicitudes=i[5])
         cur.close()
         datos.close()
         return cliente
     def actualizar(self, conn=conexion):
         cur = conn.cursor()
-        cur.callproc("ACTUALIZARCLIENTE", [self.id_usuario, self.rut, self.nombre_empresa, self.rubro_empresa, self.cant_trabajadores])
+        cur.callproc("ACTUALIZARCLIENTE", [self.id_usuario, self.rut, self.nombre_empresa, self.rubro_empresa, self.cant_trabajadores,self.cont_solicitudes])
         cur.close()
     class Meta:
         managed = False

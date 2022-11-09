@@ -234,7 +234,8 @@ def crearusuario(request):
                 contraseña=request.POST['password1'],
                 tipo = request.POST['tipo'],
                 id_comuna = request.POST['comuna'],
-                direccion = request.POST['direccion']
+                direccion = request.POST['direccion'],
+                correo = request.POST['email']
             )
             nuevoUsr.guardar()
             id_usr = Usuario.todos(orden_id=True)[-1].id_usuario
@@ -301,6 +302,7 @@ def modificarUsuario(request):
         usuario.id_comuna = request.POST['comuna']
         usuario.contraseña = request.POST['password1']
         usuario.direccion = request.POST['direccion']
+        usuario.correo = request.POST['email']
         if(usuario.tipo=='CLIENTE'):
             cliente = Cliente.filtro_id(usuario.id_usuario)
             cliente.nombre_empresa = request.POST['nombre_empresa']

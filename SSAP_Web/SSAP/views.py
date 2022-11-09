@@ -25,7 +25,7 @@ import os
 
 #Pagos
 import stripe
-stripe.api_key = 'sk_test_51M1Iv7LIZZcOrtruCxeiGHubzCoGAoTNOP8L7P3IJZoLr2uiVHoEJoMoJPmVkgpgMqDRukfvztJnc4zdd0SSK835007fuC8e3z'
+stripe.api_key = ''
 
 # Funciones
 def func_logout(request):

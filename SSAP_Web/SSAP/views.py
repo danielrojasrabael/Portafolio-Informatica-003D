@@ -142,6 +142,10 @@ def login(request):
 
 def contactanos(request):
     if request.method == 'POST':
+        mails_adm = []
+        for u in Usuario.todos():
+            if u.tipo == 'ADMINISTRADOR':
+                mails_adm.append(u.correo)
         tema = "Contacto empresa: "+ request.POST['nombre']
         mensaje = '''
         <center><h2>No más Accidentes | Contacto de empresa</h2></center>
@@ -159,7 +163,7 @@ def contactanos(request):
                 tema,
                 strip_tags(mensaje),
                 'no-reply.nma@outlook.com',
-                ['no-reply.nma@outlook.com'],
+                mails_adm,
                 fail_silently=False,
                 html_message=mensaje
             )
@@ -354,6 +358,11 @@ def reportarAtraso(request):
             CLIENTE_rut = request.POST['rut_cliente']
         )
         notificacion.guardar()
+        try:
+            notificacion.mail()
+            messages.success(request,"Notificación enviada correctamente")
+        except:
+            messages.warning(request,"Se envió la notificación, pero es posible que el correo no se haya enviado correctamente.")
         return redirect('/controlpagos/'+request.POST['rut_cliente'])
     return redirect('index')
 

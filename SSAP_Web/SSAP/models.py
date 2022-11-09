@@ -5,6 +5,9 @@ from django.db import models
 from datetime import date
 import cx_Oracle
 
+from django.core.mail import send_mail
+from django.utils.html import strip_tags
+
 # Variables
 
 conexion = cx_Oracle.connect(user="SSAP", password="123456", dsn="localhost:1522/ORCL1")
@@ -230,7 +233,6 @@ class Contrato(models.Model):
     CLIENTE_rut = models.CharField(max_length=999)
     PROFESIONAL_rut = models.CharField(max_length=999)
     NOMBRE_contrato = models.CharField(max_length=999)
-
     def guardar(self, conn=conexion):
         cur = conn.cursor()
         cur.callproc("INSERTARCONTRATO", [self.costo_base, self.fecha_firma, self.CLIENTE_rut, self.PROFESIONAL_rut])
@@ -359,6 +361,21 @@ class Notificacion(models.Model):
         cur = conn.cursor()
         cur.callproc("ELIMINARNOTIFICACION", [id,rut])
         cur.close()
+    def mail(self):
+        cliente = Cliente.filtro_rut(rut=self.CLIENTE_rut)
+        usuario = Usuario.filtro_id(id=cliente.id_usuario)
+        mensaje = '''
+        <center><h2>Nueva Notificación de SSAP: {}</h2></center>
+        <hr>
+        <h4>{}</h4>
+        '''.format(self.titulo,self.descripcion)
+        send_mail(
+            "Notificción SSAP | {}".format(self.titulo),
+            strip_tags(mensaje),
+            'no-reply.nma@outlook.com',
+            [usuario.correo],
+            fail_silently=False,
+            html_message=mensaje)
     class Meta:
         managed = False
 

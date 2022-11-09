@@ -26,6 +26,22 @@
                         </div>
                     </div>
                 </div>
+
+                {% for mensaje in messages %}
+                    <br>
+                    {% if mensaje.tags == 'warning'%}
+                        <div class="alert alert-warning alert-dismissible fade show col-sm-12" role="alert">
+                            <strong>{{mensaje}}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-primary alert-dismissible fade show col-sm-12" role="alert">
+                            <strong>{{mensaje}}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
                 <table class="table table-responsive table-light table-striped align-middle">
                     <thead>
                         <tr>

@@ -7,6 +7,7 @@ import cx_Oracle
 
 from django.core.mail import send_mail
 from django.utils.html import strip_tags
+from django.conf import settings
 
 # Variables
 
@@ -372,7 +373,7 @@ class Notificacion(models.Model):
         send_mail(
             "Notificción SSAP | {}".format(self.titulo),
             strip_tags(mensaje),
-            'no-reply.nma@outlook.com',
+            settings.EMAIL_HOST_USER,
             [usuario.correo],
             fail_silently=False,
             html_message=mensaje)

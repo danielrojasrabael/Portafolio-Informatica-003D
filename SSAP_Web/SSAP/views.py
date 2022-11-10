@@ -162,7 +162,7 @@ def contactanos(request):
             send_mail(
                 tema,
                 strip_tags(mensaje),
-                'no-reply.nma@outlook.com',
+                settings.EMAIL_HOST_USER,
                 mails_adm,
                 fail_silently=False,
                 html_message=mensaje

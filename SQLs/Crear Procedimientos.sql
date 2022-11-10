@@ -603,7 +603,7 @@ BEGIN
         job_name => 'ejecucionMensual_JOB',
         job_type => 'PLSQL_BLOCK',
         job_action => 'ejecucionMensual;',
-        start_date => '01-12-2022 00:00:00',
+        start_date => '01-12-2200:00:00:00',
         repeat_interval => 'FREQ=monthly',
         enabled => TRUE);
 END;

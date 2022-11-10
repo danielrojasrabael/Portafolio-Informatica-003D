@@ -569,3 +569,42 @@ begin
     AND prof.rut_prof = rutProf;
 end;
 /
+
+------------------------------------------
+-- Ejecución Mensual
+------------------------------------------
+
+CREATE OR REPLACE PROCEDURE ejecucionMensual
+as
+begin
+    -- Recargar Visitas
+    INSERT INTO VISITA (estado,periodo,id_contrato,id_comuna)SELECT 0,TRUNC(SYSDATE, 'MM'),ctr.id_contrato,1 FROM CONTRATO ctr 
+    JOIN CLIENTES cli ON cli.rut_cliente = ctr.rut_cliente
+    JOIN USUARIO usr ON usr.id_usuario = cli.id_usuario WHERE usr.estado = 1;
+    
+    INSERT INTO VISITA (estado,periodo,id_contrato,id_comuna)SELECT 0,TRUNC(SYSDATE, 'MM'),ctr.id_contrato,1 FROM CONTRATO ctr 
+    JOIN CLIENTES cli ON cli.rut_cliente = ctr.rut_cliente
+    JOIN USUARIO usr ON usr.id_usuario = cli.id_usuario WHERE usr.estado = 1;
+    
+    -- Recargar Mensualidades
+    INSERT INTO PAGO_MENSUALIDAD (FECHA_LIMITE, ESTADO, COSTO, ID_CONTRATO)
+    SELECT TO_DATE(TO_CHAR(ctr.fecha_firma, 'DD/')||TO_CHAR(TRUNC(SYSDATE, 'MM'),'MM/YYYY')), 0,
+    ctr.costo_base + CASE WHEN cli.contador_solicitud < 0 THEN 10000*-cli.contador_solicitud ELSE 0 END,
+    ctr.id_contrato FROM CONTRATO ctr 
+    JOIN CLIENTES cli ON cli.rut_cliente = ctr.rut_cliente
+    JOIN USUARIO usr ON usr.id_usuario = cli.id_usuario WHERE usr.estado = 1;
+    
+    UPDATE CLIENTES SET contador_solicitud = 10;
+end;
+/
+
+BEGIN
+    DBMS_SCHEDULER.CREATE_JOB(
+        job_name => 'ejecucionMensual_JOB',
+        job_type => 'PLSQL_BLOCK',
+        job_action => 'ejecucionMensual;',
+        start_date => '01-12-2022 00:00:00',
+        repeat_interval => 'FREQ=monthly',
+        enabled => TRUE);
+END;
+/

@@ -11,6 +11,7 @@ from django.core.files.storage import FileSystemStorage
 import calendar
 from django.core.mail import send_mail
 from django.utils.html import strip_tags
+from django.contrib.staticfiles import finders
 
 #Modelos
 from SSAP.models import *
@@ -183,6 +184,19 @@ def pagLogout(request):
     func_logout(request)
     return redirect('login')
 
+@logueado
+def manual(request):
+    tipo = request.session.get('usuario').tipo
+    if tipo == "ADMINISTRADOR":
+        archivo = finders.find('pdf/Manual_Administrador.pdf')
+    if tipo == "PROFESIONAL":
+        archivo = finders.find('pdf/Manual_Profesional.pdf')
+    if tipo == "CLIENTE":
+        return redirect('index')
+    try:
+        return FileResponse(open(archivo,'rb'), content_type='application/pdf')
+    except:
+        return redirect('index')
 #   ------------------------ Administrador ------------------------
 
 # Control de usuarios

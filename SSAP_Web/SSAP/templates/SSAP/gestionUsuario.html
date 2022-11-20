@@ -77,7 +77,7 @@
                                                     </div>
                                                 {%else%}
                                                     <div class="row esp-input">
-                                                        <form action="{% url 'desusuario'%}" method="post" class="col-sm-12">
+                                                        <form action="{% url 'desusuario'%}" method="post" class="col-sm-12" onsubmit="return confirm('¿Está seguro que quiere deshabilitar este usuario?')">
                                                             {% csrf_token %}
                                                             <input type="hidden" name="id" value="{{u.id_usuario}}">
                                                             <input type="hidden" name="nombre" value="{{c.nombre_empresa}}">
@@ -120,7 +120,7 @@
                                                     </div>
                                                 {%else%}
                                                     <div class="row esp-input">
-                                                        <form action="{% url 'desusuario'%}" method="post">
+                                                        <form action="{% url 'desusuario'%}" method="post" onsubmit="return confirm('¿Está seguro que quiere deshabilitar este usuario?')">
                                                             {% csrf_token %}
                                                             <input type="hidden" name="id" value="{{u.id_usuario}}">
                                                             <input type="hidden" name="nombre" value="{{p.nombre}}">
@@ -163,7 +163,7 @@
                                                         </div>
                                                     {%else%}
                                                         <div class="row esp-input">
-                                                            <form action="{% url 'desusuario'%}" method="post">
+                                                            <form action="{% url 'desusuario'%}" method="post" onsubmit="return confirm('¿Está seguro que quiere deshabilitar este usuario?')">
                                                                 {% csrf_token %}
                                                                 <input type="hidden" name="id" value="{{u.id_usuario}}">
                                                                 <input type="hidden" name="nombre" value="{{a.nombre}}">

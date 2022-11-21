@@ -192,7 +192,7 @@ def manual(request):
     if tipo == "PROFESIONAL":
         archivo = finders.find('pdf/Manual_Profesional.pdf')
     if tipo == "CLIENTE":
-        return redirect('index')
+        archivo = finders.find('pdf/Manual_Cliente.pdf')
     try:
         return FileResponse(open(archivo,'rb'), content_type='application/pdf')
     except:

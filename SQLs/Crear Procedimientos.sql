@@ -151,6 +151,13 @@ begin
         update usuario set CONTRASEÑA = standard_hash(vpass||'0vKZv0F75*jw','SHA512'), TIPO = vtipo, ID_COMUNA = vcomuna, DIRECCION = vdireccion, ESTADO = vestado, CORREO = vcorreo where ID_USUARIO = id_usr;
     else
         update usuario set CONTRASEÑA = vpass, TIPO = vtipo, ID_COMUNA = vcomuna, DIRECCION = vdireccion, ESTADO = vestado, CORREO = vcorreo where ID_USUARIO = id_usr;
+        if vestado = 0 and vtipo = 'PROFESIONAL' then
+            UPDATE CONTRATO SET RUT_PROFESIONAL= (SELECT * FROM (SELECT prof.RUT_PROF FROM PROFESIONALES prof JOIN USUARIO usr 
+                ON prof.ID_USUARIO = usr.ID_USUARIO 
+                WHERE usr.ESTADO = 1
+                ORDER BY DBMS_RANDOM.RANDOM) WHERE rownum < 2)
+            WHERE RUT_PROFESIONAL = (SELECT RUT_PROFESIONAL FROM PROFESIONALES WHERE ID_USUARIO = id_usr);
+        end if;
     end if;
 EXCEPTION
     WHEN NO_DATA_FOUND THEN 

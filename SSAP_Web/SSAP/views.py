@@ -213,9 +213,22 @@ def gestionUsuarios(request):
 @esAdmin
 def desUsuario(request):
     if request.method == 'POST':
+        msg_error = True
         usuario = Usuario.filtro_id(id=request.POST['id'])
-        usuario.deshabilitar()
-        messages.success(request, 'Usuario '+request.POST['nombre']+' deshabilitado')
+        if usuario.tipo == "PROFESIONAL":
+            for usr in Usuario.todos():
+                if usr.tipo == "PROFESIONAL" and usr.estado and usr.id_usuario != usuario.id_usuario:
+                    usuario.deshabilitar()
+                    msg_error = False
+                    break
+        else:
+            usuario.deshabilitar()
+            msg_error = False
+            
+        if msg_error:
+            messages.error(request, 'Error: Profesional '+request.POST['nombre']+' no se pudo deshabilitar, se necesita al menos un profesional en el sistema.')
+        else:
+            messages.success(request, 'Usuario '+request.POST['nombre']+' deshabilitado')
     return redirect('gestionusuario')
 
 @logueado

@@ -22,7 +22,7 @@
                             <div class="toast show">
                                 <div class="toast-header" style="justify-content: space-between;">
                                     <b>{{n.titulo}} | {{n.fecha | date:"d/m/Y H:i"}}</b>
-                                    <form action="{% url 'elimnotif' %}" method="post">
+                                    <form action="{% url 'elimnotif' %}" method="post" onsubmit="return confirm('¿Está seguro que quiere eliminar esta notificación?')">
                                         {% csrf_token %}
                                         <input type="hidden" name="id" value="{{n.id_notificacion}}">
                                         <input type="submit" class="btn btn-primary btn-close" value="">
